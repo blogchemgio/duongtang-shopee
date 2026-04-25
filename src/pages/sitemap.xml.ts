@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-const SITE_URL = 'https://duongtang.vn';
+const SITE_URL = 'https://blogchengio.com';
 
 export const GET: APIRoute = async () => {
-  const [blog, batGioiReview, plugins, themes] = await Promise.all([
-    getCollection('duong-tang-blog'),
-    getCollection('bat-gioi-review'),
+  const [blog, docs, plugins, themes] = await Promise.all([
+    getCollection('blog'),
+    getCollection('docs'),
     getCollection('plugins'),
     getCollection('themes'),
   ]);
@@ -15,8 +15,8 @@ export const GET: APIRoute = async () => {
     '/',
     '/gioi-thieu',
     '/lien-he',
-    '/duong-tang-blog',
-    '/bat-gioi-review',
+    '/blog',
+    '/docs',
     '/plugins',
     '/themes',
     '/tim-kiem',
@@ -24,8 +24,8 @@ export const GET: APIRoute = async () => {
   ];
 
   const dynamicPaths = [
-    ...blog.map((item) => `/duong-tang-blog/${item.id}`),
-    ...batGioiReview.map((item) => `/bat-gioi-review/${item.id}`),
+    ...blog.map((item) => `/blog/${item.id}`),
+    ...docs.map((item) => `/docs/${item.id}`),
     ...plugins.map((item) => `/plugins/${item.id}`),
     ...themes.map((item) => `/themes/${item.id}`),
   ];

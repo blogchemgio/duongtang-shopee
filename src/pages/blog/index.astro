@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import Mainlayout from '../layouts/Mainlayout.astro';
-import PostCard from '../components/PostCard.astro';
-import Pagination from '../components/Pagination.astro';
+import Mainlayout from '../../layouts/Mainlayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Pagination from '../../components/Pagination.astro';
 
 const POSTS_PER_PAGE = 6;
-const allPosts = (await getCollection('bat-gioi-review')).sort((a, b) => {
+const allPosts = (await getCollection('blog')).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
   const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
   return dateB - dateA;
@@ -14,19 +14,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Tài liệu | Blog Chém Gió">
+<Mainlayout title="Blog | Blog Chém Gió">
   <section class="category-page">
-    <h1>Chuyên mục Tài liệu</h1>
+    <h1>Chuyên mục Blog</h1>
     <p class="category-intro">
-      Đây là chuyên mục Tài liệu. Chức năng của mục này là tổng hợp hướng dẫn, quy trình và ghi chú để tra cứu nhanh.
+      Đây là chuyên mục Blog. Chức năng của mục này là chia sẻ bài viết thực chiến, kinh nghiệm và góc nhìn công nghệ.
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/bat-gioi-review/${post.id}`} collection="DOCS" />
+        <PostCard {...post.data} slug={`/blog/${post.id}`} collection="BLOG" />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/bat-gioi-review" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath="/blog" />
   </section>
 </Mainlayout>
 
@@ -36,4 +36,4 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
   .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
   @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
- </style>
+</style>

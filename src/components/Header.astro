@@ -1,29 +1,208 @@
 ---
-// Header.astro - Chỉ chứa thanh điều hướng
+// Header.astro
+import MobileSearch from './MobileSearch.astro';
+
+const desktopLinks = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/docs', label: 'Tài liệu' },
+  { href: '/plugins', label: 'Plugins' },
+  { href: '/themes', label: 'Theme' },
+  { href: '/gioi-thieu', label: 'Giới thiệu' },
+  { href: '/lien-he', label: 'Liên hệ' },
+];
+
+const mobileLinks = [
+  { href: '/blog', label: 'Blog', icon: '✎' },
+  { href: '/docs', label: 'Tài liệu', icon: '▣' },
+  { href: '/plugins', label: 'Plugins', icon: '◈' },
+  { href: '/themes', label: 'Theme', icon: '✦' },
+  { href: '/gioi-thieu', label: 'About', icon: '◎' },
+  { href: '/lien-he', label: 'Contact', icon: '✉' },
+  { href: '/sitemap', label: 'Sitemap', icon: '☰' },
+];
 ---
+<header id="main-header" class="fixed top-0 left-0 right-0 bg-white dark:bg-[#020617] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-slate-100 dark:border-slate-800">
+  <div class="w-full max-w-none px-2 md:px-10 lg:px-16 flex justify-between items-center">
+    
+    <a href="/" class="logo-link text-xl md:text-2xl font-black tracking-tighter text-slate-950 dark:text-[#ff7a18] whitespace-nowrap transition-all">
+      Blog chém gió<span class="text-[#ff7a18]">.</span>com
+    </a>
 
-<header class="sticky top-0 z-[100] w-full bg-slate-950/80 backdrop-blur-md border-b border-white/10">
-  <div class="max-w-7xl mx-auto px-6 py-4">
-    <nav class="flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 group transition-transform active:scale-95">
-        <span class="text-white font-bold text-2xl md:text-3xl tracking-tighter uppercase drop-shadow-lg">Đường tăng<span class="text-[#ff7a18]">.vn</span></span>
-      </a>
-
-      <div class="hidden md:flex items-center gap-6 lg:gap-8 text-sm lg:text-lg font-bold text-white/90">
-        <a href="/duong-tang-blog" class="hover:text-[#ff7a18] transition-colors drop-shadow-md">Đường tăng</a>
-        <a href="/bat-gioi-review" class="hover:text-[#ff7a18] transition-colors drop-shadow-md">Bát giới</a>
-        <a href="/plugins" class="hover:text-[#ff7a18] transition-colors drop-shadow-md">Ngộ không</a>
-        <a href="/themes" class="hover:text-[#ff7a18] transition-colors drop-shadow-md">Sa tăng</a>
-        <a href="/gioi-thieu" class="hover:text-[#ff7a18] transition-colors drop-shadow-md">Giới thiệu</a>
-        <a href="/lien-he" class="bg-[#ff7a18] text-white border border-white/20 px-5 lg:px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all shadow-lg">Liên hệ</a>
-      </div>
-
-      <!-- Nút Home cho Mobile -->
-      <a href="/" class="md:hidden flex items-center justify-center w-10 h-10 bg-slate-900 border border-white/30 rounded-xl text-white hover:bg-white hover:text-black transition-all active:scale-90" title="Trang chủ">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      </a>
+    <nav class="hidden lg:block">
+      <ul class="flex gap-8 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-950 dark:text-white">
+        {desktopLinks.map((link) => (
+          <li><a href={link.href} class="nav-item">{link.label}</a></li>
+        ))}
+      </ul>
     </nav>
-  </div>
+
+    <div class="header-actions">
+      <div class="header-search">
+        <MobileSearch inputId="header-search-input" placeholder="Tìm kiếm bài viết..." />
+      </div>
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-950 dark:text-[#ff7a18] transition-all" aria-label="Open Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div> 
 </header>
+
+<div class="h-[68px] md:h-[76px]"></div>
+
+<aside id="mobile-sidebar" class="fixed top-0 right-0 h-full w-[300px] bg-[#0f172b] z-[140] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-slate-800 shadow-2xl">
+  
+  <div class="h-20 border-b border-slate-800 flex items-center justify-between px-6">
+    <a href="/" class="top-home-link"><span class="menu-icon">⌂</span>Home</a>
+    <button id="close-sidebar" class="p-2 text-white hover:rotate-90 hover:text-[#ff7a18] transition-all duration-300">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+
+  <div class="flex-grow overflow-y-auto pt-10 px-8">
+    <ul class="flex flex-col gap-6">
+      {mobileLinks.map((link) => (
+        <li>
+          <a href={link.href} class="sidebar-link">
+            <span class="menu-icon">{link.icon}</span>{link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</aside>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[135] hidden opacity-0 transition-opacity duration-300"></div>
+
+<style is:global>
+  /* --- SMART HEADER ANIMATION --- */
+  #main-header {
+    will-change: transform;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .header-search {
+    position: relative;
+    width: 430px;
+  }
+
+  .header-search :global(.mobile-search) {
+    position: relative;
+    z-index: 120;
+  }
+
+  /* --- SIDEBAR LINKS (CĂN TRÁI & MÀU TRẮNG) --- */
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Căn trái */
+    gap: 1rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    /* ĐÃ SỬA: Ép cứng màu trắng cho chữ và icon */
+    color: #ffffff !important; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  }
+
+  .menu-icon {
+    /* ĐÃ SỬA: Chuyển màu icon sang trắng theo yêu cầu */
+    color: #ffffff;
+    font-size: 1.1em;
+    min-width: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .top-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    /* ĐÃ SỬA: Ép cứng màu trắng cho Home Link */
+    color: #ffffff !important;
+  }
+
+  /* --- HOVER EFFECT --- */
+  .sidebar-link:hover, .sidebar-link:active,
+  .top-home-link:hover, .top-home-link:active {
+    color: #ff7a18 !important; /* Chuyển Cam khi hover */
+    transform: translateX(10px) !important; /* Trượt sang phải */
+    text-shadow: 0 0 10px rgba(255, 122, 24, 0.4) !important;
+  }
+  
+  /* Hover effect Desktop Desktop Nav Item */
+  .nav-item {
+    transition: color 0.3s;
+  }
+  .nav-item:hover {
+    color: #ff7a18 !important;
+  }
+
+  /* Khử style mặc định */
+  ul, li { list-style: none !important; padding: 0; margin: 0; }
+  a { text-decoration: none !important; }
+
+  @media (max-width: 1023px) {
+    .header-search {
+      width: auto;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('main-header');
+  const btnOpen = document.getElementById('mobile-menu-btn');
+  const btnClose = document.getElementById('close-sidebar');
+  const sidebar = document.getElementById('mobile-sidebar');
+  const overlay = document.getElementById('menu-overlay');
+
+  // --- LOGIC SMART HEADER ---
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (!header) return;
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+
+  // --- LOGIC SIDEBAR ---
+  function toggleMenu(state) {
+    if (state) {
+      sidebar?.classList.remove('translate-x-full');
+      overlay?.classList.remove('hidden');
+      setTimeout(() => overlay?.classList.add('opacity-100'), 10);
+      document.body.style.overflow = 'hidden';
+      if (header) header.style.transform = 'translateY(0)';
+    } else {
+      sidebar?.classList.add('translate-x-full');
+      overlay?.classList.remove('opacity-100');
+      setTimeout(() => overlay?.classList.add('hidden'), 300);
+      document.body.style.overflow = '';
+    }
+  }
+
+  btnOpen?.addEventListener('click', () => toggleMenu(true));
+  btnClose?.addEventListener('click', () => toggleMenu(false));
+  overlay?.addEventListener('click', () => toggleMenu(false));
+  sidebar?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => toggleMenu(false));
+  });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') toggleMenu(false);
+  });
+</script>

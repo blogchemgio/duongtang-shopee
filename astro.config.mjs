@@ -8,12 +8,11 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://duongtang.vn',
-  output: 'hybrid',
-  outDir: './dist',
+  site: 'https://blogchengio.com',
+  output: 'static', // Astro 6: static mặc định đã hỗ trợ hành vi trước đây của hybrid
 
   adapter: cloudflare({
-    imageService: { build: 'compile', runtime: 'passthrough' },
+    mode: 'directory',
   }),
 
   integrations: [react()],

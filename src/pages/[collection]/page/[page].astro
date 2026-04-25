@@ -4,15 +4,15 @@ import Mainlayout from '../../../layouts/Mainlayout.astro';
 import PostCard from '../../../components/PostCard.astro';
 import Pagination from '../../../components/Pagination.astro';
 
-type CategoryKey = 'duong-tang-blog' | 'bat-gioi-review' | 'plugins' | 'themes';
+type CategoryKey = 'blog' | 'docs' | 'plugins' | 'themes';
 
 const categoryMeta: Record<CategoryKey, { heading: string; intro: string; label: string }> = {
-  'duong-tang-blog': {
-    heading: 'Chuyên mục Đường Tăng blog',
-    intro: 'Nơi gom nhặt "chân kinh" mua sắm và review thực tâm trên vạn dặm đường từ Đông Thổ Đại Đường tới Đông Lào. Hữu duyên thỉnh món đồ tốt, thiện tai thiện tai!',
+  blog: {
+    heading: 'Chuyên mục Blog',
+    intro: 'Đây là chuyên mục Blog. Chức năng của mục này là chia sẻ bài viết thực chiến, kinh nghiệm và góc nhìn công nghệ.',
     label: 'BLOG',
   },
-  'bat-gioi-review': {
+  docs: {
     heading: 'Chuyên mục Tài liệu',
     intro: 'Đây là chuyên mục Tài liệu. Chức năng của mục này là tổng hợp hướng dẫn, quy trình và ghi chú để tra cứu nhanh.',
     label: 'DOCS',
@@ -31,10 +31,10 @@ const categoryMeta: Record<CategoryKey, { heading: string; intro: string; label:
 
 export async function getStaticPaths({ paginate }) {
   const paths = [];
-  const categories: CategoryKey[] = ['duong-tang-blog', 'bat-gioi-review', 'plugins', 'themes'];
+  const POSTS_PER_PAGE = 6;
+  const categories: CategoryKey[] = ['blog', 'docs', 'plugins', 'themes'];
 
   for (const category of categories) {
-    const POSTS_PER_PAGE = category === 'duong-tang-blog' ? 9 : 6;
     const entries = (await getCollection(category)).sort((a, b) => {
       const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
       const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
@@ -58,42 +58,27 @@ export async function getStaticPaths({ paginate }) {
 const { category, page } = Astro.props;
 const currentCollection = category as CategoryKey;
 const meta = categoryMeta[currentCollection];
-const isDuongTangBlog = currentCollection === 'duong-tang-blog';
 ---
 
-<Mainlayout title={`${meta.heading} - Trang ${page.currentPage} | Blog Chém Gió`}>
-  <section class="category-page max-w-7xl mx-auto px-6 py-12">
-    <div class="mb-12">
-      <h1 class={isDuongTangBlog ? "text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter uppercase mb-4 transition-colors duration-300" : "text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter uppercase mb-4 transition-colors duration-300"}>
-        {meta.heading}
-      </h1>
-      <p class={isDuongTangBlog ? "text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium max-w-full leading-relaxed md:truncate" : "text-slate-600 dark:text-slate-400 text-lg font-medium max-w-2xl leading-relaxed"}>
-        {meta.intro}
-      </p>
+<Mainlayout title={`${meta.heading} | Blog Chém Gió`}>
+  <section class="category-page">
+    <h1>{meta.heading}</h1>
+    <p class="category-intro">{meta.intro}</p>
+
+    <div class="category-grid">
+      {page.data.map((post) => (
+        <PostCard {...post.data} slug={`/${currentCollection}/${post.id}`} collection={meta.label} />
+      ))}
     </div>
 
-    <div class="space-y-12">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-        {page.data.map((post) => (
-          <div class="post-wrapper">
-            <PostCard {...post.data} slug={`/${currentCollection}/${post.id}`} collection={post.collection} />
-          </div>
-        ))}
-      </div>
-      
-      {page.lastPage > 1 && (
-        <div class="pt-8 border-t border-slate-100 dark:border-white/5">
-          <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath={`/${currentCollection}`} />
-        </div>
-      )}
-    </div>
+    <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath={`/${currentCollection}`} />
   </section>
 </Mainlayout>
 
 <style>
-  .post-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+  .category-page { padding: 1rem 0 2rem; }
+  .category-intro { color: #64748b; margin-bottom: 1.25rem; font-weight: 500; }
+  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
+  @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>

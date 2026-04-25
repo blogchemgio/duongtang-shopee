@@ -5,14 +5,14 @@ import PostCard from '../components/PostCard.astro';
 
 export const prerender = false;
 
-const [blogEntries, batGioiReviewEntries, pluginsEntries, themesEntries] = await Promise.all([
-  getCollection('duong-tang-blog'),
-  getCollection('bat-gioi-review'),
+const [blogEntries, docsEntries, pluginsEntries, themesEntries] = await Promise.all([
+  getCollection('blog'),
+  getCollection('docs'),
   getCollection('plugins'),
   getCollection('themes'),
 ]);
 
-const allEntries = [...blogEntries, ...batGioiReviewEntries, ...pluginsEntries, ...themesEntries];
+const allEntries = [...blogEntries, ...docsEntries, ...pluginsEntries, ...themesEntries];
 const removeDiacritics = (value: string) =>
   value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
@@ -20,8 +20,8 @@ const query = Astro.url.searchParams.get('q')?.trim() ?? '';
 const normalizedQuery = removeDiacritics(query);
 
 const collectionLabels: Record<string, string> = {
-  'duong-tang-blog': 'Blog',
-  'bat-gioi-review': 'Tài liệu',
+  blog: 'Blog',
+  docs: 'Tài liệu',
   plugins: 'Plugins',
   themes: 'Theme',
 };

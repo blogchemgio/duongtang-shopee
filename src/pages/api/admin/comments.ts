@@ -108,13 +108,13 @@ export const GET: APIRoute = async ({ request, url }) => {
   return json({ comments: results });
 };
 
-export const PATCH: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   if (!(await checkAdminToken(request))) return json({ error: 'Không có quyền truy cập' }, 401);
 
   const db = await getDb();
   if (!db) return json({ error: 'Chưa cấu hình D1 binding DB' }, 500);
 
-  let payload: { id?: number; status?: 'approved' | 'rejected' } = {};
+  let payload: { id?: number; action?: 'approve' | 'reject' } = {};
   try {
     payload = await request.json();
   } catch {
@@ -122,38 +122,16 @@ export const PATCH: APIRoute = async ({ request }) => {
   }
 
   const id = Number(payload.id);
-  const nextStatus = payload.status;
-
   if (!Number.isInteger(id) || id <= 0) return json({ error: 'ID không hợp lệ' }, 400);
-  if (!nextStatus || !['approved', 'rejected'].includes(nextStatus)) {
-    return json({ error: 'Trạng thái không hợp lệ' }, 400);
-  }
+
+  const nextStatus = payload.action === 'approve' ? 'approved' : payload.action === 'reject' ? 'rejected' : null;
+  if (!nextStatus) return json({ error: 'Hành động không hợp lệ' }, 400);
 
   const columns = await getCommentColumns(db);
   if (!columns.hasStatus) {
-    return json({ error: 'Bảng comments chưa có cột status' }, 500);
+    return json({ error: 'Bảng comments chưa có cột status để duyệt bình luận' }, 500);
   }
 
   await db.prepare(`UPDATE comments SET status = ? WHERE id = ?`).bind(nextStatus, id).run();
-  return json({ ok: true });
-};
-
-export const DELETE: APIRoute = async ({ request }) => {
-  if (!(await checkAdminToken(request))) return json({ error: 'Không có quyền truy cập' }, 401);
-
-  const db = await getDb();
-  if (!db) return json({ error: 'Chưa cấu hình D1 binding DB' }, 500);
-
-  let payload: { id?: number } = {};
-  try {
-    payload = await request.json();
-  } catch {
-    return json({ error: 'Dữ liệu không hợp lệ' }, 400);
-  }
-
-  const id = Number(payload.id);
-  if (!Number.isInteger(id) || id <= 0) return json({ error: 'ID không hợp lệ' }, 400);
-
-  await db.prepare(`DELETE FROM comments WHERE id = ?`).bind(id).run();
   return json({ ok: true });
 };

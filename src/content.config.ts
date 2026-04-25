@@ -10,15 +10,15 @@ const commonSchema = z.object({
 });
 
 // 1. Chuyên mục BLOG
-const duongTangBlog = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/duong-tang-blog" }),
+const blog = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/blog" }),
   schema: commonSchema.extend({
     tags: z.array(z.string()).default(['Chém Gió']),
   }),
 });
 
-// 2. Chuyên mục BÁT GIỚI REVIEW
-const batGioiReview = defineCollection({
+// 2. Chuyên mục DOCS
+const docs = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/docs" }),
   schema: commonSchema.extend({
     section: z.string(), 
@@ -44,4 +44,4 @@ const themes = defineCollection({
   }),
 });
 
-export const collections = { 'duong-tang-blog': duongTangBlog, 'bat-gioi-review': batGioiReview, plugins, themes };
+export const collections = { blog, docs, plugins, themes };

@@ -1,16 +1,16 @@
 ---
 import Mainlayout from '../layouts/Mainlayout.astro';
-import Hero from '../components/Hero.astro';
 import PostCard from '../components/PostCard.astro';
 import Pagination from '../components/Pagination.astro';
+import Hero from '../components/Hero.astro';
 import { getCollection } from 'astro:content';
 
 const POSTS_PER_PAGE = 6;
 
 // 1. Gọi dữ liệu từ tất cả 4 kho bằng Promise.all
-const [blogEntries, batGioiReviewEntries, pluginsEntries, themesEntries] = await Promise.all([
-  getCollection('duong-tang-blog'),
-  getCollection('bat-gioi-review'),
+const [blogEntries, docsEntries, pluginsEntries, themesEntries] = await Promise.all([
+  getCollection('blog'),
+  getCollection('docs'),
   getCollection('plugins'),
   getCollection('themes'),
 ]);
@@ -18,7 +18,7 @@ const [blogEntries, batGioiReviewEntries, pluginsEntries, themesEntries] = await
 // 2. Gộp tất cả các bài viết lại
 const allEntries = [
   ...blogEntries,
-  ...batGioiReviewEntries,
+  ...docsEntries,
   ...pluginsEntries,
   ...themesEntries
 ];
@@ -42,9 +42,10 @@ const title = "Astro Framework Blog | Hướng Dẫn Thực Hành Lập Trình W
 ---
 
 <Mainlayout title={title}>
-  <Hero />
   <div class="w-full px-2 sm:px-4 md:px-8 lg:px-12 max-w-7xl mx-auto">
-    <section id="main-content">
+    <Hero />
+
+    <main id="main-content">
       
       <div class="mt-2 mb-4 flex flex-col items-start"> 
         <h2 class="text-base md:text-lg font-black text-slate-900 dark:text-white flex items-center gap-3 uppercase tracking-tighter transition-colors duration-300"> 
@@ -68,7 +69,7 @@ const title = "Astro Framework Blog | Hướng Dẫn Thực Hành Lập Trình W
       {totalPages > 1 && (
         <Pagination currentPage={1} totalPages={totalPages} basePath="/" />
       )}
-    </section>
+    </main>
   </div>
 </Mainlayout>
 

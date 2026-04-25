@@ -24,107 +24,6 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
     <p class="admin-message" data-admin-message></p>
     <div class="admin-list" data-admin-list></div>
   </section>
-
-  <script>
-    const tokenInput = document.querySelector('[data-admin-token]') as HTMLInputElement;
-    const statusSelect = document.querySelector('[data-admin-status]') as HTMLSelectElement;
-    const loadBtn = document.querySelector('[data-admin-load]');
-    const messageEl = document.querySelector('[data-admin-message]');
-    const listEl = document.querySelector('[data-admin-list]');
-
-    async function loadComments() {
-      if (!messageEl || !listEl) return;
-      
-      const token = tokenInput.value.trim();
-      const status = statusSelect.value;
-
-      if (!token) {
-        messageEl.textContent = 'Vui lòng nhập Admin Token';
-        return;
-      }
-
-      messageEl.textContent = 'Đang tải...';
-      listEl.innerHTML = '';
-
-      try {
-        const res = await fetch(`/api/admin/comments?status=${status}`, {
-          headers: { 'x-admin-token': token }
-        });
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || 'Lỗi không xác định');
-
-        if (data.comments.length === 0) {
-          messageEl.textContent = 'Không có bình luận nào.';
-          return;
-        }
-
-        messageEl.textContent = `Tìm thấy ${data.comments.length} bình luận.`;
-        
-        data.comments.forEach((c: any) => {
-          const item = document.createElement('div');
-          item.className = 'admin-item';
-          item.innerHTML = `
-            <div class="admin-meta">
-              <strong>ID: ${c.id}</strong>
-              <span>Bài viết: ${c.postSlug}</span>
-              <span>Tác giả: ${c.authorName}</span>
-              <span>Ngày: ${new Date(c.createdAt).toLocaleString('vi-VN')}</span>
-            </div>
-            <div class="admin-content">${c.content}</div>
-            <div class="admin-actions">
-              ${status !== 'approved' ? `<button class="admin-btn-approve" data-id="${c.id}">Duyệt</button>` : ''}
-              ${status !== 'rejected' ? `<button class="admin-btn-reject" data-id="${c.id}">Từ chối</button>` : ''}
-              <button class="admin-btn-delete" data-id="${c.id}">Xóa</button>
-            </div>
-          `;
-          listEl.appendChild(item);
-        });
-
-        // Add event listeners for actions
-        listEl.querySelectorAll('button').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const id = btn.getAttribute('data-id');
-            const action = btn.className.replace('admin-btn-', '');
-            if (confirm(`Bạn có chắc muốn ${action} bình luận này?`)) {
-              await handleAction(id, action);
-            }
-          });
-        });
-
-      } catch (err: any) {
-        messageEl.textContent = `Lỗi: ${err.message}`;
-      }
-    }
-
-    async function handleAction(id: string | null, action: string) {
-      if (!id || !messageEl) return;
-      const token = tokenInput.value.trim();
-
-      try {
-        const method = action === 'delete' ? 'DELETE' : 'PATCH';
-        const body = action === 'delete' ? { id } : { id, status: action === 'approve' ? 'approved' : 'rejected' };
-
-        const res = await fetch('/api/admin/comments', {
-          method,
-          headers: { 
-            'content-type': 'application/json',
-            'x-admin-token': token 
-          },
-          body: JSON.stringify(body)
-        });
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || 'Lỗi xử lý');
-        alert('Thành công!');
-        loadComments();
-      } catch (err: any) {
-        alert(`Lỗi: ${err.message}`);
-      }
-    }
-
-    loadBtn?.addEventListener('click', loadComments);
-  </script>
 </Mainlayout>
 
 <style>
@@ -153,8 +52,6 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
     border-radius: 10px;
     padding: 0.55rem 0.7rem;
     min-width: 220px;
-    background: white;
-    color: black;
   }
 
   .admin-load {
@@ -182,7 +79,6 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
     border-radius: 12px;
     padding: 0.9rem;
     background: #fff;
-    color: #1e293b;
   }
 
   .admin-meta {
@@ -196,8 +92,6 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
   .admin-content {
     white-space: pre-wrap;
     margin: 0 0 0.7rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
   }
 
   .admin-actions {
@@ -205,17 +99,122 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
     gap: 0.55rem;
   }
 
-  .admin-actions button {
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.8rem;
-    font-weight: 700;
+  .admin-btn {
+    border: none;
+    border-radius: 9px;
+    font-weight: 800;
+    padding: 0.45rem 0.7rem;
     cursor: pointer;
-    background: white;
   }
 
-  .admin-btn-approve { color: #16a34a; border-color: #bbf7d0 !important; background: #f0fdf4 !important; }
-  .admin-btn-reject { color: #dc2626; border-color: #fecaca !important; background: #fef2f2 !important; }
-  .admin-btn-delete { color: #64748b; }
+  .admin-btn--approve {
+    background: #16a34a;
+    color: #fff;
+  }
+
+  .admin-btn--reject {
+    background: #ef4444;
+    color: #fff;
+  }
 </style>
+
+<script>
+  const root = document.querySelector('[data-admin-comments]');
+  if (root) {
+    const tokenInput = root.querySelector('[data-admin-token]');
+    const statusSelect = root.querySelector('[data-admin-status]');
+    const loadBtn = root.querySelector('[data-admin-load]');
+    const message = root.querySelector('[data-admin-message]');
+    const list = root.querySelector('[data-admin-list]');
+
+    const esc = (value) =>
+      String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+
+    const getToken = () => String(tokenInput?.value || '').trim();
+    const getStatus = () => String(statusSelect?.value || 'pending');
+
+    const headers = () => ({
+      'content-type': 'application/json',
+      'x-admin-token': getToken(),
+    });
+
+    const loadComments = async () => {
+      if (!list || !message) return;
+      if (!getToken()) {
+        message.textContent = 'Nhập token trước khi tải danh sách.';
+        return;
+      }
+
+      message.textContent = 'Đang tải...';
+      const response = await fetch(`/api/admin/comments?status=${encodeURIComponent(getStatus())}`, {
+        headers: { 'x-admin-token': getToken() },
+      });
+
+      if (!response.ok) {
+        message.textContent = 'Không tải được danh sách. Kiểm tra token.';
+        list.innerHTML = '';
+        return;
+      }
+
+      const payload = await response.json();
+      const comments = payload.comments || [];
+      message.textContent = `Có ${comments.length} bình luận.`;
+
+      if (!comments.length) {
+        list.innerHTML = '<p>Không có bình luận.</p>';
+        return;
+      }
+
+      list.innerHTML = comments
+        .map(
+          (comment) => `
+            <article class="admin-item" data-comment-id="${comment.id}">
+              <div class="admin-meta">
+                <strong>${esc(comment.authorName)}</strong>
+                <span>Bài viết: ${esc(comment.postSlug)}</span>
+                <span>Thời gian: ${esc(comment.createdAt)}</span>
+                <span>Trạng thái: ${esc(comment.status)}</span>
+              </div>
+              <p class="admin-content">${esc(comment.content)}</p>
+              <div class="admin-actions">
+                <button class="admin-btn admin-btn--approve" data-action="approve">Duyệt</button>
+                <button class="admin-btn admin-btn--reject" data-action="reject">Từ chối</button>
+              </div>
+            </article>
+          `
+        )
+        .join('');
+    };
+
+    list?.addEventListener('click', async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLButtonElement)) return;
+      const action = target.getAttribute('data-action');
+      if (!action || !['approve', 'reject'].includes(action)) return;
+
+      const item = target.closest('[data-comment-id]');
+      const id = Number(item?.getAttribute('data-comment-id'));
+      if (!Number.isInteger(id)) return;
+
+      const response = await fetch('/api/admin/comments', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({ id, action }),
+      });
+
+      if (!response.ok) {
+        if (message) message.textContent = 'Cập nhật thất bại. Kiểm tra token.';
+        return;
+      }
+
+      await loadComments();
+    });
+
+    loadBtn?.addEventListener('click', loadComments);
+  }
+</script>

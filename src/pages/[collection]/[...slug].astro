@@ -1,31 +1,31 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Mainlayout from '../../layouts/Mainlayout.astro';
+import TableOfContents from '../../components/TableOfContents';
 import TocMobileFab from '../../components/TocMobileFab';
 import Comments from '../../components/Comments.astro';
 import RelatedPostsCarousel from '../../components/RelatedPostsCarousel.astro';
-import DuongTangGioiThieu from '../../components/DuongTangGioiThieu.astro';
 
 // 1. Lấy tất cả paths từ 4 chuyên mục
 export async function getStaticPaths() {
-  const categories = ['duong-tang-blog', 'bat-gioi-review', 'plugins', 'themes'];
-  const allPaths = [];
+  const categories = ['blog', 'docs', 'plugins', 'themes'];
+  const allPaths = [];
 
-  for (const cat of categories) {
-    const entries = await getCollection(cat as any);
-    allPaths.push(...entries.map(entry => ({
-      params: { collection: cat, slug: entry.id },
-      props: { entry, category: cat },
-    })));
-  }
-  return allPaths;
+  for (const cat of categories) {
+    const entries = await getCollection(cat as any);
+    allPaths.push(...entries.map(entry => ({
+      params: { collection: cat, slug: entry.id },
+      props: { entry, category: cat },
+    })));
+  }
+  return allPaths;
 }
 
 const { entry, category } = Astro.props;
 const { Content, headings } = await render(entry);
 const postSlug = `${category}/${entry.id}`;
 
-const categories = ['duong-tang-blog', 'bat-gioi-review', 'plugins', 'themes'] as const;
+const categories = ['blog', 'docs', 'plugins', 'themes'] as const;
 const allEntries = (await Promise.all(categories.map((name) => getCollection(name)))).flat();
 const currentTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
@@ -54,51 +54,50 @@ const relatedPosts = allEntries
 const postTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
 // Format ngày tháng an toàn
-const displayDate = entry.data.pubDate 
-  ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN') 
-  : 'Tài nguyên';
+const displayDate = entry.data.pubDate 
+  ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN') 
+  : 'Tài nguyên';
 
 const badgeLabel = entry.data.category || category.toUpperCase();
-const isDuongTangBlog = category === 'duong-tang-blog';
 ---
 
 <Mainlayout title={entry.data.title}>
-  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
+  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
 
-  <div class={`w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 ${isDuongTangBlog ? 'lg:grid-cols-[1fr_360px]' : ''} gap-12`}>
-    
-    <article class="max-w-[1000px] ml-0 pt-2 pb-12 text-left">
-      <header class="mb-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="px-3 py-1 bg-[#ff7a18]/10 text-[#ff7a18] text-[10px] font-black uppercase rounded-full border border-[#ff7a18]/20 shadow-sm">
-              {badgeLabel}
-          </span>
-          <span class="text-slate-500 text-[11px] font-bold tracking-tight italic">
-            {displayDate}
-          </span>
-        </div>
+  <div class="w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
+    
+    <article class="max-w-[1000px] ml-0 pt-2 pb-12 text-left">
+      <header class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="px-3 py-1 bg-[#ff7a18]/10 text-[#ff7a18] text-[10px] font-black uppercase rounded-full border border-[#ff7a18]/20 shadow-sm">
+              {badgeLabel}
+          </span>
+          <span class="text-slate-500 text-[11px] font-bold tracking-tight italic">
+            {displayDate}
+          </span>
+        </div>
 
-        <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-8 tracking-tighter">
-          {entry.data.title}
-        </h1>
+        <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-8 tracking-tighter">
+          {entry.data.title}
+        </h1>
 
-        {entry.data.image && (
-          <div class="relative group bg-slate-900/50 rounded-[32px] overflow-hidden">
-             <img 
-               src={entry.data.image} 
-               alt={entry.data.title} 
-               class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" 
-             />
-             <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
-          </div>
-        )}
-      </header>
+        {entry.data.image && (
+          <div class="relative group">
+             <img 
+               src={entry.data.image} 
+               alt={entry.data.title} 
+               class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 object-cover max-h-[550px] transition-transform duration-700 group-hover:scale-[1.01]" 
+             />
+             <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
+          </div>
+        )}
+      </header>
 
-      <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert 
-                  prose-headings:font-black prose-headings:tracking-tighter
-                  prose-img:rounded-3xl prose-img:shadow-lg">
-        <Content />
-      </div>
+      <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert 
+                  prose-headings:font-black prose-headings:tracking-tighter
+                  prose-img:rounded-3xl prose-img:shadow-lg">
+        <Content />
+      </div>
 
       <section class="article-share" aria-label="Chia sẻ bài viết">
         <p class="article-share__title">Chia sẻ bài viết</p>
@@ -123,23 +122,29 @@ const isDuongTangBlog = category === 'duong-tang-blog';
         )}
       </section>
 
-      <RelatedPostsCarousel title="có thể thí chủ sẽ thích" items={relatedPosts} />
+      <RelatedPostsCarousel title="Bài viết liên quan" items={relatedPosts} />
       <Comments postSlug={postSlug} />
-
-      {isDuongTangBlog && (
-        <div class="mt-12 lg:hidden">
-          <DuongTangGioiThieu />
-        </div>
-      )}
     </article>
 
-    {isDuongTangBlog && (
-      <aside class="hidden lg:block relative">
-        <div class="sticky top-28">
-          <DuongTangGioiThieu />
-        </div>
-      </aside>
-    )}
+    <aside class="hidden lg:block relative">
+      <div class="sticky top-28">
+        {headings.length > 0 ? (
+          <TableOfContents headings={headings} client:load />
+        ) : (
+          <div class="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
+             <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Blog Chém Gió</p>
+          </div>
+        )}
+        
+        {/* Giữ nguyên box thông tin thêm bên dưới TOC */}
+        <div class="mt-8 p-6 rounded-[24px] bg-slate-950 text-white dark:bg-[#ff7a18]/10 dark:text-white border border-white/10">
+          <p class="text-[10px] font-black uppercase tracking-widest text-[#ff7a18] mb-2">⚡ Info</p>
+          <p class="text-xs font-medium opacity-80 leading-relaxed">
+            Hy vọng bài viết này hữu ích. Đừng quên chia sẻ nếu thấy hay nhé!
+          </p>
+        </div>
+      </div>
+    </aside>
 
   </div>
 </Mainlayout>
