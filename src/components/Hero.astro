@@ -16,12 +16,12 @@ const images = [
 
 <section 
   class="hero group relative mb-6 overflow-hidden rounded-[24px] border transition-all duration-500
-         bg-slate-50 border-slate-200 p-4 sm:p-6 md:p-8 lg:p-10
+         bg-slate-50 border-slate-200 p-4 sm:p-6 md:p-8 lg:p-4
          dark:bg-slate-950 dark:border-slate-800"
 >
   <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-orange-500/5 blur-[70px] z-0"></div>
 
-  <div class="relative z-10 max-w-5xl mx-auto">
+  <div class="relative z-10 max-w-5xl lg:max-w-2xl mx-auto">
     <div class="overflow-hidden rounded-[20px] ring-1 ring-slate-200/80 dark:ring-white/10 bg-white/60 dark:bg-white/5">
       <img
         id="hero-random-image"
@@ -31,7 +31,7 @@ const images = [
         height={images[0].height}
         loading="eager"
         decoding="async"
-        class="w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px] object-cover"
+        class="w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[240px] object-cover"
       />
     </div>
   </div>
