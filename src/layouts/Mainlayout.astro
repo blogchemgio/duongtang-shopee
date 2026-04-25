@@ -25,12 +25,20 @@ const {
 
 const currentUrl = new URL(Astro.url.pathname, 'https://blogchengio.com').toString();
 const canonicalUrl = canonical || currentUrl;
+
+const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#ee4d2d"/>
+  <path d="M20 26c0-6.6 5.4-12 12-12s12 5.4 12 12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M18 26h28c2.2 0 4 1.8 4 4l-2.2 21.9c-.2 2-1.9 3.6-3.9 3.6H20.1c-2 0-3.7-1.6-3.9-3.6L14 30c0-2.2 1.8-4 4-4z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+  <text x="32" y="46" text-anchor="middle" font-size="28" font-family="Arial, sans-serif" font-weight="900" fill="#ffffff">S</text>
+</svg>`;
+const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
 ---
 
 <!doctype html>
 <html lang="vi">
   <head>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link rel="icon" href={faviconHref}>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
