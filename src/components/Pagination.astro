@@ -1,0 +1,93 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  basePath: string;
+}
+
+const { currentPage, totalPages, basePath } = Astro.props;
+
+const normalizedBasePath = basePath === '/' ? '' : basePath.replace(/\/+$/, '');
+const pageUrl = (page: number) => (page === 1 ? (normalizedBasePath || '/') : `${normalizedBasePath}/page/${page}`);
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination">
+    {currentPage > 1 ? (
+      <a href={pageUrl(currentPage - 1)} class="page-btn">← Truoc</a>
+    ) : (
+      <span class="page-btn is-disabled">← Truoc</span>
+    )}
+
+    <div class="page-numbers">
+      {pages.map((page) => (
+        <a
+          href={pageUrl(page)}
+          class:list={['page-number', page === currentPage && 'is-active']}
+          aria-current={page === currentPage ? 'page' : undefined}
+        >
+          {page}
+        </a>
+      ))}
+    </div>
+
+    {currentPage < totalPages ? (
+      <a href={pageUrl(currentPage + 1)} class="page-btn">Sau →</a>
+    ) : (
+      <span class="page-btn is-disabled">Sau →</span>
+    )}
+  </nav>
+)}
+
+<style>
+  .pagination {
+    margin-top: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .page-btn,
+  .page-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.3rem;
+    height: 2.3rem;
+    padding: 0 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    color: #0f172a;
+    text-decoration: none;
+    background: #ffffff;
+  }
+
+  .page-numbers {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .page-number.is-active {
+    background: #ff7a18;
+    border-color: #ff7a18;
+    color: #ffffff;
+  }
+
+  .is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  :global(.is-dark) .page-btn,
+  :global(.is-dark) .page-number {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+</style>

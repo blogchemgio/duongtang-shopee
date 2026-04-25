@@ -1,0 +1,91 @@
+---
+import Mainlayout from '../layouts/Mainlayout.astro';
+import { Image } from 'astro:assets';
+// Import ảnh từ thư mục assets (Giả sử bạn để ảnh trong src/assets/)
+import myProfileImage from '../assets/viet-blog-content-story.jpg';
+
+const pageTitle = "Giới thiệu về mình - Blog Chém Gió";
+const description = "Hành trình từ Blogger sang Astro của admin Blog Chém Gió. Chia sẻ kiến thức về Web Development và công nghệ mới.";
+---
+
+<Mainlayout title={pageTitle} description={description} type="profile">
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Admin Blog Chém Gió",
+        "url": "https://blogchengio.com/gioi-thieu",
+        "description": "Tác giả có 10 năm viết blog trên Blogger miễn phí và đang chuyển đổi toàn bộ sang Astro.",
+        "knowsAbout": ["Astro", "Blogging", "Web Development", "Performance"],
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Blogger công nghệ"
+        },
+        "image": "https://blogchengio.com/viet-blog-content-story.jpg"
+      }
+    }
+  </script>
+
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <article class="prose prose-slate dark:prose-invert max-w-none">
+      
+      <div class="mb-10 overflow-hidden rounded-2xl shadow-lg">
+        <Image 
+          src={myProfileImage} 
+          alt="Admin Blog Chém Gió đang thực hành viết blog với Astro framework"
+          width={800}
+          height={450}
+          loading="eager" 
+          fetchpriority="high"
+          class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500"
+        />
+        <figcaption class="text-center text-sm text-gray-500 mt-2 italic">
+          Hành trình xây dựng Blog Chém Gió với công nghệ Astro hiện đại nhanh như tia chớp.
+        </figcaption>
+      </div>
+
+      <h1 class="text-1xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
+        Chào mừng bạn đến với <span class="text-orange-500">Blog Chém Gió</span>
+      </h1>
+
+      <div class="space-y-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        <p>
+          Trang web này là nơi mình thực hành xây dựng blog bằng framework <strong>Astro</strong> - một dự án hoàn toàn miễn phí và hiện đại.
+        </p>
+
+        <p>
+          Thú thật, mình không quá rành về WordPress. Trước đây, mình từng đăng ký hosting nhưng chi phí rất đắt đỏ, chưa kể muốn dùng thêm các tính năng nâng cao thì lại phải tốn thêm nhiều khoản phí khác nữa.
+        </p>
+
+        <p>
+          Mình có kinh nghiệm 10 năm viết blog tại nền tảng Blogger miễn phí, nên rất hiểu cách tạo nội dung đều đặn, tối ưu bài viết và giữ trải nghiệm đọc mượt cho người dùng.
+        </p>
+
+        <div class="bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-500 p-6 my-8 rounded-r-lg">
+          <p class="italic text-gray-800 dark:text-gray-200">
+            "Mình đã quen thuộc với sự đơn giản của Blogger, nhưng với mong muốn tối ưu tốc độ và trải nghiệm người dùng, mình đã quyết định bê toàn bộ dữ liệu và mã nguồn sang nền tảng Astro."
+          </p>
+        </div>
+
+        <p>
+          Tại đây, mình sẽ ghi lại toàn bộ hành trình chuyển đổi này, vừa để lưu trữ kiến thức, vừa là cơ hội để mình học hỏi thêm những công nghệ mới.
+        </p>
+
+        <p>
+          Cảm ơn bạn đã dành thời gian ghé thăm. Cùng khám phá thế giới code với mình nhé!
+        </p>
+      </div>
+
+      <div class="mt-12 flex justify-center">
+        <a 
+          href="/" 
+          class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full transition-all hover:shadow-orange-200 shadow-lg"
+        >
+          <span>Quay lại trang chủ</span>
+        </a>
+      </div>
+    </article>
+  </main>
+</Mainlayout>

@@ -1,0 +1,38 @@
+<button 
+  id="back-to-top" 
+  class="fixed bottom-4 right-4.5 z-50 flex items-center justify-center 
+         rounded-full text-white shadow-md transition-all duration-300
+         hover:bg-[#ff7a18cc] invisible opacity-0 border border-white/20"
+  style="width: 50px; height: 50px; background-color: #ff7a1899; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);"
+  aria-label="Back to top"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById('back-to-top');
+
+  window.addEventListener('scroll', () => {
+    // Hiện nút sau khi cuộn xuống 300px
+    if (window.scrollY > 300) {
+      btn?.classList.remove('invisible', 'opacity-0');
+      btn?.classList.add('visible', 'opacity-100');
+    } else {
+      btn?.classList.remove('visible', 'opacity-100');
+      btn?.classList.add('invisible', 'opacity-0');
+    }
+  });
+
+  btn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+<style>
+  /* Hiệu ứng hiện ra mượt mà */
+  #back-to-top {
+    transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+  }
+</style>

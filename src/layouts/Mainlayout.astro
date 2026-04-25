@@ -1,0 +1,164 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import DarkModeToggle from '../components/DarkModeToggle.astro';
+import BackToTop from '../components/BackToTop.astro';
+import ChatBot from '../components/ChatBot.astro';
+// Lưu ý: Nếu bạn dùng inline CSS, có thể bỏ import file css bên ngoài nếu file đó quá nhỏ
+import '../styles/global.css'; 
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  type?: 'website' | 'article' | 'profile';
+}
+
+const {
+  title = "Blog Chém Gió",
+  description = "Blog Chém Gió chia sẻ kinh nghiệm thực chiến về Astro, web performance và hành trình học code.",
+  canonical,
+  ogImage = "https://blogchengio.com/og-default.jpg",
+  type = 'website',
+} = Astro.props;
+
+const currentUrl = new URL(Astro.url.pathname, 'https://blogchengio.com').toString();
+const canonicalUrl = canonical || currentUrl;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Blog Chém Gió" />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script is:inline>
+      (function() {
+        const STORAGE_KEY = 'darkMode';
+        const CLASS_NAME = 'is-dark';
+        const getInitialTheme = () => {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved !== null) return saved === 'enabled';
+          return true; 
+        };
+        if (getInitialTheme()) {
+          document.documentElement.classList.add(CLASS_NAME);
+        } else {
+          document.documentElement.classList.remove(CLASS_NAME);
+        }
+      })();
+    </script>
+    <script type="application/ld+json" is:inline>
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Blog Chém Gió",
+        "url": "https://blogchengio.com",
+        "description": "Blog chia sẻ kinh nghiệm thực chiến về Astro, tối ưu hiệu năng và hành trình học code.",
+        "inLanguage": "vi-VN",
+      })}
+    </script>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-300 min-h-screen flex flex-col font-sans antialiased transition-colors duration-300 relative overflow-x-hidden">
+    <Header />
+    <div class="flex-grow w-full"> 
+      <main class="w-full mt-2 mb-12">
+        <article class="content-wrapper w-full max-w-none px-2 md:px-10 lg:px-16 ml-0 mr-0">
+          <slot /> 
+        </article>
+      </main>
+    </div>
+    <Footer />
+    <DarkModeToggle />
+    <BackToTop />
+    <ChatBot />
+  </body>
+</html>
+
+<style is:inline is:global>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    background-color: #020617;
+  }
+
+  html:not(.is-dark) {
+    background-color: #f8fafc;
+  }
+
+  header ul, header li, nav ul, nav li {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content-wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    word-wrap: break-word;
+    font-size: 14px !important; 
+    line-height: 1.6 !important;
+    color: #475569;
+    margin: 0 !important;
+    text-align: left;
+  }
+
+  .is-dark .content-wrapper { color: #94a3b8 !important; }
+  .content-wrapper > * { width: 100% !important; }
+
+  h1 {
+    font-size: 1.5rem !important; 
+    font-weight: 800 !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    color: #1e293b !important;
+  }
+  .is-dark h1 { color: #f8fafc !important; }
+
+  h2 {
+    font-size: 1.125rem !important; 
+    font-weight: 700 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.3rem;
+    color: #334155 !important;
+  }
+  .is-dark h2 { color: #f1f5f9 !important; border-bottom-color: #1e293b !important; }
+
+  h3 { font-size: 0.9375rem !important; font-weight: 700 !important; }
+  p { margin-bottom: 1rem !important; }
+
+  .content-wrapper img { 
+    border-radius: 8px; 
+    width: 100% !important;
+    height: auto;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .content-wrapper { font-size: 13px !important; padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+    h1 { font-size: 1.35rem !important; }
+    h2 { font-size: 1.05rem !important; }
+  }
+</style>

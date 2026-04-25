@@ -1,0 +1,59 @@
+---
+import Mainlayout from '../layouts/Mainlayout.astro';
+
+const links = [
+  { href: '/', label: 'Trang chủ' },
+  { href: '/duong-tang-blog', label: 'Blog' },
+  { href: '/bat-gioi-review', label: 'Bát giới' },
+  { href: '/plugins', label: 'Plugins' },
+  { href: '/themes', label: 'Themes' },
+  { href: '/gioi-thieu', label: 'Giới thiệu' },
+  { href: '/lien-he', label: 'Liên hệ' },
+  { href: '/tim-kiem', label: 'Tìm kiếm' },
+];
+---
+
+<Mainlayout title="Sitemap | Blog Chém Gió">
+  <section class="sitemap-page">
+    <h1>Sitemap</h1>
+    <ul>
+      {links.map((link) => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
+    </ul>
+  </section>
+</Mainlayout>
+
+<style>
+  .sitemap-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+  }
+
+  .sitemap-page h1 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+
+  .sitemap-page ul {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .sitemap-page a {
+    display: block;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    color: #0f172a;
+    font-weight: 700;
+  }
+
+  :global(.is-dark) .sitemap-page a {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+</style>

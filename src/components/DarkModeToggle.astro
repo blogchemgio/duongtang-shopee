@@ -1,0 +1,108 @@
+<div class='floating-btn dark-mode-btn' id='dark-mode-toggle' title="Đổi giao diện">
+  <span class='icon-container'>
+    <span class='icon-sun'>🌒</span>
+    <span class='icon-moon'>🌗</span>
+  </span>
+</div>
+
+<style>
+  .floating-btn {
+    position: fixed;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 9999;
+    font-size: 28px;
+    transition: all 0.25s ease;
+    background: #4896fa9c; 
+    color: white;
+    bottom: 70px;
+    right: 15px;
+    user-select: none;
+    /* Tối ưu hiệu năng GPU */
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .icon-container {
+    display: flex;
+    position: relative;
+    width: 1em;
+    height: 1em;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Logic ẩn hiện icon không cần dùng innerHTML */
+  .icon-moon, :global(.is-dark) .icon-sun { display: none; }
+  :global(.is-dark) .icon-moon { display: block; }
+
+  .floating-btn:hover {
+    filter: brightness(1.15);
+    transform: scale(1.1);
+  }
+
+  :global(.is-dark) .floating-btn {
+    background: #ff7a1899;
+  }
+
+  @keyframes spin-360 {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .spin {
+    /* Chỉnh 0.4s để cảm giác nhanh và dứt khoát hơn */
+    animation: spin-360 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (max-width: 768px) {
+    .floating-btn { width: 48px; height: 48px; font-size: 24px; }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    const STORAGE_KEY = 'darkMode';
+    const CLASS_NAME = 'is-dark';
+    let isAnimating = false;
+
+    function toggleDarkMode(e) {
+      if (e) e.preventDefault();
+      if (isAnimating) return; // Chống bấm loạn xạ
+
+      const btn = document.getElementById('dark-mode-toggle');
+      const container = btn?.querySelector('.icon-container');
+
+      isAnimating = true;
+      const isDark = document.documentElement.classList.toggle(CLASS_NAME);
+      localStorage.setItem(STORAGE_KEY, isDark ? 'enabled' : 'disabled');
+
+      if (container) {
+        container.classList.add('spin');
+        container.addEventListener('animationend', () => {
+          container.classList.remove('spin');
+          isAnimating = false;
+        }, { once: true });
+      } else {
+        isAnimating = false;
+      }
+    }
+
+    function init() {
+      const btn = document.getElementById('dark-mode-toggle');
+      if (btn) {
+        btn.removeEventListener('click', toggleDarkMode);
+        btn.addEventListener('click', toggleDarkMode);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('astro:after-swap', init);
+  })();
+</script>

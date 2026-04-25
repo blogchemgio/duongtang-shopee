@@ -1,0 +1,356 @@
+---
+interface Props {
+  postSlug: string;
+}
+
+const { postSlug } = Astro.props;
+---
+
+<section class="comments" data-comments data-post-slug={postSlug}>
+  <h2 class="comments__title">Bình luận</h2>
+
+  <form class="comments__form" data-comments-form>
+    <div class="comments__row">
+      <label class="comments__label" for="comment-author">Tên của bạn</label>
+      <input id="comment-author" name="authorName" class="comments__input" maxlength="60" />
+    </div>
+
+    <div class="comments__row">
+      <label class="comments__label" for="comment-email">Gmail</label>
+      <input
+        id="comment-email"
+        name="gmail"
+        type="email"
+        class="comments__input"
+        inputmode="email"
+        autocomplete="email"
+        placeholder="you@gmail.com"
+      />
+      <p class="comments__hint">Nếu không chọn ẩn danh, bạn phải nhập địa chỉ Gmail hợp lệ.</p>
+    </div>
+
+    <div class="comments__row comments__row--inline">
+      <label class="comments__checkbox">
+        <input id="comment-anonymous" name="isAnonymous" type="checkbox" data-comment-anonymous />
+        Bình luận ẩn danh
+      </label>
+    </div>
+
+    <div class="comments__row">
+      <label class="comments__label" for="comment-content">Nội dung</label>
+      <textarea
+        id="comment-content"
+        name="content"
+        class="comments__textarea"
+        required
+        minlength="3"
+        maxlength="1000"
+      ></textarea>
+    </div>
+
+    <div class="comments__actions">
+      <button type="submit" class="comments__submit">Gửi bình luận</button>
+      <p class="comments__status" data-comments-status></p>
+    </div>
+  </form>
+
+  <div class="comments__list" data-comments-list>
+    <p class="comments__empty">Đang tải bình luận...</p>
+  </div>
+</section>
+
+<style>
+  .comments {
+    margin-top: 2.5rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.3);
+    padding-top: 1.5rem;
+  }
+
+  .comments__title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #0f172a;
+  }
+
+  .comments__form {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1rem;
+    background: #ffffff;
+  }
+
+  .comments__row {
+    display: grid;
+    gap: 0.35rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .comments__label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .comments__input,
+  .comments__textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+    outline: none;
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  .comments__textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .comments__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .comments__submit {
+    border: none;
+    background: #ff7a18;
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+    cursor: pointer;
+  }
+
+  .comments__status {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .comments__list {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .comments__item {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.9rem;
+    background: #ffffff;
+  }
+
+  .comments__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .comments__author {
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .comments__date {
+    font-size: 0.78rem;
+    color: #64748b;
+  }
+
+  .comments__content {
+    white-space: pre-wrap;
+    margin: 0;
+    color: #334155;
+  }
+
+  .comments__empty {
+    color: #64748b;
+    margin: 0;
+  }
+
+  .comments__hint {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+  }
+
+  .comments__row--inline {
+    display: flex;
+    align-items: center;
+  }
+
+  .comments__checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+    color: #334155;
+  }
+
+  :global(.is-dark) .comments__title,
+  :global(.is-dark) .comments__author {
+    color: #ffffff;
+  }
+
+  :global(.is-dark) .comments__form,
+  :global(.is-dark) .comments__item {
+    background: rgba(15, 23, 42, 0.5);
+    border-color: rgba(148, 163, 184, 0.25);
+  }
+
+  :global(.is-dark) .comments__input,
+  :global(.is-dark) .comments__textarea {
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(148, 163, 184, 0.35);
+    color: #ffffff;
+  }
+
+  :global(.is-dark) .comments__label,
+  :global(.is-dark) .comments__content,
+  :global(.is-dark) .comments__checkbox {
+    color: #cbd5e1;
+  }
+
+  :global(.is-dark) .comments__date,
+  :global(.is-dark) .comments__status,
+  :global(.is-dark) .comments__empty,
+  :global(.is-dark) .comments__hint {
+    color: #94a3b8;
+  }
+</style>
+
+<script>
+  const root = document.querySelector('[data-comments]');
+  if (root) {
+    const form = root.querySelector('[data-comments-form]');
+    const list = root.querySelector('[data-comments-list]');
+    const statusText = root.querySelector('[data-comments-status]');
+    const anonymousInput = root.querySelector('[data-comment-anonymous]');
+    const postSlug = root.getAttribute('data-post-slug');
+    const escapeHtml = (value) =>
+      String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+
+    const formatDate = (isoDate) =>
+      new Date(isoDate).toLocaleString('vi-VN', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      });
+
+    const isGmail = (value) => /^[A-Za-z0-9._%+-]+@gmail\.com$/i.test(value);
+
+    const syncAnonymousState = () => {
+      if (!(form instanceof HTMLFormElement) || !(anonymousInput instanceof HTMLInputElement)) return;
+      const authorInput = form.elements.namedItem('authorName');
+      const emailInput = form.elements.namedItem('gmail');
+      if (!(authorInput instanceof HTMLInputElement) || !(emailInput instanceof HTMLInputElement)) return;
+      const isAnonymous = anonymousInput.checked;
+      authorInput.disabled = isAnonymous;
+      emailInput.disabled = isAnonymous;
+      if (isAnonymous) {
+        authorInput.value = '';
+        emailInput.value = '';
+      }
+    };
+
+    const renderComments = (comments) => {
+      if (!list) return;
+      if (!comments.length) {
+        list.innerHTML = '<p class="comments__empty">Chưa có bình luận nào. Hãy là người đầu tiên!</p>';
+        return;
+      }
+
+      list.innerHTML = comments
+        .map(
+          (comment) => `
+          <article class="comments__item">
+            <div class="comments__meta">
+              <strong class="comments__author">${escapeHtml(comment.authorName)}</strong>
+              <span class="comments__date">${formatDate(comment.createdAt)}</span>
+            </div>
+            <p class="comments__content">${escapeHtml(comment.content)}</p>
+          </article>
+        `
+        )
+        .join('');
+    };
+
+    const loadComments = async () => {
+      if (!postSlug || !list) return;
+      const response = await fetch(`/api/comments?postSlug=${encodeURIComponent(postSlug)}`);
+      if (!response.ok) {
+        let message = 'Không tải được bình luận.';
+        try {
+          const payload = await response.json();
+          if (payload?.error) message = `${message} ${payload.error}`;
+        } catch {
+          // Ignore JSON parse errors and keep default message.
+        }
+        list.innerHTML = `<p class="comments__empty">${message}</p>`;
+        return;
+      }
+      const payload = await response.json();
+      renderComments(payload.comments || []);
+    };
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form || !statusText || !postSlug) return;
+
+      const formData = new FormData(form);
+      const isAnonymous = formData.get('isAnonymous') === 'on';
+      const authorName = String(formData.get('authorName') || '').trim();
+      const gmail = String(formData.get('gmail') || '').trim();
+      const content = String(formData.get('content') || '').trim();
+
+      if (!content) {
+        statusText.textContent = 'Vui lòng nhập nội dung bình luận.';
+        return;
+      }
+      if (!isAnonymous) {
+        if (!gmail || !isGmail(gmail)) {
+          statusText.textContent = 'Vui lòng nhập Gmail hợp lệ hoặc chọn ẩn danh.';
+          return;
+        }
+      }
+
+      statusText.textContent = 'Đang gửi...';
+      const response = await fetch('/api/comments', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ postSlug, authorName, gmail, isAnonymous, content }),
+      });
+
+      if (!response.ok) {
+        let message = 'Gửi bình luận thất bại. Vui lòng thử lại.';
+        try {
+          const payload = await response.json();
+          if (payload?.error) message = `${message} (${payload.error})`;
+        } catch {
+          // Ignore JSON parse errors and keep default message.
+        }
+        statusText.textContent = message;
+        return;
+      }
+
+      form.reset();
+      syncAnonymousState();
+      statusText.textContent = 'Đã gửi bình luận, quản trị viên sẽ duyệt trước khi hiển thị.';
+      await loadComments();
+    });
+
+    anonymousInput?.addEventListener('change', syncAnonymousState);
+    syncAnonymousState();
+    loadComments();
+  }
+</script>

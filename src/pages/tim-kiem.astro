@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+import Mainlayout from '../layouts/Mainlayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+export const prerender = false;
+
+const [blogEntries, batGioiReviewEntries, pluginsEntries, themesEntries] = await Promise.all([
+  getCollection('duong-tang-blog'),
+  getCollection('bat-gioi-review'),
+  getCollection('plugins'),
+  getCollection('themes'),
+]);
+
+const allEntries = [...blogEntries, ...batGioiReviewEntries, ...pluginsEntries, ...themesEntries];
+const removeDiacritics = (value: string) =>
+  value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+const normalizedQuery = removeDiacritics(query);
+
+const collectionLabels: Record<string, string> = {
+  'duong-tang-blog': 'Blog',
+  'bat-gioi-review': 'Tài liệu',
+  plugins: 'Plugins',
+  themes: 'Theme',
+};
+
+const filteredEntries = normalizedQuery
+  ? allEntries.filter((entry) => {
+      const searchableValues = [
+        entry.data.title,
+        entry.data.description,
+        entry.id,
+        ...(Array.isArray(entry.data.tags) ? entry.data.tags : []),
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toString();
+
+      return removeDiacritics(searchableValues).includes(normalizedQuery);
+    })
+  : [];
+
+const posts = filteredEntries.sort((a, b) => {
+  const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
+  const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
+  return dateB - dateA;
+});
+---
+
+<Mainlayout title="Tìm kiếm | Blog Chém Gió">
+  <section class="search-page">
+    <h1 class="search-title">Kết quả tìm kiếm</h1>
+
+    {query ? (
+      <p class="search-meta">
+        Đã tìm thấy <strong>{posts.length}</strong> kết quả cho: <strong>"{query}"</strong>
+      </p>
+    ) : (
+      <p class="search-meta">Nhập từ khóa để bắt đầu tìm kiếm.</p>
+    )}
+
+    {posts.length > 0 && (
+      <div class="search-grid">
+        {posts.map((post) => (
+          <PostCard
+            {...post.data}
+            slug={`/${post.collection}/${post.id}`}
+            collection={collectionLabels[post.collection] || post.collection}
+          />
+        ))}
+      </div>
+    )}
+
+    {query && posts.length === 0 && (
+      <div class="search-empty">
+        Không tìm thấy bài phù hợp. Thử từ khóa ngắn hơn hoặc dùng không dấu.
+      </div>
+    )}
+
+    <button type="button" id="search-jump-btn" class="search-jump-btn" aria-label="Sửa từ khóa tìm kiếm">
+      Sửa từ khóa
+    </button>
+  </section>
+</Mainlayout>
+
+<style>
+  .search-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+  }
+
+  .search-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 1rem;
+  }
+
+  :global(.is-dark) .search-title {
+    color: #ffffff;
+  }
+
+  .search-meta {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.is-dark) .search-meta {
+    color: #94a3b8;
+  }
+
+  .search-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .search-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .search-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .search-empty {
+    border: 1px dashed #94a3b8;
+    border-radius: 14px;
+    padding: 1rem;
+    color: #64748b;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .search-jump-btn {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    border: none;
+    border-radius: 999px;
+    background: #ff7a18;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.7rem 0.95rem;
+    box-shadow: 0 10px 30px rgba(255, 122, 24, 0.35);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .search-jump-btn.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 1024px) {
+    .search-jump-btn {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const jumpBtn = document.getElementById('search-jump-btn');
+  const isMobile = () => window.matchMedia('(max-width: 1023px)').matches;
+
+  const focusHeaderSearch = () => {
+    const input = document.getElementById('header-search-input');
+    const form = input?.closest('[data-mobile-search]');
+    if (!input || !form) return;
+
+    if (isMobile()) {
+      const toggle = form.querySelector('.mobile-search__toggle');
+      const isOpen = form.classList.contains('mobile-search--open');
+      if (!isOpen && toggle instanceof HTMLButtonElement) toggle.click();
+    }
+
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => input.focus(), 220);
+  };
+
+  const updateButtonState = () => {
+    if (!jumpBtn) return;
+    const show = isMobile() && window.scrollY > 260;
+    jumpBtn.classList.toggle('is-visible', show);
+  };
+
+  jumpBtn?.addEventListener('click', focusHeaderSearch);
+  window.addEventListener('scroll', updateButtonState, { passive: true });
+  window.addEventListener('resize', updateButtonState);
+  updateButtonState();
+</script>

@@ -1,0 +1,243 @@
+---
+const {
+  action = '/tim-kiem',
+  placeholder = 'Tìm kiếm nội dung...',
+  inputId = 'site-search-input',
+} = Astro.props;
+---
+
+<form class="mobile-search" method="GET" action={action} role="search" data-mobile-search>
+  <button
+    type="button"
+    class="mobile-search__toggle"
+    aria-label="Mở tìm kiếm"
+    aria-expanded="false"
+    aria-controls={inputId}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle>
+      <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
+    </svg>
+  </button>
+  <input
+    id={inputId}
+    class="mobile-search__input"
+    type="search"
+    name="q"
+    placeholder={placeholder}
+    autocomplete="off"
+  />
+  <button type="submit" class="mobile-search__submit">Tìm kiếm</button>
+</form>
+<div class="mobile-search__overlay" data-mobile-search-overlay aria-hidden="true"></div>
+
+<style>
+  .mobile-search {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0.4rem;
+    border: 1px solid rgba(249, 115, 22, 0.45);
+    border-radius: 12px;
+    background: #fff7ed;
+    transition: padding 0.18s ease, gap 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .mobile-search__toggle {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #ea580c;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .mobile-search__toggle svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mobile-search__toggle:focus-visible {
+    outline: 2px solid #ea580c;
+    outline-offset: 2px;
+    border-radius: 999px;
+  }
+
+  .mobile-search__input {
+    width: 0;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #7c2d12;
+    font-size: 0.95rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.18s ease, opacity 0.18s ease;
+  }
+
+  .mobile-search--open {
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .mobile-search__submit {
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1023px) {
+    .mobile-search {
+      position: relative;
+      z-index: 120;
+    }
+
+    .mobile-search:not(.mobile-search--open) .mobile-search__input,
+    .mobile-search:not(.mobile-search--open) .mobile-search__submit {
+      width: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      padding: 0 !important;
+      border: 0 !important;
+    }
+
+    .mobile-search--open .mobile-search__input {
+      width: min(58vw, 14rem);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-search.mobile-search--open {
+      position: fixed !important;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 24rem);
+      min-width: min(92vw, 24rem);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.22);
+      z-index: 140;
+    }
+
+    .mobile-search__overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.38);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+      z-index: 130;
+    }
+
+    .mobile-search.mobile-search--open + .mobile-search__overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-search {
+      gap: 0.6rem;
+      padding: 0.55rem 0.75rem;
+    }
+
+    .mobile-search__toggle {
+      display: none;
+    }
+
+    .mobile-search__overlay {
+      display: none;
+    }
+
+    .mobile-search--open .mobile-search__input {
+      width: 18rem;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-search__input {
+      width: 18rem;
+      min-width: 18rem;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .mobile-search__input::placeholder {
+    color: #fb923c;
+  }
+
+  .mobile-search__toggle {
+    color: #ea580c;
+    line-height: 1;
+  }
+
+  :global(.dark) .mobile-search {
+    border-color: rgba(251, 146, 60, 0.6);
+    background: rgba(38, 22, 14, 0.95);
+  }
+
+  :global(.dark) .mobile-search__input {
+    color: #ffedd5;
+  }
+
+  :global(.dark) .mobile-search__input::placeholder {
+    color: rgba(251, 146, 60, 0.85);
+  }
+
+  :global(.dark) .mobile-search__submit {
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    color: #2a1409;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-mobile-search]').forEach((form) => {
+    const toggle = form.querySelector('.mobile-search__toggle');
+    const input = form.querySelector('.mobile-search__input');
+    const overlay = form.nextElementSibling;
+    if (!toggle || !input) return;
+
+    const setOpen = (open) => {
+      form.classList.toggle('mobile-search--open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) input.focus();
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = form.classList.contains('mobile-search--open');
+      setOpen(!isOpen);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!form.contains(event.target)) setOpen(false);
+    });
+
+    overlay?.addEventListener('click', () => setOpen(false));
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  });
+</script>

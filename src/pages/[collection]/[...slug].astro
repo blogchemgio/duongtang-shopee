@@ -1,0 +1,258 @@
+---
+import { getCollection, render } from 'astro:content';
+import Mainlayout from '../../layouts/Mainlayout.astro';
+import TocMobileFab from '../../components/TocMobileFab';
+import Comments from '../../components/Comments.astro';
+import RelatedPostsCarousel from '../../components/RelatedPostsCarousel.astro';
+import DuongTangGioiThieu from '../../components/DuongTangGioiThieu.astro';
+
+// 1. Lấy tất cả paths từ 4 chuyên mục
+export async function getStaticPaths() {
+  const categories = ['duong-tang-blog', 'bat-gioi-review', 'plugins', 'themes'];
+  const allPaths = [];
+
+  for (const cat of categories) {
+    const entries = await getCollection(cat as any);
+    allPaths.push(...entries.map(entry => ({
+      params: { collection: cat, slug: entry.id },
+      props: { entry, category: cat },
+    })));
+  }
+  return allPaths;
+}
+
+const { entry, category } = Astro.props;
+const { Content, headings } = await render(entry);
+const postSlug = `${category}/${entry.id}`;
+
+const categories = ['duong-tang-blog', 'bat-gioi-review', 'plugins', 'themes'] as const;
+const allEntries = (await Promise.all(categories.map((name) => getCollection(name)))).flat();
+const currentTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
+
+const relatedPosts = allEntries
+  .filter((item) => !(item.collection === entry.collection && item.id === entry.id))
+  .map((item) => {
+    const tags = Array.isArray(item.data.tags) ? item.data.tags : [];
+    const sharedTags = tags.filter((tag) => currentTags.includes(tag)).length;
+    const sameCollection = item.collection === entry.collection ? 1 : 0;
+    const score = sharedTags * 5 + sameCollection * 3;
+    return { item, score };
+  })
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    const dateA = new Date(a.item.data.pubDate || 0).valueOf();
+    const dateB = new Date(b.item.data.pubDate || 0).valueOf();
+    return dateB - dateA;
+  })
+  .slice(0, 3)
+  .map(({ item }) => ({
+    title: item.data.title,
+    slug: `/${item.collection}/${item.id}`,
+    image: item.data.image,
+    collection: item.collection,
+  }));
+const postTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
+
+// Format ngày tháng an toàn
+const displayDate = entry.data.pubDate 
+  ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN') 
+  : 'Tài nguyên';
+
+const badgeLabel = entry.data.category || category.toUpperCase();
+const isDuongTangBlog = category === 'duong-tang-blog';
+---
+
+<Mainlayout title={entry.data.title}>
+  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
+
+  <div class={`w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 ${isDuongTangBlog ? 'lg:grid-cols-[1fr_360px]' : ''} gap-12`}>
+    
+    <article class="max-w-[1000px] ml-0 pt-2 pb-12 text-left">
+      <header class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="px-3 py-1 bg-[#ff7a18]/10 text-[#ff7a18] text-[10px] font-black uppercase rounded-full border border-[#ff7a18]/20 shadow-sm">
+              {badgeLabel}
+          </span>
+          <span class="text-slate-500 text-[11px] font-bold tracking-tight italic">
+            {displayDate}
+          </span>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-8 tracking-tighter">
+          {entry.data.title}
+        </h1>
+
+        {entry.data.image && (
+          <div class="relative group bg-slate-900/50 rounded-[32px] overflow-hidden">
+             <img 
+               src={entry.data.image} 
+               alt={entry.data.title} 
+               class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" 
+             />
+             <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
+          </div>
+        )}
+      </header>
+
+      <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert 
+                  prose-headings:font-black prose-headings:tracking-tighter
+                  prose-img:rounded-3xl prose-img:shadow-lg">
+        <Content />
+      </div>
+
+      <section class="article-share" aria-label="Chia sẻ bài viết">
+        <p class="article-share__title">Chia sẻ bài viết</p>
+        <div class="article-share__buttons">
+          <button type="button" class="article-share__btn" data-share="facebook">Facebook</button>
+          <button type="button" class="article-share__btn" data-share="x">X</button>
+          <button type="button" class="article-share__btn" data-share="zalo">Zalo</button>
+          <button type="button" class="article-share__btn" data-share="copy">Copy link</button>
+        </div>
+
+        {postTags.length > 0 && (
+          <div class="article-tags">
+            <p class="article-tags__title">Tag bài viết</p>
+            <div class="article-tags__list">
+              {postTags.map((tag) => (
+                <a class="article-tags__item" href={`/tim-kiem?q=${encodeURIComponent(tag)}`}>
+                  #{tag}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      <RelatedPostsCarousel title="có thể thí chủ sẽ thích" items={relatedPosts} />
+      <Comments postSlug={postSlug} />
+
+      {isDuongTangBlog && (
+        <div class="mt-12 lg:hidden">
+          <DuongTangGioiThieu />
+        </div>
+      )}
+    </article>
+
+    {isDuongTangBlog && (
+      <aside class="hidden lg:block relative">
+        <div class="sticky top-28">
+          <DuongTangGioiThieu />
+        </div>
+      </aside>
+    )}
+
+  </div>
+</Mainlayout>
+
+<style>
+  .article-share {
+    margin-top: 1.6rem;
+    padding: 1rem 0 0.4rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+  }
+
+  .article-share__title,
+  .article-tags__title {
+    margin: 0 0 0.55rem;
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .article-share__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .article-share__btn {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+  }
+
+  .article-tags {
+    margin-top: 0.8rem;
+  }
+
+  .article-tags__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .article-tags__item {
+    text-decoration: none;
+    border: 1px solid #fed7aa;
+    background: #fff7ed;
+    color: #c2410c;
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  :global(.is-dark) .article-share__title,
+  :global(.is-dark) .article-tags__title {
+    color: #f8fafc;
+  }
+
+  :global(.is-dark) .article-share__btn {
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(148, 163, 184, 0.35);
+    color: #cbd5e1;
+  }
+
+  :global(.is-dark) .article-tags__item {
+    background: rgba(255, 122, 24, 0.14);
+    border-color: rgba(255, 122, 24, 0.3);
+    color: #fdba74;
+  }
+</style>
+
+<script>
+  const shareRoot = document.querySelector('.article-share');
+  if (shareRoot) {
+    const makeUrl = () => window.location.href;
+    const makeText = () => document.title;
+
+    shareRoot.addEventListener('click', async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLButtonElement)) return;
+      const type = target.getAttribute('data-share');
+      if (!type) return;
+
+      const url = encodeURIComponent(makeUrl());
+      const text = encodeURIComponent(makeText());
+
+      if (type === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      if (type === 'x') {
+        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      if (type === 'zalo') {
+        window.open(`https://zalo.me/share?url=${url}`, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      if (type === 'copy') {
+        try {
+          await navigator.clipboard.writeText(makeUrl());
+          target.textContent = 'Da copy';
+          setTimeout(() => {
+            target.textContent = 'Copy link';
+          }, 1500);
+        } catch {
+          // Ignore clipboard errors silently.
+        }
+      }
+    });
+  }
+</script>

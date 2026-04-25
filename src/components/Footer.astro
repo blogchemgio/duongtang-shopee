@@ -1,0 +1,56 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="relative w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b0f1a] overflow-hidden">
+  <div class="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/[0.03] dark:bg-orange-500/[0.06] blur-[100px] rounded-full z-0"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-10 md:pb-14 border-b border-slate-200 dark:border-white/10">
+      
+      <div class="md:col-span-5 space-y-3">
+        <div class="text-lg md:text-xl font-black tracking-tighter uppercase transition-transform hover:scale-[1.01] duration-300">
+          <span class="text-[#ff7a18]">BLOGCHÉMGIO.COM</span>
+        </div>
+        <p class="text-[11px] md:text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 max-w-xs font-normal">
+          Kho tài liệu tin học, thủ thuật máy tính và chia sẻ hành trình lập trình dành cho mọi người.
+        </p>
+      </div>
+
+      <div class="md:col-span-3">
+        <h4 class="font-bold mb-3 text-slate-900 dark:text-white uppercase text-[9px] tracking-[0.2em]">Khám phá</h4>
+        <ul class="space-y-2 text-[11px] md:text-[12px] font-medium list-none p-0 m-0">
+          <li>
+            <a href="/" class="text-slate-600 dark:text-slate-300 hover:text-[#ff7a18] transition-colors block">Tất cả bài viết</a>
+          </li>
+          <li>
+            <a href="/privacy" class="text-slate-600 dark:text-slate-300 hover:text-[#ff7a18] transition-colors block">Chính sách bảo mật</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4 lg:text-right">
+        <h4 class="font-bold mb-3 text-slate-900 dark:text-white uppercase text-[9px] tracking-[0.2em]">Liên hệ</h4>
+        <p class="text-[11px] mb-1 text-slate-600 dark:text-slate-300">Hỗ trợ & Quảng cáo:</p>
+        <a href="mailto:contact@blogchemgio.com" class="text-[12px] md:text-[13px] font-bold text-slate-900 dark:text-slate-100 hover:text-[#ff7a18] transition-colors underline decoration-orange-500/40 underline-offset-4">
+          contact@blogchemgio.com
+        </a>
+      </div>
+    </div>
+
+    <div class="py-10 flex justify-center">
+      <div class="w-full">
+        <p class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-normal text-center leading-loose
+                  /* Màu sắc đồng bộ hoàn toàn với phần mô tả bên trên */
+                  text-slate-600 dark:text-slate-300">
+          © {currentYear} Powered by ASTRO & TAILWIND
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  ul { list-style: none !important; }
+  li::before { content: none !important; }
+</style>

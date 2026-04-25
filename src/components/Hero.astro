@@ -1,0 +1,26 @@
+---
+// Hero.astro - Chứa ảnh banner và nội dung giới thiệu
+import bannerImage from '../assets/duongtang.webp';
+---
+
+<section class="relative w-full overflow-hidden rounded-b-[32px] shadow-2xl">
+  <div class="absolute inset-0 z-0 bg-slate-900">
+    <img 
+      src={bannerImage.src} 
+      alt="Banner Background" 
+      class="h-full w-full object-contain md:object-cover object-center transition-transform duration-1000 hover:scale-105"
+    />
+    <div class="absolute inset-0 bg-black/20"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-4 md:pb-8 lg:pb-12 min-h-[300px] md:min-h-[400px] lg:min-h-[500px] flex flex-col justify-end">
+    <div class="w-full flex flex-col md:flex-row items-center justify-between gap-8">
+      <p class="text-[#ff7a18] text-base md:text-3xl font-black max-w-3xl text-left drop-shadow-[0_2px_20px_rgba(0,0,0,1)] leading-tight italic">
+        Hành trình vạn dặm từ Đông Thổ Đại Đường. tới Đông Lào thỉnh link shopee.
+      </p>
+      <button class="bg-[#ff7a18] text-white px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-orange-500/40 whitespace-nowrap">
+        Bắt đầu ngay
+      </button>
+    </div>
+  </div>
+</section>

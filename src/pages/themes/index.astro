@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import Mainlayout from '../../layouts/Mainlayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Pagination from '../../components/Pagination.astro';
+
+const POSTS_PER_PAGE = 6;
+const allPosts = (await getCollection('themes')).sort((a, b) => {
+  const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
+  const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
+  return dateB - dateA;
+});
+const posts = allPosts.slice(0, POSTS_PER_PAGE);
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+---
+
+<Mainlayout title="Themes | Blog Chém Gió">
+  <section class="category-page">
+    <h1>Chuyên mục Themes</h1>
+    <p class="category-intro">
+      Đây là chuyên mục Themes. Chức năng của mục này là trình bày giao diện mẫu, ý tưởng thiết kế và bộ khung để tái sử dụng.
+    </p>
+
+    <div class="category-grid">
+      {posts.map((post) => (
+        <PostCard {...post.data} slug={`/themes/${post.id}`} collection="THEMES" />
+      ))}
+    </div>
+    <Pagination currentPage={1} totalPages={totalPages} basePath="/themes" />
+  </section>
+</Mainlayout>
+
+<style>
+  .category-page { padding: 1rem 0 2rem; }
+  .category-intro { color: #64748b; margin-bottom: 1.25rem; font-weight: 500; }
+  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
+  @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

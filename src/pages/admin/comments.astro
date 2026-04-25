@@ -1,0 +1,221 @@
+---
+import Mainlayout from '../../layouts/Mainlayout.astro';
+---
+
+<Mainlayout title="Admin bình luận">
+  <section class="admin-comments" data-admin-comments>
+    <h1>Kiểm duyệt bình luận</h1>
+
+    <div class="admin-toolbar">
+      <input
+        type="password"
+        class="admin-token"
+        data-admin-token
+        placeholder="Nhập COMMENT_ADMIN_TOKEN"
+      />
+      <select class="admin-filter" data-admin-status>
+        <option value="pending">Chờ duyệt</option>
+        <option value="approved">Đã duyệt</option>
+        <option value="rejected">Đã từ chối</option>
+      </select>
+      <button class="admin-load" data-admin-load>Tải danh sách</button>
+    </div>
+
+    <p class="admin-message" data-admin-message></p>
+    <div class="admin-list" data-admin-list></div>
+  </section>
+
+  <script>
+    const tokenInput = document.querySelector('[data-admin-token]') as HTMLInputElement;
+    const statusSelect = document.querySelector('[data-admin-status]') as HTMLSelectElement;
+    const loadBtn = document.querySelector('[data-admin-load]');
+    const messageEl = document.querySelector('[data-admin-message]');
+    const listEl = document.querySelector('[data-admin-list]');
+
+    async function loadComments() {
+      if (!messageEl || !listEl) return;
+      
+      const token = tokenInput.value.trim();
+      const status = statusSelect.value;
+
+      if (!token) {
+        messageEl.textContent = 'Vui lòng nhập Admin Token';
+        return;
+      }
+
+      messageEl.textContent = 'Đang tải...';
+      listEl.innerHTML = '';
+
+      try {
+        const res = await fetch(`/api/admin/comments?status=${status}`, {
+          headers: { 'x-admin-token': token }
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Lỗi không xác định');
+
+        if (data.comments.length === 0) {
+          messageEl.textContent = 'Không có bình luận nào.';
+          return;
+        }
+
+        messageEl.textContent = `Tìm thấy ${data.comments.length} bình luận.`;
+        
+        data.comments.forEach((c: any) => {
+          const item = document.createElement('div');
+          item.className = 'admin-item';
+          item.innerHTML = `
+            <div class="admin-meta">
+              <strong>ID: ${c.id}</strong>
+              <span>Bài viết: ${c.postSlug}</span>
+              <span>Tác giả: ${c.authorName}</span>
+              <span>Ngày: ${new Date(c.createdAt).toLocaleString('vi-VN')}</span>
+            </div>
+            <div class="admin-content">${c.content}</div>
+            <div class="admin-actions">
+              ${status !== 'approved' ? `<button class="admin-btn-approve" data-id="${c.id}">Duyệt</button>` : ''}
+              ${status !== 'rejected' ? `<button class="admin-btn-reject" data-id="${c.id}">Từ chối</button>` : ''}
+              <button class="admin-btn-delete" data-id="${c.id}">Xóa</button>
+            </div>
+          `;
+          listEl.appendChild(item);
+        });
+
+        // Add event listeners for actions
+        listEl.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            const action = btn.className.replace('admin-btn-', '');
+            if (confirm(`Bạn có chắc muốn ${action} bình luận này?`)) {
+              await handleAction(id, action);
+            }
+          });
+        });
+
+      } catch (err: any) {
+        messageEl.textContent = `Lỗi: ${err.message}`;
+      }
+    }
+
+    async function handleAction(id: string | null, action: string) {
+      if (!id || !messageEl) return;
+      const token = tokenInput.value.trim();
+
+      try {
+        const method = action === 'delete' ? 'DELETE' : 'PATCH';
+        const body = action === 'delete' ? { id } : { id, status: action === 'approve' ? 'approved' : 'rejected' };
+
+        const res = await fetch('/api/admin/comments', {
+          method,
+          headers: { 
+            'content-type': 'application/json',
+            'x-admin-token': token 
+          },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Lỗi xử lý');
+        alert('Thành công!');
+        loadComments();
+      } catch (err: any) {
+        alert(`Lỗi: ${err.message}`);
+      }
+    }
+
+    loadBtn?.addEventListener('click', loadComments);
+  </script>
+</Mainlayout>
+
+<style>
+  .admin-comments {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+  }
+
+  .admin-comments h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+
+  .admin-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .admin-token,
+  .admin-filter {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    min-width: 220px;
+    background: white;
+    color: black;
+  }
+
+  .admin-load {
+    border: none;
+    border-radius: 10px;
+    background: #ff7a18;
+    color: #fff;
+    font-weight: 800;
+    padding: 0.55rem 0.85rem;
+    cursor: pointer;
+  }
+
+  .admin-message {
+    color: #64748b;
+    margin: 0 0 0.9rem;
+  }
+
+  .admin-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .admin-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.9rem;
+    background: #fff;
+    color: #1e293b;
+  }
+
+  .admin-meta {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+    color: #475569;
+  }
+
+  .admin-content {
+    white-space: pre-wrap;
+    margin: 0 0 0.7rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .admin-actions button {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: white;
+  }
+
+  .admin-btn-approve { color: #16a34a; border-color: #bbf7d0 !important; background: #f0fdf4 !important; }
+  .admin-btn-reject { color: #dc2626; border-color: #fecaca !important; background: #fef2f2 !important; }
+  .admin-btn-delete { color: #64748b; }
+</style>
