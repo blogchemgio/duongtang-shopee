@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-const SITE_URL = 'https://blogchengio.com';
+const SITE_URL = 'https://duongtang.vn';
 
 export const GET: APIRoute = async () => {
   const [blog, batGioiReview, plugins, themes] = await Promise.all([

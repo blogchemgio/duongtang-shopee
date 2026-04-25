@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 // Import ảnh từ thư mục assets (Giả sử bạn để ảnh trong src/assets/)
 import myProfileImage from '../assets/viet-blog-content-story.jpg';
 
-const pageTitle = "Giới thiệu về mình - Blog Chém Gió";
-const description = "Hành trình từ Blogger sang Astro của admin Blog Chém Gió. Chia sẻ kiến thức về Web Development và công nghệ mới.";
+const pageTitle = "Giới thiệu - duongtang.vn";
+const description = "Giới thiệu về duongtang.vn và hành trình thỉnh kinh mua sắm.";
 ---
 
 <Mainlayout title={pageTitle} description={description} type="profile">
@@ -16,14 +16,14 @@ const description = "Hành trình từ Blogger sang Astro của admin Blog Chém
       "mainEntity": {
         "@type": "Person",
         "name": "Admin Blog Chém Gió",
-        "url": "https://blogchengio.com/gioi-thieu",
-        "description": "Tác giả có 10 năm viết blog trên Blogger miễn phí và đang chuyển đổi toàn bộ sang Astro.",
-        "knowsAbout": ["Astro", "Blogging", "Web Development", "Performance"],
+        "url": "https://duongtang.vn/gioi-thieu",
+        "description": "Giới thiệu về duongtang.vn và hành trình chia sẻ review thực tâm.",
+        "knowsAbout": ["Review", "Shopee", "Mua sắm", "Blog"],
         "hasOccupation": {
           "@type": "Occupation",
           "name": "Blogger công nghệ"
         },
-        "image": "https://blogchengio.com/viet-blog-content-story.jpg"
+        "image": "https://duongtang.vn/viet-blog-content-story.jpg"
       }
     }
   </script>

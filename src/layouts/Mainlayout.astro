@@ -16,14 +16,14 @@ interface Props {
 }
 
 const {
-  title = "Blog Chém Gió",
-  description = "Blog Chém Gió chia sẻ kinh nghiệm thực chiến về Astro, web performance và hành trình học code.",
+  title = "Đường tăng.vn",
+  description = "Đường tăng.vn chia sẻ review thực tâm và hành trình thỉnh kinh mua sắm.",
   canonical,
-  ogImage = "https://blogchengio.com/og-default.jpg",
+  ogImage = "https://duongtang.vn/og-default.jpg",
   type = 'website',
 } = Astro.props;
 
-const currentUrl = new URL(Astro.url.pathname, 'https://blogchengio.com').toString();
+const currentUrl = new URL(Astro.url.pathname, 'https://duongtang.vn').toString();
 const canonicalUrl = canonical || currentUrl;
 ---
 
@@ -70,9 +70,9 @@ const canonicalUrl = canonical || currentUrl;
       {JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Blog Chém Gió",
-        "url": "https://blogchengio.com",
-        "description": "Blog chia sẻ kinh nghiệm thực chiến về Astro, tối ưu hiệu năng và hành trình học code.",
+        "name": "Đường tăng.vn",
+        "url": "https://duongtang.vn",
+        "description": "Đường tăng.vn chia sẻ review thực tâm và hành trình thỉnh kinh mua sắm.",
         "inLanguage": "vi-VN",
       })}
     </script>
