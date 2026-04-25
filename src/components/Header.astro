@@ -3,19 +3,19 @@
 import MobileSearch from './MobileSearch.astro';
 
 const desktopLinks = [
-  { href: '/blog', label: 'Blog' },
-  { href: '/docs', label: 'Tài liệu' },
-  { href: '/plugins', label: 'Plugins' },
-  { href: '/themes', label: 'Theme' },
+  { href: '/blog', label: 'Đường Tăng' },
+  { href: '/bat-gioi-review', label: 'Bát Giới' },
+  { href: '/ngo-khong-tech', label: 'ngộ không' },
+  { href: '/sa-tang-decor', label: 'sa tăng' },
   { href: '/gioi-thieu', label: 'Giới thiệu' },
   { href: '/lien-he', label: 'Liên hệ' },
 ];
 
 const mobileLinks = [
-  { href: '/blog', label: 'Blog', icon: '✎' },
-  { href: '/docs', label: 'Tài liệu', icon: '▣' },
-  { href: '/plugins', label: 'Plugins', icon: '◈' },
-  { href: '/themes', label: 'Theme', icon: '✦' },
+  { href: '/blog', label: 'Đường Tăng Blog', icon: '✎' },
+  { href: '/bat-gioi-review', label: 'Bát Giới Ẩm Thực', icon: '▣' },
+  { href: '/ngo-khong-tech', label: 'Ngộ không tech', icon: '◈' },
+  { href: '/sa-tang-decor', label: 'sa tăng decor', icon: '✦' },
   { href: '/gioi-thieu', label: 'About', icon: '◎' },
   { href: '/lien-he', label: 'Contact', icon: '✉' },
   { href: '/sitemap', label: 'Sitemap', icon: '☰' },
@@ -24,8 +24,8 @@ const mobileLinks = [
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-white dark:bg-[#020617] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-slate-100 dark:border-slate-800">
   <div class="w-full max-w-none px-2 md:px-10 lg:px-16 flex justify-between items-center">
     
-    <a href="/" class="logo-link text-xl md:text-2xl font-black tracking-tighter text-slate-950 dark:text-[#ff7a18] whitespace-nowrap transition-all">
-      Blog chém gió<span class="text-[#ff7a18]">.</span>com
+    <a href="/" class="logo-link text-xl md:text-2xl font-black tracking-tighter text-slate-950 dark:text-white whitespace-nowrap transition-all">
+      <span class="logo-text">Đường Tăng</span><span class="logo-vn">.vn</span>
     </a>
 
     <nav class="hidden lg:block">
@@ -96,6 +96,15 @@ const mobileLinks = [
   .header-search :global(.mobile-search) {
     position: relative;
     z-index: 120;
+  }
+
+  .logo-link {
+    text-shadow: 0 0 10px rgba(255, 122, 24, 0.18), 0 0 28px rgba(255, 122, 24, 0.12);
+  }
+
+  .logo-vn {
+    color: #ff7a18;
+    text-shadow: 0 0 12px rgba(255, 122, 24, 0.35), 0 0 32px rgba(255, 122, 24, 0.18);
   }
 
   /* --- SIDEBAR LINKS (CĂN TRÁI & MÀU TRẮNG) --- */
