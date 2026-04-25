@@ -10,6 +10,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 export default defineConfig({
   site: 'https://duongtang.vn',
   output: 'hybrid',
+  outDir: './dist',
 
   adapter: cloudflare({
     imageService: { build: 'compile', runtime: 'passthrough' },
