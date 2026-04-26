@@ -26,7 +26,7 @@ const mobileLinks = [
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-white dark:bg-[#020617] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-slate-100 dark:border-slate-800">
   <div class="w-full max-w-none px-2 md:px-10 lg:px-16 flex justify-between items-center">
     <div class="flex items-center gap-3">
-      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-950 dark:text-[#ff7a18] transition-all" aria-label="Open Menu">
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-950 dark:text-[#ff7a18] transition-all dt-home-glow" aria-label="Open Menu">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -59,14 +59,13 @@ const mobileLinks = [
 <aside
   id="mobile-sidebar"
   class="fixed top-0 left-0 h-full w-[300px] bg-[#0f172b] z-[140] transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-800 shadow-2xl"
-  style={`--menu-mobile-bg: url(${menuMobileBg1.src});`}
   data-bg1={menuMobileBg1.src}
   data-bg2={menuMobileBg2.src}
 >
   
   <div class="h-20 border-b border-slate-800 flex items-center justify-between px-6">
     <a href="/" class="top-home-link"><span class="menu-icon">⌂</span>Home</a>
-    <button id="close-sidebar" class="p-2 text-white hover:rotate-90 hover:text-[#ff7a18] transition-all duration-300">
+    <button id="close-sidebar" class="p-2 hover:rotate-90 hover:text-[#ff7a18] transition-all duration-300">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
   </div>
@@ -109,7 +108,7 @@ const mobileLinks = [
   }
 
   #mobile-sidebar {
-    background-image: var(--menu-mobile-bg);
+    background-image: var(--menu-mobile-bg, none);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -122,6 +121,29 @@ const mobileLinks = [
   .logo-vn {
     color: #ff7a18;
     text-shadow: 0 0 12px rgba(255, 122, 24, 0.35), 0 0 32px rgba(255, 122, 24, 0.18);
+  }
+
+  .dt-home-glow {
+    filter: drop-shadow(0 0 10px rgba(255, 122, 24, 0.35));
+    animation: dt-home-glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes dt-home-glow-pulse {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 8px rgba(255, 122, 24, 0.28));
+      transform: translateZ(0);
+    }
+    50% {
+      filter: drop-shadow(0 0 16px rgba(255, 122, 24, 0.55));
+      transform: translateZ(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dt-home-glow {
+      animation: none;
+    }
   }
 
   /* --- SIDEBAR LINKS (CĂN TRÁI & MÀU TRẮNG) --- */
@@ -158,39 +180,6 @@ const mobileLinks = [
 
   #close-sidebar {
     color: #020617;
-  }
-
-  @keyframes dt-menu-color-cycle {
-    0% {
-      color: #020617;
-    }
-    50% {
-      color: #ffffff;
-    }
-    100% {
-      color: #020617;
-    }
-  }
-
-  .sidebar-link,
-  .menu-icon,
-  .top-home-link {
-    animation: dt-menu-color-cycle 8s ease-in-out infinite;
-  }
-
-  .sidebar-link:hover,
-  .sidebar-link:active,
-  .top-home-link:hover,
-  .top-home-link:active {
-    animation: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sidebar-link,
-    .menu-icon,
-    .top-home-link {
-      animation: none;
-    }
   }
 
   /* --- HOVER EFFECT --- */
