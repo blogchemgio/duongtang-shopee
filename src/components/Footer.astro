@@ -1,9 +1,20 @@
 ---
+import footerBg from '../assets/footer.webp';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="relative w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b0f1a] overflow-hidden">
-  <div class="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/[0.03] dark:bg-orange-500/[0.06] blur-[100px] rounded-full z-0"></div>
+<footer
+  class="relative w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b0f1a] overflow-hidden"
+  style={`--footer-bg: url(${footerBg.src});`}
+  id="site-footer"
+>
+  <div
+    id="footer-bg"
+    class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-100"
+    style="background-image: var(--footer-bg); background-position: var(--footer-bg-x, 50%) 50%;"
+  ></div>
+  <div class="absolute inset-0 z-0 bg-white/80 dark:bg-[#0b0f1a]/75"></div>
+  <div class="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/[0.02] dark:bg-orange-500/[0.04] blur-[70px] rounded-full z-0"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-10 md:pb-14 border-b border-slate-200 dark:border-white/10">
@@ -32,18 +43,15 @@ const currentYear = new Date().getFullYear();
       <div class="md:col-span-4 lg:text-right">
         <h4 class="font-bold mb-3 text-slate-900 dark:text-white uppercase text-[9px] tracking-[0.2em]">Liên hệ</h4>
         <p class="text-[11px] mb-1 text-slate-600 dark:text-slate-300">Hỗ trợ & Quảng cáo:</p>
-        <a href="mailto:truanhduc@hmail.com" class="text-[12px] md:text-[13px] font-bold text-slate-900 dark:text-slate-100 hover:text-[#ff7a18] transition-colors underline decoration-orange-500/40 underline-offset-4">
-          truanhduc@gmail.com
-        </a>
       </div>
     </div>
 
     <div class="py-10 flex justify-center">
       <div class="w-full">
-        <p class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-normal text-center leading-loose
+        <p class="text-[6px] md:text-[7px] uppercase tracking-[0.26em] font-normal text-center leading-loose
                   /* Màu sắc đồng bộ hoàn toàn với phần mô tả bên trên */
                   text-slate-600 dark:text-slate-300">
-          © {currentYear} Powered by ASTRO & TAILWIND
+          © {currentYear} Powered by Đường Tăng.vn
         </p>
       </div>
     </div>
@@ -54,3 +62,59 @@ const currentYear = new Date().getFullYear();
   ul { list-style: none !important; }
   li::before { content: none !important; }
 </style>
+
+<script>
+  const footer = document.getElementById('site-footer');
+  const bg = document.getElementById('footer-bg');
+  if (footer instanceof HTMLElement && bg instanceof HTMLElement) {
+    let isDown = false;
+    let startX = 0;
+    let startPercent = 50;
+    let moved = false;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const getCurrentPercent = () => {
+      const current = getComputedStyle(bg).getPropertyValue('--footer-bg-x').trim();
+      const n = Number.parseFloat(current);
+      return Number.isFinite(n) ? n : 50;
+    };
+
+    const shouldIgnoreTarget = (target) => {
+      if (!(target instanceof Element)) return false;
+      return Boolean(target.closest('a, button, input, textarea, select, label'));
+    };
+
+    footer.style.touchAction = 'pan-y';
+
+    footer.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'touch') return;
+      if (shouldIgnoreTarget(event.target)) return;
+      isDown = true;
+      moved = false;
+      startX = event.clientX;
+      startPercent = getCurrentPercent();
+      footer.setPointerCapture(event.pointerId);
+    });
+
+    footer.addEventListener('pointermove', (event) => {
+      if (!isDown) return;
+      if (event.pointerType !== 'touch') return;
+      const width = footer.clientWidth || 1;
+      const deltaX = event.clientX - startX;
+      if (!moved && Math.abs(deltaX) < 6) return;
+      moved = true;
+      const deltaPercent = (deltaX / width) * 100;
+      const next = clamp(startPercent + deltaPercent, 0, 100);
+      bg.style.setProperty('--footer-bg-x', `${next}%`);
+    });
+
+    const end = (event) => {
+      if (!isDown) return;
+      isDown = false;
+      if (event.pointerId) footer.releasePointerCapture(event.pointerId);
+    };
+
+    footer.addEventListener('pointerup', end);
+    footer.addEventListener('pointercancel', end);
+  }
+</script>

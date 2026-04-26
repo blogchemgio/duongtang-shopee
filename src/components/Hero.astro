@@ -1,17 +1,20 @@
 ---
-import image1 from '../assets/1.webp';
-import image2 from '../assets/2.png';
-import image3 from '../assets/3.png';
-import image4 from '../assets/4.webp';
-import image5 from '../assets/5.png';
+import img1 from '../assets/1.webp';
+import img2 from '../assets/2.webp';
+import img3 from '../assets/3.webp';
+import img4 from '../assets/4.webp';
+import img5 from '../assets/5.webp';
+import img6 from '../assets/6.webp';
+import img7 from '../assets/7.webp';
+import img8 from '../assets/8.webp';
+import img9 from '../assets/9.webp';
 
-const images = [
-  { src: image1.src, width: image1.width, height: image1.height, alt: 'Ảnh hero 1' },
-  { src: image2.src, width: image2.width, height: image2.height, alt: 'Ảnh hero 2' },
-  { src: image3.src, width: image3.width, height: image3.height, alt: 'Ảnh hero 3' },
-  { src: image4.src, width: image4.width, height: image4.height, alt: 'Ảnh hero 4' },
-  { src: image5.src, width: image5.width, height: image5.height, alt: 'Ảnh hero 5' },
-];
+const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((img, index) => ({
+  src: img.src,
+  width: img.width,
+  height: img.height,
+  alt: `Ảnh hero ${index + 1}`,
+}));
 ---
 
 <section 
@@ -23,34 +26,59 @@ const images = [
 
   <div class="relative z-10 max-w-5xl lg:max-w-2xl mx-auto">
     <div class="overflow-hidden rounded-[20px] ring-1 ring-slate-200/80 dark:ring-white/10 bg-white/60 dark:bg-white/5">
-      <img
-        id="hero-random-image"
-        src={images[0].src}
-        alt={images[0].alt}
-        width={images[0].width}
-        height={images[0].height}
-        loading="eager"
-        decoding="async"
-        class="w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[240px] object-cover"
-      />
+      <div id="hero-image-slot" class="w-full bg-slate-200/40 dark:bg-white/5"></div>
     </div>
   </div>
 </section>
 
-<script type="application/json" id="hero-images" set:html={JSON.stringify(images)}></script>
+<script type="application/json" id="hero-images" set:html={JSON.stringify(heroImages)}></script>
 
 <script>
+  const slot = document.getElementById('hero-image-slot');
   const jsonEl = document.getElementById('hero-images');
-  const imgEl = document.getElementById('hero-random-image');
-  if (jsonEl instanceof HTMLScriptElement && imgEl instanceof HTMLImageElement) {
+  if (slot instanceof HTMLElement && jsonEl instanceof HTMLScriptElement) {
     const list = JSON.parse(jsonEl.textContent || '[]');
     if (Array.isArray(list) && list.length > 0) {
-      const pick = list[Math.floor(Math.random() * list.length)];
+      const key = 'dt-hero-seq-index';
+      const current = Number.parseInt(localStorage.getItem(key) || '0', 10);
+      const safe = Number.isFinite(current) ? current : 0;
+      const idx = ((safe % list.length) + list.length) % list.length;
+      const next = (idx + 1) % list.length;
+      localStorage.setItem(key, String(next));
+
+      const pick = list[idx];
       if (pick && typeof pick.src === 'string') {
-        imgEl.src = pick.src;
-        if (typeof pick.alt === 'string') imgEl.alt = pick.alt;
-        if (typeof pick.width === 'number') imgEl.width = pick.width;
-        if (typeof pick.height === 'number') imgEl.height = pick.height;
+        const preload = document.createElement('link');
+        preload.rel = 'preload';
+        preload.as = 'image';
+        preload.href = pick.src;
+        preload.fetchPriority = 'high';
+        document.head.appendChild(preload);
+
+        const wrap = document.createElement('div');
+        wrap.className = 'relative w-full overflow-hidden';
+
+        const bg = document.createElement('div');
+        bg.className = 'absolute inset-0 opacity-50 scale-[1.08]';
+        bg.style.backgroundImage = `url(${pick.src})`;
+        bg.style.backgroundSize = 'cover';
+        bg.style.backgroundPosition = 'center';
+        bg.style.filter = 'blur(18px)';
+        bg.setAttribute('aria-hidden', 'true');
+
+        const img = document.createElement('img');
+        img.src = pick.src;
+        img.alt = typeof pick.alt === 'string' ? pick.alt : '';
+        if (typeof pick.width === 'number') img.width = pick.width;
+        if (typeof pick.height === 'number') img.height = pick.height;
+        img.decoding = 'async';
+        img.loading = 'eager';
+        img.fetchPriority = 'high';
+        img.className = 'relative z-10 w-full h-auto';
+
+        wrap.appendChild(bg);
+        wrap.appendChild(img);
+        slot.replaceChildren(wrap);
       }
     }
   }
