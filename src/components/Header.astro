@@ -1,7 +1,8 @@
 ---
 // Header.astro
 import MobileSearch from './MobileSearch.astro';
-import menuMobileBg from '../assets/menu-mobile-2.webp';
+import menuMobileBg1 from '../assets/menu-mobile-1.webp';
+import menuMobileBg2 from '../assets/menu-mobile-2.webp';
 
 const desktopLinks = [
   { href: '/blog', label: 'Đường Tăng' },
@@ -24,10 +25,18 @@ const mobileLinks = [
 ---
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-white dark:bg-[#020617] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-slate-100 dark:border-slate-800">
   <div class="w-full max-w-none px-2 md:px-10 lg:px-16 flex justify-between items-center">
-    
-    <a href="/" class="logo-link text-xl md:text-2xl font-black tracking-tighter text-slate-950 dark:text-white whitespace-nowrap transition-all">
-      <span class="logo-text">Đường Tăng</span><span class="logo-vn">.vn</span>
-    </a>
+    <div class="flex items-center gap-3">
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-950 dark:text-[#ff7a18] transition-all" aria-label="Open Menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </button>
+
+      <a href="/" class="logo-link ml-1 text-xl md:text-2xl font-black tracking-tighter text-slate-950 dark:text-white whitespace-nowrap transition-all">
+        <span class="logo-text">Đường Tăng</span><span class="logo-vn">.vn</span>
+      </a>
+    </div>
 
     <nav class="hidden lg:block">
       <ul class="flex gap-8 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-950 dark:text-white">
@@ -41,12 +50,6 @@ const mobileLinks = [
       <div class="header-search">
         <MobileSearch inputId="header-search-input" placeholder="Tìm kiếm bài viết..." />
       </div>
-      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-950 dark:text-[#ff7a18] transition-all" aria-label="Open Menu">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-      </button>
     </div>
   </div> 
 </header>
@@ -55,8 +58,10 @@ const mobileLinks = [
 
 <aside
   id="mobile-sidebar"
-  class="fixed top-0 right-0 h-full w-[300px] bg-[#0f172b] z-[140] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-slate-800 shadow-2xl"
-  style={`--menu-mobile-bg: url(${menuMobileBg.src});`}
+  class="fixed top-0 left-0 h-full w-[300px] bg-[#0f172b] z-[140] transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-800 shadow-2xl"
+  style={`--menu-mobile-bg: url(${menuMobileBg1.src});`}
+  data-bg1={menuMobileBg1.src}
+  data-bg2={menuMobileBg2.src}
 >
   
   <div class="h-20 border-b border-slate-800 flex items-center justify-between px-6">
@@ -221,6 +226,7 @@ const mobileLinks = [
   const btnClose = document.getElementById('close-sidebar');
   const sidebar = document.getElementById('mobile-sidebar');
   const overlay = document.getElementById('menu-overlay');
+  let openCount = 0;
 
   // --- LOGIC SMART HEADER ---
   let lastScrollY = window.scrollY;
@@ -238,13 +244,19 @@ const mobileLinks = [
   // --- LOGIC SIDEBAR ---
   function toggleMenu(state) {
     if (state) {
-      sidebar?.classList.remove('translate-x-full');
+      if (sidebar instanceof HTMLElement) {
+        const candidates = [sidebar.dataset.bg1, sidebar.dataset.bg2].filter(Boolean);
+        const pick = candidates.length > 0 ? candidates[openCount % candidates.length] : undefined;
+        openCount += 1;
+        if (pick) sidebar.style.setProperty('--menu-mobile-bg', `url(${pick})`);
+      }
+      sidebar?.classList.remove('-translate-x-full');
       overlay?.classList.remove('hidden');
       setTimeout(() => overlay?.classList.add('opacity-100'), 10);
       document.body.style.overflow = 'hidden';
       if (header) header.style.transform = 'translateY(0)';
     } else {
-      sidebar?.classList.add('translate-x-full');
+      sidebar?.classList.add('-translate-x-full');
       overlay?.classList.remove('opacity-100');
       setTimeout(() => overlay?.classList.add('hidden'), 300);
       document.body.style.overflow = '';
