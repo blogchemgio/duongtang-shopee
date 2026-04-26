@@ -1,6 +1,7 @@
 ---
 // Header.astro
 import MobileSearch from './MobileSearch.astro';
+import menuMobileBg from '../assets/menu-mobile-2.webp';
 
 const desktopLinks = [
   { href: '/blog', label: 'Đường Tăng' },
@@ -52,7 +53,11 @@ const mobileLinks = [
 
 <div class="h-[68px] md:h-[76px]"></div>
 
-<aside id="mobile-sidebar" class="fixed top-0 right-0 h-full w-[300px] bg-[#0f172b] z-[140] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-slate-800 shadow-2xl">
+<aside
+  id="mobile-sidebar"
+  class="fixed top-0 right-0 h-full w-[300px] bg-[#0f172b] z-[140] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-slate-800 shadow-2xl"
+  style={`--menu-mobile-bg: url(${menuMobileBg.src});`}
+>
   
   <div class="h-20 border-b border-slate-800 flex items-center justify-between px-6">
     <a href="/" class="top-home-link"><span class="menu-icon">⌂</span>Home</a>
@@ -98,6 +103,13 @@ const mobileLinks = [
     z-index: 120;
   }
 
+  #mobile-sidebar {
+    background-image: var(--menu-mobile-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
   .logo-link {
     text-shadow: 0 0 10px rgba(255, 122, 24, 0.18), 0 0 28px rgba(255, 122, 24, 0.12);
   }
@@ -116,14 +128,12 @@ const mobileLinks = [
     font-size: 1.15rem;
     font-weight: 800;
     text-transform: uppercase;
-    /* ĐÃ SỬA: Ép cứng màu trắng cho chữ và icon */
-    color: #ffffff !important; 
+    color: #020617; 
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
   }
 
   .menu-icon {
-    /* ĐÃ SỬA: Chuyển màu icon sang trắng theo yêu cầu */
-    color: #ffffff;
+    color: #020617;
     font-size: 1.1em;
     min-width: 24px;
     display: flex;
@@ -138,8 +148,44 @@ const mobileLinks = [
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    /* ĐÃ SỬA: Ép cứng màu trắng cho Home Link */
-    color: #ffffff !important;
+    color: #020617;
+  }
+
+  #close-sidebar {
+    color: #020617;
+  }
+
+  @keyframes dt-menu-color-cycle {
+    0% {
+      color: #020617;
+    }
+    50% {
+      color: #ffffff;
+    }
+    100% {
+      color: #020617;
+    }
+  }
+
+  .sidebar-link,
+  .menu-icon,
+  .top-home-link {
+    animation: dt-menu-color-cycle 8s ease-in-out infinite;
+  }
+
+  .sidebar-link:hover,
+  .sidebar-link:active,
+  .top-home-link:hover,
+  .top-home-link:active {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar-link,
+    .menu-icon,
+    .top-home-link {
+      animation: none;
+    }
   }
 
   /* --- HOVER EFFECT --- */
