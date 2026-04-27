@@ -22,7 +22,7 @@ const removeDiacritics = (value: string) =>
 const query = Astro.url.searchParams.get('q')?.trim() ?? '';
 const normalizedQuery = removeDiacritics(query);
 
-// FIX LỖI: Bọc các key có dấu gạch ngang trong dấu nháy đơn
+// Nhãn hiển thị cho từng chuyên mục
 const collectionLabels: Record<string, string> = {
   'blog': 'Blog',
   'bat-gioi-review': 'Bát Giới Review',
@@ -64,7 +64,7 @@ const posts = filteredEntries.sort((a, b) => {
           A đây rồi! Đã tìm thấy <strong class="text-[#ff7a18]">{posts.length}</strong> kết quả cho: <strong>"{query}"</strong>
         </p>
       ) : (
-        <p class="search-meta">Nhập từ khóa thỉnh kinh để bắt đầu tìm kiếm.</p>
+        <p class="search-meta">Nhập từ khóa để bắt đầu tìm kiếm.</p>
       )}
     </div>
 
@@ -83,7 +83,7 @@ const posts = filteredEntries.sort((a, b) => {
     {query && posts.length === 0 && (
       <div class="search-empty glass-effect">
         <p>Xin lỗi thí chủ, tiểu tăng không tìm thấy bài phù hợp.</p>
-        <p class="text-sm mt-2">Thử thỉnh từ khóa ngắn hơn hoặc dùng không dấu.</p>
+        <p class="text-sm mt-2 font-normal">Thử thỉnh từ khóa ngắn hơn hoặc dùng không dấu.</p>
       </div>
     )}
 
@@ -107,7 +107,8 @@ const posts = filteredEntries.sort((a, b) => {
     color: #0f172a;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
-    tracking-tighter;
+    /* ĐÃ SỬA: Dùng CSS thuần thay cho Tailwind class để tránh lỗi build */
+    letter-spacing: -0.05em;
   }
 
   :global(.is-dark) .search-title {
@@ -118,6 +119,10 @@ const posts = filteredEntries.sort((a, b) => {
     color: #64748b;
     font-size: 1rem;
     font-style: italic;
+  }
+
+  :global(.is-dark) .search-meta {
+    color: #94a3b8;
   }
 
   .search-grid {
@@ -148,8 +153,9 @@ const posts = filteredEntries.sort((a, b) => {
   }
 
   :global(.is-dark) .search-empty {
-    border-color: rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.02);
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    color: #94a3b8;
   }
 
   .search-jump-btn {
@@ -189,15 +195,14 @@ const posts = filteredEntries.sort((a, b) => {
   const isMobile = () => window.matchMedia('(max-width: 1023px)').matches;
 
   const focusHeaderSearch = () => {
+    // Lưu ý: ID 'header-search-input' phải khớp với ID trong component Header của thí chủ
     const input = document.getElementById('header-search-input') as HTMLInputElement;
     if (!input) return;
 
-    // Cuộn lên đầu trang mượt mà
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     setTimeout(() => {
       input.focus();
-      // Chọn toàn bộ text để thí chủ dễ sửa
       input.select();
     }, 300);
   };
