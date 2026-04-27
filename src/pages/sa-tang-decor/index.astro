@@ -5,35 +5,58 @@ import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
 
 const POSTS_PER_PAGE = 6;
-const allPosts = (await getCollection('themes')).sort((a, b) => {
+
+// HÓA GIẢI: Đổi 'themes' thành 'sa-tang-decor'
+const allPosts = (await getCollection('sa-tang-decor')).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
   const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
   return dateB - dateA;
 });
+
 const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Sa Tăng Decor | Đường Tăng.vn">
-  <section class="category-page">
-    <h1>Chuyên mục Sa Tăng Decor</h1>
-    <p class="category-intro">
-      Nếu mà mệt quá thì ta về quê nuôi cá và trồng thêm rau, chào mừng đến với chuyên mục nhà cửa lối sống, hoa cây cảnh, đồ decor...
-    </p>
+<Mainlayout 
+  title="Sa Tăng Decor - Lối sống & Trang trí | Đường Tăng.vn"
+  description="Khám phá không gian sống an lạc, nghệ thuật decor và góc làm việc tối giản cùng Sa Tăng. Nơi thỉnh những ý tưởng trang trí nhà cửa tinh tế."
+>
+  <section class="category-page px-4 md:px-0">
+    <header class="mb-10">
+      <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter">
+        Chuyên mục Sa Tăng Decor
+      </h1>
+      <p class="category-intro text-lg italic opacity-80 border-l-4 border-[#ff7a18] pl-4">
+        "Nếu mà mệt quá thì ta về quê nuôi cá và trồng thêm rau..." - Chào mừng thí chủ đến với góc nhỏ decor, nơi tìm thấy sự an lạc trong chính căn nhà của mình.
+      </p>
+    </header>
 
     <div class="category-grid">
-      {posts.map((post) => (
-        <PostCard {...post.data} slug={`/sa-tang-decor/${post.id}`} collection="SA TĂNG" />
+      {posts.map((post, index) => (
+        <PostCard 
+          {...post.data} 
+          slug={`/sa-tang-decor/${post.id}`} 
+          collection="SA TĂNG" 
+          loading={index < 3 ? "eager" : "lazy"} 
+        />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/sa-tang-decor" />
+
+    {totalPages > 1 && (
+      <div class="mt-12">
+        <Pagination currentPage={1} totalPages={totalPages} basePath="/sa-tang-decor" />
+      </div>
+    )}
   </section>
 </Mainlayout>
 
 <style>
-  .category-page { padding: 1rem 0 2rem; }
-  .category-intro { color: #64748b; margin-bottom: 1.25rem; font-weight: 500; }
-  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
+  .category-page { padding: 2rem 0 4rem; }
+  .category-grid { 
+    display: grid; 
+    grid-template-columns: repeat(1, minmax(0, 1fr)); 
+    gap: 2rem; 
+  }
   @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>
