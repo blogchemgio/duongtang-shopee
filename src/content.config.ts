@@ -17,18 +17,18 @@ const blog = defineCollection({
   }),
 });
 
-// 2. Chuyên mục DOCS
-const docs = defineCollection({
+// 2. Chuyên mục BÁT GIỚI REVIEW
+const batGioiReview = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/docs" }),
   schema: commonSchema.extend({
-    section: z.string(), 
+    section: z.string(),
     order: z.number().default(0),
   }),
 });
 
-// 3. Chuyên mục PLUGINS
-const plugins = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/plugins" }),
+// 3. Chuyên mục NGO KHONG TECH
+const ngoKhongTech = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/ngo-khong-tech" }),
   schema: commonSchema.extend({
     icon: z.string().optional(),
     category: z.string().default('General'),
@@ -44,4 +44,4 @@ const themes = defineCollection({
   }),
 });
 
-export const collections = { blog, docs, plugins, themes };
+export const collections = { blog, 'bat-gioi-review': batGioiReview, 'ngo-khong-tech': ngoKhongTech, themes };

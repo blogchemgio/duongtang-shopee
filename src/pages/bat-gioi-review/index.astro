@@ -5,7 +5,7 @@ import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
 
 const POSTS_PER_PAGE = 6;
-const allPosts = (await getCollection('docs')).sort((a, b) => {
+const allPosts = (await getCollection('bat-gioi-review')).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
   const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
   return dateB - dateA;
@@ -14,19 +14,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Tài liệu | Blog Chém Gió">
+<Mainlayout title="Bát Giới Review | Đường Tăng.vn">
   <section class="category-page">
-    <h1>Chuyên mục Tài liệu</h1>
+    <h1>Chuyên mục Bát Giới Review</h1>
     <p class="category-intro">
-      Đây là chuyên mục Tài liệu. Chức năng của mục này là tổng hợp hướng dẫn, quy trình và ghi chú để tra cứu nhanh.
+      Đây là nơi bát giới review đồ ăn, ngon ngon
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/docs/${post.id}`} collection="DOCS" />
+        <PostCard {...post.data} slug={`/bat-gioi-review/${post.id}`} collection="BÁT GIỚI" />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/docs" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath="/bat-gioi-review" />
   </section>
 </Mainlayout>
 

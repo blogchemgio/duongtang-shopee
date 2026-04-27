@@ -5,14 +5,14 @@ import PostCard from '../components/PostCard.astro';
 
 export const prerender = false;
 
-const [blogEntries, docsEntries, pluginsEntries, themesEntries] = await Promise.all([
+const [blogEntries, batGioiEntries, ngoKhongTechEntries, satangdecorEntries] = await Promise.all([
   getCollection('blog'),
-  getCollection('docs'),
-  getCollection('plugins'),
-  getCollection('themes'),
+  getCollection('bat-gioi-review'),
+  getCollection('ngo-khong-tech'),
+  getCollection('sa-tang-decor'),
 ]);
 
-const allEntries = [...blogEntries, ...docsEntries, ...pluginsEntries, ...themesEntries];
+const allEntries = [...blogEntries, ...batGioiEntries, ...ngoKhongTechEntries, ...satangdecorEntries];
 const removeDiacritics = (value: string) =>
   value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
@@ -21,9 +21,9 @@ const normalizedQuery = removeDiacritics(query);
 
 const collectionLabels: Record<string, string> = {
   blog: 'Blog',
-  docs: 'Tài liệu',
-  plugins: 'Plugins',
-  themes: 'Theme',
+  'bat-gioi-review': 'Bát Giới Review',
+  'ngo-khong-tech': 'Ngộ Không Tech',
+  sa-tang-decor: 'Sa Tăng Decor',
 };
 
 const filteredEntries = normalizedQuery
@@ -49,13 +49,13 @@ const posts = filteredEntries.sort((a, b) => {
 });
 ---
 
-<Mainlayout title="Tìm kiếm | Blog Chém Gió">
+<Mainlayout title="Tìm kiếm | Đường Tăng.vn">
   <section class="search-page">
     <h1 class="search-title">Kết quả tìm kiếm</h1>
 
     {query ? (
       <p class="search-meta">
-        Đã tìm thấy <strong>{posts.length}</strong> kết quả cho: <strong>"{query}"</strong>
+        A đây rồi Đã tìm thấy <strong>{posts.length}</strong> kết quả cho: <strong>"{query}"</strong>
       </p>
     ) : (
       <p class="search-meta">Nhập từ khóa để bắt đầu tìm kiếm.</p>
@@ -75,7 +75,7 @@ const posts = filteredEntries.sort((a, b) => {
 
     {query && posts.length === 0 && (
       <div class="search-empty">
-        Không tìm thấy bài phù hợp. Thử từ khóa ngắn hơn hoặc dùng không dấu.
+        xin lỗi thí chủ, tiểu tăng Không tìm thấy bài phù hợp. Thử thỉnh từ khóa ngắn hơn hoặc dùng không dấu.
       </div>
     )}
 

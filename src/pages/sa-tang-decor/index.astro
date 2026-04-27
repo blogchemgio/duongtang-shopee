@@ -14,19 +14,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Themes | Blog Chém Gió">
+<Mainlayout title="Sa Tăng Decor | Đường Tăng.vn">
   <section class="category-page">
-    <h1>Chuyên mục Themes</h1>
+    <h1>Chuyên mục Sa Tăng Decor</h1>
     <p class="category-intro">
-      Đây là chuyên mục Themes. Chức năng của mục này là trình bày giao diện mẫu, ý tưởng thiết kế và bộ khung để tái sử dụng.
+      Nếu mà mệt quá thì ta về quê nuôi cá và trồng thêm rau, chào mừng đến với chuyên mục nhà cửa lối sống, hoa cây cảnh, đồ decor...
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/themes/${post.id}`} collection="THEMES" />
+        <PostCard {...post.data} slug={`/sa-tang-decor/${post.id}`} collection="SA TĂNG" />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/themes" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath="/sa-tang-decor" />
   </section>
 </Mainlayout>
 

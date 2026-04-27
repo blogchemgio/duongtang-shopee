@@ -1,11 +1,11 @@
 ---
 import Mainlayout from '../layouts/Mainlayout.astro';
 import { Image } from 'astro:assets';
-// Import ảnh từ thư mục assets (Giả sử bạn để ảnh trong src/assets/)
-import myProfileImage from '../assets/viet-blog-content-story.jpg';
+// Đảm bảo đường dẫn ảnh này chính xác trong thư mục src/assets/ của bạn
+import myProfileImage from '../assets/4.webp';
 
-const pageTitle = "Giới thiệu về mình - Blog Chém Gió";
-const description = "Hành trình từ Blogger sang Astro của admin Blog Chém Gió. Chia sẻ kiến thức về Web Development và công nghệ mới.";
+const pageTitle = "Giới thiệu | duongtang.vn";
+const description = "Hành trình từ Đông Thổ Đại Đường tới Đông Lào thỉnh kinh, chuyên review đồ Shopee, công nghệ và lối sống.";
 ---
 
 <Mainlayout title={pageTitle} description={description} type="profile">
@@ -15,15 +15,22 @@ const description = "Hành trình từ Blogger sang Astro của admin Blog Chém
       "@type": "AboutPage",
       "mainEntity": {
         "@type": "Person",
-        "name": "Admin Blog Chém Gió",
-        "url": "https://blogchengio.com/gioi-thieu",
-        "description": "Tác giả có 10 năm viết blog trên Blogger miễn phí và đang chuyển đổi toàn bộ sang Astro.",
-        "knowsAbout": ["Astro", "Blogging", "Web Development", "Performance"],
+        "name": "Admin duongtang.vn",
+        "url": "https://duongtang.vn/gioi-thieu",
+        "description": "Tác giả chuyển đổi từ nền tảng Blogger sang Astro, chuyên review đa lĩnh vực.",
+        "knowsAbout": [
+          "Consumer Electronics", 
+          "Lifestyle and Wellness", 
+          "Culinary Arts and Food Reviews", 
+          "E-commerce", 
+          "Astro Framework", 
+          "Web Development"
+        ],
         "hasOccupation": {
           "@type": "Occupation",
-          "name": "Blogger công nghệ"
+          "name": "Content Creator & Affiliate Marketer"
         },
-        "image": "https://blogchengio.com/viet-blog-content-story.jpg"
+        "image": "https://duongtang.vn/4.webp"
       }
     }
   </script>
@@ -31,57 +38,63 @@ const description = "Hành trình từ Blogger sang Astro của admin Blog Chém
   <main class="max-w-3xl mx-auto px-6 py-12">
     <article class="prose prose-slate dark:prose-invert max-w-none">
       
-      <div class="mb-10 overflow-hidden rounded-2xl shadow-lg">
+      <div class="mb-10 overflow-hidden rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800">
         <Image 
           src={myProfileImage} 
-          alt="Admin Blog Chém Gió đang thực hành viết blog với Astro framework"
+          alt="Hành trình thỉnh kinh tại duongtang.vn"
           width={800}
           height={450}
           loading="eager" 
           fetchpriority="high"
-          class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500"
+          class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
         />
-        <figcaption class="text-center text-sm text-gray-500 mt-2 italic">
-          Hành trình xây dựng Blog Chém Gió với công nghệ Astro hiện đại nhanh như tia chớp.
+        <figcaption class="text-center text-sm text-slate-500 dark:text-slate-400 py-3 bg-slate-50 dark:bg-slate-900/50 italic border-t border-slate-100 dark:border-slate-800">
+          Hành trình 4 tiểu yêu núi Lãng Lãng từ Đông Thổ Đại Đường tới Đông Lào thỉnh kinh
         </figcaption>
       </div>
 
-      <h1 class="text-1xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
-        Chào mừng bạn đến với <span class="text-orange-500">Blog Chém Gió</span>
+      <h1 class="text-3xl md:text-4xl font-black mb-8 text-slate-900 dark:text-white leading-tight tracking-tighter uppercase">
+        Chào mừng thí chủ đến với <span class="text-orange-500">Đường Tăng.vn</span>
       </h1>
 
-      <div class="space-y-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+      <div class="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 antialiased">
         <p>
-          Trang web này là nơi mình thực hành xây dựng blog bằng framework <strong>Astro</strong> - một dự án hoàn toàn miễn phí và hiện đại.
+          Trang web này là nơi hội ngộ của những tâm hồn yêu công nghệ và thích săn deal mã giảm giá, lấy cảm hứng từ câu chuyện về các tiểu yêu núi Lãng Lãng — những kẻ nhỏ bé nhưng đầy nhiệt huyết với giấc mơ lớn.
         </p>
-
         <p>
-          Thú thật, mình không quá rành về WordPress. Trước đây, mình từng đăng ký hosting nhưng chi phí rất đắt đỏ, chưa kể muốn dùng thêm các tính năng nâng cao thì lại phải tốn thêm nhiều khoản phí khác nữa.
+          Cuộc hành trình từ Đông Thổ Đại Đường tới Đông Lào không chỉ là để thỉnh chân kinh, mà còn là hành trình thỉnh những món đồ Shopee "ngon - bổ - rẻ" để chia sẻ cùng thí chủ.
         </p>
-
         <p>
-          Mình có kinh nghiệm 10 năm viết blog tại nền tảng Blogger miễn phí, nên rất hiểu cách tạo nội dung đều đặn, tối ưu bài viết và giữ trải nghiệm đọc mượt cho người dùng.
+          Tại đây, mỗi bài viết review giúp thí chủ tránh xa hàng kém chất lượng và tìm được bảo vật thực sự cho cuộc sống đời thường.
         </p>
-
-        <div class="bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-500 p-6 my-8 rounded-r-lg">
-          <p class="italic text-gray-800 dark:text-gray-200">
-            "Mình đã quen thuộc với sự đơn giản của Blogger, nhưng với mong muốn tối ưu tốc độ và trải nghiệm người dùng, mình đã quyết định bê toàn bộ dữ liệu và mã nguồn sang nền tảng Astro."
+        <p>
+          Từ những món đồ decor của Sa Tăng, công nghệ của Ngộ Không cho đến những món ăn ngon của Bát Giới, tất cả đều được chọn lọc bằng cái tâm của người làm nghề.
+        </p>
+        
+        <div class="p-6 bg-orange-50 dark:bg-orange-950/20 rounded-2xl border-l-4 border-orange-500 my-8">
+          <p class="text-slate-800 dark:text-slate-200 font-medium italic">
+            "Đường tăng.vn là một blog tiếp thị liên kết. Khi thí chủ đọc các bài viết giới thiệu sản phẩm và click vào nút mua hàng, hệ thống sẽ chuyển hướng thí chủ sang trang Shopee. Hữu duyên tại nơi ấy thí chủ chọn được một món đồ ưng ý, tiểu tăng sẽ được nhận một khoản hoa hồng nhỏ để duy trì kinh phí thỉnh kinh. Vạn sự tùy duyên, chúc thí chủ thỉnh về được những món đồ tốt lành nhất. Thiện tai!"
           </p>
         </div>
 
         <p>
-          Tại đây, mình sẽ ghi lại toàn bộ hành trình chuyển đổi này, vừa để lưu trữ kiến thức, vừa là cơ hội để mình học hỏi thêm những công nghệ mới.
+          Đường tăng tin rằng, việc mua sắm cũng là một cái duyên, và việc chọn đúng món đồ tốt chính là một loại hạnh phúc đơn sơ giữa bộn bề cuộc sống.
         </p>
-
         <p>
-          Cảm ơn bạn đã dành thời gian ghé thăm. Cùng khám phá thế giới code với mình nhé!
+          Dù thí chủ là một người đang tìm cảm hứng viết lách hoặc là một người nội trợ đang săn sale, hy vọng nơi đây đều có thể gieo chút duyên lành và gửi quả ngọt đến bạn.
+        </p>
+        <p>
+          Hành trình vạn dặm khởi đầu từ một bước chân, và bước chân của thí chủ ghé thăm nơi đây chính là niềm khích lệ lớn lao nhất cho tiểu tăng trên con đường phát triển blog.
+        </p>
+        <p class="font-bold text-orange-500 italic pt-4 border-t border-dashed border-slate-200 dark:border-slate-800 text-center">
+          Cảm ơn thí chủ đã dành thời gian ghé thăm. Mua sắm tùy duyên, chúc thí chủ thân tâm luôn an lạc và vạn sự hanh thông. Nam mô A Di Đà Phật!
         </p>
       </div>
 
-      <div class="mt-12 flex justify-center">
+      <div class="mt-16 flex justify-center">
         <a 
           href="/" 
-          class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full transition-all hover:shadow-orange-200 shadow-lg"
+          class="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold px-10 py-4 rounded-2xl transition-all hover:bg-orange-500 dark:hover:bg-orange-500 dark:hover:text-white shadow-xl hover:-translate-y-1"
         >
           <span>Quay lại trang chủ</span>
         </a>
@@ -89,3 +102,13 @@ const description = "Hành trình từ Blogger sang Astro của admin Blog Chém
     </article>
   </main>
 </Mainlayout>
+
+<style>
+  main {
+    animation: fadeIn 0.8s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

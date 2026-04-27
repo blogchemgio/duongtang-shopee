@@ -8,7 +8,7 @@ interface Props {
 const { currentPage, totalPages, basePath } = Astro.props;
 
 const normalizedBasePath = basePath === '/' ? '' : basePath.replace(/\/+$/, '');
-const pageUrl = (page: number) => (page === 1 ? (normalizedBasePath || '/') : `${normalizedBasePath}/page/${page}`);
+const pageUrl = (page: number) => (page === 1 ? (normalizedBasePath || '/') : `${normalizedBasePath}/ngo-khong-tech/${page}`);
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 ---
 

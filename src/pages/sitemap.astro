@@ -1,59 +1,81 @@
 ---
 import Mainlayout from '../layouts/Mainlayout.astro';
 
+// Sắp xếp lại theo vai vế hoặc mức độ quan trọng cho chuẩn SEO
 const links = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/docs', label: 'Tài liệu' },
-  { href: '/plugins', label: 'Plugins' },
-  { href: '/themes', label: 'Themes' },
-  { href: '/gioi-thieu', label: 'Giới thiệu' },
-  { href: '/lien-he', label: 'Liên hệ' },
-  { href: '/tim-kiem', label: 'Tìm kiếm' },
+  { href: '/', label: 'Đại Lộ tây thiên (Trang chủ)', icon: '🏠' },
+  { href: '/ngo-khong-tech', label: 'Ngộ Không Tech (Công nghệ)', icon: '🐒' },
+  { href: '/bat-gioi-review', label: 'Bát Giới Review (Mua sắm)', icon: '🐷' },
+  { href: '/sa-tang-decor', label: 'Sa Tăng Decor (Trang trí)', icon: '🐢' },
+  { href: '/blog', label: 'Nhật Ký Thỉnh Kinh (Blog)', icon: '📜' },
+  { href: '/gioi-thieu', label: ' Giới Thiệu Đường Tăng. vn', icon: '🙏' },
+  { href: '/lien-he', label: 'Gieo Duyên (Liên hệ)', icon: '✉️' },
+  { href: '/tim-kiem', label: 'Truy Tìm Đồ SHOPEE', icon: '🔍' },
 ];
+
+const title = "Sơ Đồ Hành Trình | duongtang.vn";
 ---
 
-<Mainlayout title="Sitemap | Blog Chém Gió">
-  <section class="sitemap-page">
-    <h1>Sitemap</h1>
-    <ul>
+<Mainlayout title={title}>
+  <section class="sitemap-page max-w-4xl mx-auto py-12 px-4">
+    <div class="mb-10 text-center">
+      <h1 class="text-4xl font-black uppercase tracking-tighter mb-4 dark:text-white">
+        Sơ Đồ <span class="text-[#ff7a18]">Hành Trình</span>
+      </h1>
+      <p class="text-slate-500 italic">Dẫn lối thí chủ thỉnh chân kinh tại duongtang.vn</p>
+    </div>
+
+    <ul class="sitemap-grid">
       {links.map((link) => (
-        <li><a href={link.href}>{link.label}</a></li>
+        <li>
+          <a href={link.href} class="sitemap-link">
+            <span class="icon">{link.icon}</span>
+            <span class="label">{link.label}</span>
+          </a>
+        </li>
       ))}
     </ul>
   </section>
 </Mainlayout>
 
 <style>
-  .sitemap-page {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 1rem 0 2rem;
-  }
-
-  .sitemap-page h1 {
-    font-size: 1.75rem;
-    font-weight: 900;
-    margin-bottom: 1rem;
-  }
-
-  .sitemap-page ul {
+  .sitemap-grid {
     display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
   }
 
-  .sitemap-page a {
-    display: block;
-    padding: 0.85rem 1rem;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    color: #0f172a;
+  .sitemap-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05); /* Hiệu ứng Glass */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    color: #1e293b;
     font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  :global(.is-dark) .sitemap-page a {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+  :global(.is-dark) .sitemap-link {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+  }
+
+  .sitemap-link:hover {
+    border-color: #ff7a18;
+    transform: translateX(8px);
+    background: rgba(255, 122, 24, 0.05);
+  }
+
+  .icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px rgba(255, 122, 24, 0.2));
+  }
+
+  .label {
+    font-size: 1.05rem;
   }
 </style>

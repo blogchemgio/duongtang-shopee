@@ -5,7 +5,7 @@ import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
 
 const POSTS_PER_PAGE = 6;
-const allPosts = (await getCollection('plugins')).sort((a, b) => {
+const allPosts = (await getCollection('ngo-khong-tech')).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
   const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
   return dateB - dateA;
@@ -14,19 +14,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Plugins | Blog Chém Gió">
+<Mainlayout title="Ngộ Không Tech | Đường Tăng.vn">
   <section class="category-page">
-    <h1>Chuyên mục Plugins</h1>
+    <h1>Chuyên mục Ngộ Không Tech</h1>
     <p class="category-intro">
-      Đây là chuyên mục Plugins. Chức năng của mục này là giới thiệu công cụ, plugin hữu ích và cách tích hợp thực tế.
+      Đây là chuyên mục Ngộ Không Tech. Chuyên chia sẻ về phép thuật đồ công nghệ 4.0.
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/plugins/${post.id}`} collection="PLUGINS" />
+        <PostCard {...post.data} slug={`/ngo-khong-tech/${post.id}`} collection="NGỘ KHÔNG" />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/plugins" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath="/ngo-khong-tech" />
   </section>
 </Mainlayout>
 

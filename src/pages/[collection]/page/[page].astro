@@ -4,35 +4,35 @@ import Mainlayout from '../../../layouts/Mainlayout.astro';
 import PostCard from '../../../components/PostCard.astro';
 import Pagination from '../../../components/Pagination.astro';
 
-type CategoryKey = 'blog' | 'docs' | 'plugins' | 'themes';
+type CategoryKey = 'blog' | 'bat-gioi-review' | 'ngo-khong-tech' | 'sa-tang-decor';
 
 const categoryMeta: Record<CategoryKey, { heading: string; intro: string; label: string }> = {
   blog: {
     heading: 'Chuyên mục Blog',
-    intro: 'Đây là chuyên mục Blog. Chức năng của mục này là chia sẻ bài viết thực chiến, kinh nghiệm và góc nhìn công nghệ.',
+    intro: 'Đây là chuyên mục đường tăng review 81 kiếp nạn mua đồ trên shopee.',
     label: 'BLOG',
   },
-  docs: {
-    heading: 'Chuyên mục Tài liệu',
-    intro: 'Đây là chuyên mục Tài liệu. Chức năng của mục này là tổng hợp hướng dẫn, quy trình và ghi chú để tra cứu nhanh.',
-    label: 'DOCS',
+  'bat-gioi-review': {
+    heading: 'Chuyên mục Bát Giới Review',
+    intro: 'Đây là chuyên mục Bát Giới Review đồ ăn ngon.',
+    label: 'BÁT GIỚI',
   },
-  plugins: {
-    heading: 'Chuyên mục Plugins',
-    intro: 'Đây là chuyên mục Plugins. Chức năng của mục này là giới thiệu công cụ, plugin hữu ích và cách tích hợp thực tế.',
-    label: 'PLUGINS',
+  'ngo-khong-tech': {
+    heading: 'Chuyên mục Ngộ Không Tech',
+    intro: 'Đây là chuyên mục Ngộ Không Tech. Chuyên chia sẻ về phép thuật và giải pháp công nghệ.',
+    label: 'NGỘ KHÔNG',
   },
   themes: {
-    heading: 'Chuyên mục Themes',
-    intro: 'Đây là chuyên mục Themes. Chức năng của mục này là trình bày giao diện mẫu, ý tưởng thiết kế và bộ khung để tái sử dụng.',
-    label: 'THEMES',
+    heading: 'Chuyên mục Sa Tăng decor',
+    intro: 'Nếu mà mệt quá thì về quê ta cùng nuôi cá và trồng thêm rau',
+    label: 'SA TĂNG',
   },
 };
 
 export async function getStaticPaths({ paginate }) {
   const paths = [];
   const POSTS_PER_PAGE = 6;
-  const categories: CategoryKey[] = ['blog', 'docs', 'plugins', 'themes'];
+  const categories: CategoryKey[] = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'];
 
   for (const category of categories) {
     const entries = (await getCollection(category)).sort((a, b) => {
@@ -60,7 +60,7 @@ const currentCollection = category as CategoryKey;
 const meta = categoryMeta[currentCollection];
 ---
 
-<Mainlayout title={`${meta.heading} | Blog Chém Gió`}>
+<Mainlayout title={`${meta.heading} | ĐƯỜNG TĂNG.VN`}>
   <section class="category-page">
     <h1>{meta.heading}</h1>
     <p class="category-intro">{meta.intro}</p>

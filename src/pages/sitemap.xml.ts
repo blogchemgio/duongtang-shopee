@@ -1,14 +1,14 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-const SITE_URL = 'https://blogchengio.com';
+const SITE_URL = 'https://duongtang.vn';
 
 export const GET: APIRoute = async () => {
-  const [blog, docs, plugins, themes] = await Promise.all([
+  const [blog, batGioi, ngoKhongTech, satangdecor] = await Promise.all([
     getCollection('blog'),
-    getCollection('docs'),
-    getCollection('plugins'),
-    getCollection('themes'),
+    getCollection('bat-gioi-review'),
+    getCollection('ngo-khong-tech'),
+    getCollection('sa-tang-decor'),
   ]);
 
   const staticPaths = [
@@ -16,18 +16,18 @@ export const GET: APIRoute = async () => {
     '/gioi-thieu',
     '/lien-he',
     '/blog',
-    '/docs',
-    '/plugins',
-    '/themes',
+    '/bat-gioi-review',
+    '/ngo-khong-tech',
+    '/sa-tang-decor',
     '/tim-kiem',
     '/sitemap',
   ];
 
   const dynamicPaths = [
     ...blog.map((item) => `/blog/${item.id}`),
-    ...docs.map((item) => `/docs/${item.id}`),
-    ...plugins.map((item) => `/plugins/${item.id}`),
-    ...themes.map((item) => `/themes/${item.id}`),
+    ...batGioi.map((item) => `/bat-gioi-review/${item.id}`),
+    ...ngoKhongTech.map((item) => `/ngo-khong-tech/${item.id}`),
+    ...satangdecor.map((item) => `/sa-tang-decor/${item.id}`),
   ];
 
   const urls = [...staticPaths, ...dynamicPaths]

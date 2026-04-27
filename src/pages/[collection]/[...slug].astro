@@ -8,24 +8,24 @@ import RelatedPostsCarousel from '../../components/RelatedPostsCarousel.astro';
 
 // 1. Lấy tất cả paths từ 4 chuyên mục
 export async function getStaticPaths() {
-  const categories = ['blog', 'docs', 'plugins', 'themes'];
-  const allPaths = [];
+  const categories = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'];
+  const allPaths = [];
 
-  for (const cat of categories) {
-    const entries = await getCollection(cat as any);
-    allPaths.push(...entries.map(entry => ({
-      params: { collection: cat, slug: entry.id },
-      props: { entry, category: cat },
-    })));
-  }
-  return allPaths;
+  for (const cat of categories) {
+    const entries = await getCollection(cat as any);
+    allPaths.push(...entries.map(entry => ({
+      params: { collection: cat, slug: entry.id },
+      props: { entry, category: cat },
+    })));
+  }
+  return allPaths;
 }
 
 const { entry, category } = Astro.props;
 const { Content, headings } = await render(entry);
 const postSlug = `${category}/${entry.id}`;
 
-const categories = ['blog', 'docs', 'plugins', 'themes'] as const;
+const categories = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'] as const;
 const allEntries = (await Promise.all(categories.map((name) => getCollection(name)))).flat();
 const currentTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
@@ -122,7 +122,7 @@ const badgeLabel = entry.data.category || category.toUpperCase();
         )}
       </section>
 
-      <RelatedPostsCarousel title="Bài viết liên quan" items={relatedPosts} />
+      <RelatedPostsCarousel title="Có Thể Thí Chủ Sẽ Thích" items={relatedPosts} />
       <Comments postSlug={postSlug} />
     </article>
 
@@ -140,7 +140,7 @@ const badgeLabel = entry.data.category || category.toUpperCase();
         <div class="mt-8 p-6 rounded-[24px] bg-slate-950 text-white dark:bg-[#ff7a18]/10 dark:text-white border border-white/10">
           <p class="text-[10px] font-black uppercase tracking-widest text-[#ff7a18] mb-2">⚡ Info</p>
           <p class="text-xs font-medium opacity-80 leading-relaxed">
-            Hy vọng bài viết này hữu ích. Đừng quên chia sẻ nếu thấy hay nhé!
+            Hy vọng những chia sẻ này giúp thí chủ tìm được món đồ như ý để thân tâm thêm an lạc. Nếu thấy hữu ích, xin hãy chia sẻ để gieo chút duyên lành đến mọi người. Thiện tai, thiện tai! Nam mô A Di Đà Phật.
           </p>
         </div>
       </div>
