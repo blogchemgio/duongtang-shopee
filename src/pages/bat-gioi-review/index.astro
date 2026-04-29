@@ -3,6 +3,10 @@ import { getCollection } from 'astro:content';
 import Mainlayout from '../../layouts/Mainlayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import { categoryMeta } from '../../constants/categoryMeta';
+
+const currentCategory = 'bat-gioi-review';
+const meta = categoryMeta[currentCategory];
 
 const POSTS_PER_PAGE = 6;
 const allPosts = (await getCollection('bat-gioi-review')).sort((a, b) => {
@@ -16,19 +20,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Bát Giới Review | Đồ Ăn Ngon & Shopee | Đường Tăng.vn">
+<Mainlayout title={`${meta.heading} | Đồ Ăn Ngon & Shopee | Đường Tăng.vn`}>
   <section class="category-page">
-    <h1>Chuyên mục Bát Giới Review</h1>
+    <h1>{meta.heading}</h1>
     <p class="category-intro">
-      Đây là nơi bát giới review đồ ăn, ngon ngon
+      {meta.intro}
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/bat-gioi-review/${post.id}`} collection="BÁT GIỚI" />
+        <PostCard {...post.data} slug={`/${currentCategory}/${post.id}`} collection={meta.label} />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/bat-gioi-review" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath={`/${currentCategory}`} />
   </section>
 </Mainlayout>
 

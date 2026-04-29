@@ -4,6 +4,7 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
 import Hero from '../../components/Hero.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import { categoryMeta } from '../../constants/categoryMeta';
 
 export async function getStaticPaths({ paginate }) {
   const POSTS_PER_PAGE = 6;
@@ -52,7 +53,7 @@ const title = `Trang ${page.currentPage} | Đường Tăng.vn`;
             <PostCard
               {...post.data}
               slug={`/${post.collection}/${post.id}`}
-              collection={post.collection}
+              collection={categoryMeta[post.collection as keyof typeof categoryMeta]?.label || post.collection.toUpperCase()}
             />
           </div>
         ))}

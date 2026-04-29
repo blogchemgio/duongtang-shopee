@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Mainlayout from '../layouts/Mainlayout.astro';
 import PostCard from '../components/PostCard.astro';
+import { categoryMeta } from '../constants/categoryMeta';
 
 export const prerender = false;
 
@@ -21,14 +22,6 @@ const removeDiacritics = (value: string) =>
 
 const query = Astro.url.searchParams.get('q')?.trim() ?? '';
 const normalizedQuery = removeDiacritics(query);
-
-// Nhãn hiển thị cho từng chuyên mục
-const collectionLabels: Record<string, string> = {
-  'blog': 'Blog',
-  'bat-gioi-review': 'Bát Giới Review',
-  'ngo-khong-tech': 'Ngộ Không Tech',
-  'sa-tang-decor': 'Sa Tăng Decor',
-};
 
 const filteredEntries = normalizedQuery
   ? allEntries.filter((entry) => {
@@ -74,7 +67,7 @@ const posts = filteredEntries.sort((a, b) => {
           <PostCard
             {...post.data}
             slug={`/${post.collection}/${post.id}`}
-            collection={collectionLabels[post.collection as keyof typeof collectionLabels] || post.collection}
+            collection={categoryMeta[post.collection as keyof typeof categoryMeta]?.label || post.collection}
           />
         ))}
       </div>

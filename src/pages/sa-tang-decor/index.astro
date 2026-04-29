@@ -3,6 +3,10 @@ import { getCollection } from 'astro:content';
 import Mainlayout from '../../layouts/Mainlayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import { categoryMeta } from '../../constants/categoryMeta';
+
+const currentCategory = 'sa-tang-decor';
+const meta = categoryMeta[currentCategory];
 
 const POSTS_PER_PAGE = 6;
 
@@ -20,16 +24,16 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
 <Mainlayout 
-  title="Sa Tăng Decor | Lối Sống & Trang Trí | Đường Tăng.vn"
-  description="Khám phá không gian sống an lạc, nghệ thuật decor và góc làm việc tối giản cùng Sa Tăng. Nơi thỉnh những ý tưởng trang trí nhà cửa tinh tế."
+  title={`${meta.heading} | Lối Sống & Trang Trí | Đường Tăng.vn`}
+  description={meta.intro}
 >
   <section class="category-page px-4 md:px-0">
     <header class="mb-10">
       <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter">
-        Chuyên mục Sa Tăng Decor
+        {meta.heading}
       </h1>
       <p class="category-intro text-lg italic opacity-80 border-l-4 border-[#ff7a18] pl-4">
-        "Nếu mà mệt quá thì ta về quê nuôi cá và trồng thêm rau..." - Chào mừng thí chủ đến với góc nhỏ decor, nơi tìm thấy sự an lạc trong chính căn nhà của mình.
+        {meta.intro}
       </p>
     </header>
 
@@ -37,8 +41,8 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
       {posts.map((post, index) => (
         <PostCard 
           {...post.data} 
-          slug={`/sa-tang-decor/${post.id}`} 
-          collection="SA TĂNG" 
+          slug={`/${currentCategory}/${post.id}`} 
+          collection={meta.label} 
           loading={index < 3 ? "eager" : "lazy"} 
         />
       ))}
@@ -46,7 +50,7 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 
     {totalPages > 1 && (
       <div class="mt-12">
-        <Pagination currentPage={1} totalPages={totalPages} basePath="/sa-tang-decor" />
+        <Pagination currentPage={1} totalPages={totalPages} basePath={`/${currentCategory}`} />
       </div>
     )}
   </section>

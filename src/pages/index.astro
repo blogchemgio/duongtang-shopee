@@ -4,6 +4,7 @@ import PostCard from '../components/PostCard.astro';
 import Pagination from '../components/Pagination.astro';
 import Hero from '../components/Hero.astro';
 import { getCollection } from 'astro:content';
+import { categoryMeta } from '../constants/categoryMeta';
 
 const POSTS_PER_PAGE = 6;
 
@@ -32,14 +33,6 @@ const sortedEntries = allEntries.sort((a, b) => {
   return b.id.localeCompare(a.id);
 });
 
-// Logic hiển thị nhãn chuyên mục
-const collectionLabels: Record<string, string> = {
-  'blog': 'ĐƯỜNG TĂNG',
-  'bat-gioi-review': 'BÁT GIỚI',
-  'ngo-khong-tech': 'NGỘ KHÔNG',
-  'sa-tang-decor': 'SA TĂNG',
-};
-
 const posts = sortedEntries.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(sortedEntries.length / POSTS_PER_PAGE);
 
@@ -66,7 +59,7 @@ const description = "Hành trình thỉnh 'bảo vật' Shopee tại Đông Lào
              <PostCard 
                {...post.data} 
                slug={`/${post.collection}/${post.id}`} 
-               collection={collectionLabels[post.collection] || post.collection.toUpperCase()} 
+               collection={categoryMeta[post.collection as keyof typeof categoryMeta]?.label || post.collection.toUpperCase()} 
              />
           </div>
         ))}

@@ -3,6 +3,10 @@ import { getCollection } from 'astro:content';
 import Mainlayout from '../../layouts/Mainlayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Pagination from '../../components/Pagination.astro';
+import { categoryMeta } from '../../constants/categoryMeta';
+
+const currentCategory = 'ngo-khong-tech';
+const meta = categoryMeta[currentCategory];
 
 const POSTS_PER_PAGE = 6;
 const allPosts = (await getCollection('ngo-khong-tech')).sort((a, b) => {
@@ -16,19 +20,19 @@ const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Ngộ Không Tech | Công Nghệ & Giải Pháp | Đường Tăng.vn">
+<Mainlayout title={`${meta.heading} | Công Nghệ & Giải Pháp | Đường Tăng.vn`}>
   <section class="category-page">
-    <h1>Chuyên mục Ngộ Không Tech</h1>
+    <h1>{meta.heading}</h1>
     <p class="category-intro">
-      Đây là chuyên mục Ngộ Không Tech. Chuyên chia sẻ về phép thuật đồ công nghệ 4.0.
+      {meta.intro}
     </p>
 
     <div class="category-grid">
       {posts.map((post) => (
-        <PostCard {...post.data} slug={`/ngo-khong-tech/${post.id}`} collection="NGỘ KHÔNG" />
+        <PostCard {...post.data} slug={`/${currentCategory}/${post.id}`} collection={meta.label} />
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={totalPages} basePath="/ngo-khong-tech" />
+    <Pagination currentPage={1} totalPages={totalPages} basePath={`/${currentCategory}`} />
   </section>
 </Mainlayout>
 

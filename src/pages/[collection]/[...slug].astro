@@ -5,6 +5,7 @@ import TableOfContents from '../../components/TableOfContents';
 import TocMobileFab from '../../components/TocMobileFab';
 import Comments from '../../components/Comments.astro';
 import RelatedPostsCarousel from '../../components/RelatedPostsCarousel.astro';
+import { categoryMeta } from '../../constants/categoryMeta';
 
 // 1. Lấy tất cả paths từ 4 chuyên mục
 export async function getStaticPaths() {
@@ -58,7 +59,8 @@ const displayDate = entry.data.pubDate 
   ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN') 
   : 'Tài nguyên';
 
-const badgeLabel = entry.data.category || category.toUpperCase();
+const meta = categoryMeta[category as keyof typeof categoryMeta];
+const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
 ---
 
 <Mainlayout title={entry.data.title}>
