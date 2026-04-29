@@ -3,7 +3,7 @@ title: "Tối ưu SEO cho Astro blog trong 30 phút"
 description: "Checklist thực chiến giúp blog Astro index nhanh hơn và ổn định trên mobile."
 pubDate: 2026-04-10
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200"
-tags: ["SEO", "Astro", "Performance"]
+tags: ["Astro", "Performance"]
 ---
 
 ## Vì sao cần tối ưu SEO sớm?

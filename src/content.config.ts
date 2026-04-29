@@ -17,7 +17,7 @@ const commonSchema = z.object({
   pubDate: z.coerce.date().default(() => new Date()),
   updatedDate: z.coerce.date().optional(), // Quan trọng để Google biết nội dung được làm mới
   image: z.string().optional().default('/default-og.webp'), // Ảnh mặc định để tránh lỗi hiển thị
-  tags: z.array(z.string()).default(['Chém Gió']),
+  tags: z.array(z.string()).default([]),
   author: z.string().default('Đường Tăng'), // Giúp Google xác định thực thể (Entity) tác giả
   isDraft: z.boolean().default(false), // Để lọc bỏ bài nháp khi build
 });

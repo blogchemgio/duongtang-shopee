@@ -8,9 +8,11 @@ const POSTS_PER_PAGE = 6;
 
 // HÓA GIẢI: Đổi 'themes' thành 'sa-tang-decor'
 const allPosts = (await getCollection('sa-tang-decor')).sort((a, b) => {
-  const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
-  const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
-  return dateB - dateA;
+  const dateA = new Date(a.data.pubDate || 0).valueOf();
+  const dateB = new Date(b.data.pubDate || 0).valueOf();
+  
+  if (dateB !== dateA) return dateB - dateA;
+  return b.id.localeCompare(a.id);
 });
 
 const posts = allPosts.slice(0, POSTS_PER_PAGE);
@@ -18,7 +20,7 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
 <Mainlayout 
-  title="Sa Tăng Decor - Lối sống & Trang trí | Đường Tăng.vn"
+  title="Sa Tăng Decor | Lối Sống & Trang Trí | Đường Tăng.vn"
   description="Khám phá không gian sống an lạc, nghệ thuật decor và góc làm việc tối giản cùng Sa Tăng. Nơi thỉnh những ý tưởng trang trí nhà cửa tinh tế."
 >
   <section class="category-page px-4 md:px-0">

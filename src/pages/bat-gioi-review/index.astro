@@ -6,15 +6,17 @@ import Pagination from '../../components/Pagination.astro';
 
 const POSTS_PER_PAGE = 6;
 const allPosts = (await getCollection('bat-gioi-review')).sort((a, b) => {
-  const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
-  const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
-  return dateB - dateA;
+  const dateA = new Date(a.data.pubDate || 0).valueOf();
+  const dateB = new Date(b.data.pubDate || 0).valueOf();
+  
+  if (dateB !== dateA) return dateB - dateA;
+  return b.id.localeCompare(a.id);
 });
 const posts = allPosts.slice(0, POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-<Mainlayout title="Bát Giới Review | Đường Tăng.vn">
+<Mainlayout title="Bát Giới Review | Đồ Ăn Ngon & Shopee | Đường Tăng.vn">
   <section class="category-page">
     <h1>Chuyên mục Bát Giới Review</h1>
     <p class="category-intro">

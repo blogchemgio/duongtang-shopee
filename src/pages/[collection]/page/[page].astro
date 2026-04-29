@@ -22,7 +22,7 @@ const categoryMeta: Record<CategoryKey, { heading: string; intro: string; label:
     intro: 'Đây là chuyên mục Ngộ Không Tech. Chuyên chia sẻ về phép thuật và giải pháp công nghệ.',
     label: 'NGỘ KHÔNG',
   },
-  themes: {
+  'sa-tang-decor': { // Đã sửa key đồng bộ
     heading: 'Chuyên mục Sa Tăng decor',
     intro: 'Nếu mà mệt quá thì về quê ta cùng nuôi cá và trồng thêm rau',
     label: 'SA TĂNG',
@@ -30,55 +30,57 @@ const categoryMeta: Record<CategoryKey, { heading: string; intro: string; label:
 };
 
 export async function getStaticPaths({ paginate }) {
-  const paths = [];
-  const POSTS_PER_PAGE = 6;
   const categories: CategoryKey[] = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'];
+  const allPaths = [];
+  const POSTS_PER_PAGE = 6;
 
   for (const category of categories) {
-    const entries = (await getCollection(category)).sort((a, b) => {
-      const dateA = new Date(a.data.pubDate || Date.now()).valueOf();
-      const dateB = new Date(b.data.pubDate || Date.now()).valueOf();
-      return dateB - dateA;
+    const entries = await getCollection(category as any);
+    // Sắp xếp bài mới nhất lên đầu - Đảm bảo đồng bộ và ổn định
+    entries.sort((a, b) => {
+      const dateA = new Date(a.data.pubDate || 0).valueOf();
+      const dateB = new Date(b.data.pubDate || 0).valueOf();
+      
+      if (dateB !== dateA) return dateB - dateA;
+      return b.id.localeCompare(a.id);
     });
 
     const paginated = paginate(entries, {
       params: { collection: category },
       pageSize: POSTS_PER_PAGE,
-      props: {
-        category,
-      },
+      props: { categoryMeta: categoryMeta[category] }, 
     });
-
-    paths.push(...paginated);
+    
+    allPaths.push(...paginated.slice(1));
   }
-
-  return paths;
+  return allPaths;
 }
 
-const { category, page } = Astro.props;
-const currentCollection = category as CategoryKey;
-const meta = categoryMeta[currentCollection];
+const { page, categoryMeta: meta } = Astro.props;
+const { collection } = Astro.params;
 ---
 
-<Mainlayout title={`${meta.heading} | ĐƯỜNG TĂNG.VN`}>
-  <section class="category-page">
-    <h1>{meta.heading}</h1>
-    <p class="category-intro">{meta.intro}</p>
+<Mainlayout title={`${meta.heading} - Trang ${page.currentPage} | Đường Tăng.vn`}>
+  <section class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-4xl font-black mb-2">{meta.heading}</h1>
+    <p class="text-slate-500 mb-8 font-medium">{meta.intro}</p>
 
-    <div class="category-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {page.data.map((post) => (
-        <PostCard {...post.data} slug={`/${currentCollection}/${post.id}`} collection={meta.label} />
+        <PostCard 
+          {...post.data} 
+          slug={`/${post.collection}/${post.id}`} 
+          collection={meta.label} 
+        />
       ))}
     </div>
 
-    <Pagination currentPage={page.currentPage} totalPages={page.lastPage} basePath={`/${currentCollection}`} />
+    <div class="mt-12">
+      <Pagination 
+        currentPage={page.currentPage} 
+        totalPages={page.lastPage} 
+        basePath={`/${collection}`} 
+      />
+    </div>
   </section>
 </Mainlayout>
-
-<style>
-  .category-page { padding: 1rem 0 2rem; }
-  .category-intro { color: #64748b; margin-bottom: 1.25rem; font-weight: 500; }
-  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
-  @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-</style>
