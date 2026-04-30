@@ -5,10 +5,10 @@ const SITE_URL = 'https://duongtang.vn';
 
 export const GET: APIRoute = async () => {
   const [blog, batGioi, ngoKhongTech, satangdecor] = await Promise.all([
-    getCollection('blog'),
-    getCollection('bat-gioi-review'),
-    getCollection('ngo-khong-tech'),
-    getCollection('sa-tang-decor'),
+    getCollection('blog', ({ data }) => !data.isDraft),
+    getCollection('bat-gioi-review', ({ data }) => !data.isDraft),
+    getCollection('ngo-khong-tech', ({ data }) => !data.isDraft),
+    getCollection('sa-tang-decor', ({ data }) => !data.isDraft),
   ]);
 
   const staticPaths = [

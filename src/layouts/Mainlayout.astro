@@ -16,14 +16,14 @@ interface Props {
 }
 
 const {
-  title = "Blog Chém Gió",
-  description = "Blog Chém Gió chia sẻ kinh nghiệm thực chiến về Astro, web performance và hành trình học code.",
+  title = "Đường Tăng.vn",
+  description = "Đường Tăng.vn chia sẻ kinh nghiệm thực chiến về săn deal Shopee, review công nghệ và hành trình thỉnh kinh tại Đông Lào.",
   canonical,
-  ogImage = "https://blogchengio.com/og-default.jpg",
+  ogImage = "/default-og.webp",
   type = 'website',
 } = Astro.props;
 
-const currentUrl = new URL(Astro.url.pathname, 'https://blogchengio.com').toString();
+const currentUrl = new URL(Astro.url.pathname, 'https://duongtang.vn').toString();
 const canonicalUrl = canonical || currentUrl;
 
 const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -50,7 +50,7 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="Blog Chém Gió" />
+    <meta property="og:site_name" content="Đường Tăng.vn" />
     <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -78,9 +78,9 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
       {JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Blog Chém Gió",
-        "url": "https://blogchengio.com",
-        "description": "Blog chia sẻ kinh nghiệm thực chiến về Astro, tối ưu hiệu năng và hành trình học code.",
+        "name": "Đường Tăng.vn",
+        "url": "https://duongtang.vn",
+        "description": "Blog chia sẻ kinh nghiệm thực chiến về săn deal Shopee, review công nghệ và hành trình thỉnh kinh tại Đông Lào.",
         "inLanguage": "vi-VN",
       })}
     </script>

@@ -9,7 +9,7 @@ const currentCategory = 'blog';
 const meta = categoryMeta[currentCategory];
 
 const POSTS_PER_PAGE = 6;
-const allPosts = (await getCollection('blog')).sort((a, b) => {
+const allPosts = (await getCollection('blog', ({ data }) => !data.isDraft)).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || 0).valueOf();
   const dateB = new Date(b.data.pubDate || 0).valueOf();
   

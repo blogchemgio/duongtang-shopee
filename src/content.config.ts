@@ -8,7 +8,7 @@ import { glob } from 'astro/loaders';
  * 3. Image: Luôn có ảnh đại diện để hiển thị OpenGraph trên Facebook/Zalo.
  */
 
-const commonSchema = z.object({
+const commonSchema = ({ image }: { image: any }) => z.object({
   title: z.string().min(10, "Tiêu đề quá ngắn không tốt cho SEO").max(70, "Tiêu đề quá dài sẽ bị Google cắt bớt"),
   description: z.string()
     .min(50, "Mô tả quá ngắn, hãy viết thêm để Google hiểu bài viết")
@@ -16,7 +16,7 @@ const commonSchema = z.object({
     .default("Hành trình thỉnh kinh tại duongtang.vn - Chia sẻ kiến thức công nghệ và review sản phẩm chất lượng."),
   pubDate: z.coerce.date().default(() => new Date()),
   updatedDate: z.coerce.date().optional(), // Quan trọng để Google biết nội dung được làm mới
-  image: z.string().optional().default('/default-og.webp'), // Ảnh mặc định để tránh lỗi hiển thị
+  image: image().optional(), // Sử dụng image() helper của Astro
   tags: z.array(z.string()).default([]),
   author: z.string().default('Đường Tăng'), // Giúp Google xác định thực thể (Entity) tác giả
   isDraft: z.boolean().default(false), // Để lọc bỏ bài nháp khi build
@@ -25,13 +25,13 @@ const commonSchema = z.object({
 // 1. Chuyên mục BLOG (Nhật ký thỉnh kinh - SEO hướng tri thức)
 const blog = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/blog" }),
-  schema: commonSchema,
+  schema: (tools) => commonSchema(tools),
 });
 
 // 2. Chuyên mục BÁT GIỚI REVIEW (SEO hướng Affiliate & Sản phẩm)
 const batGioiReview = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/bat-gioi-review" }),
-  schema: commonSchema.extend({
+  schema: (tools) => commonSchema(tools).extend({
     productName: z.string().optional(), // Để làm Schema Product sau này
     rating: z.number().min(0).max(5).default(5), // Hiển thị sao trên kết quả tìm kiếm
     section: z.string().default('Review Shopee'),
@@ -42,7 +42,7 @@ const batGioiReview = defineCollection({
 // 3. Chuyên mục NGỘ KHÔNG TECH (SEO hướng Kỹ thuật & Thủ thuật)
 const ngoKhongTech = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/ngo-khong-tech" }),
-  schema: commonSchema.extend({
+  schema: (tools) => commonSchema(tools).extend({
     category: z.string().default('Technology'),
     difficulty: z.enum(['Dễ', 'Trung bình', 'Khó']).default('Dễ'),
     icon: z.string().optional(),
@@ -52,7 +52,7 @@ const ngoKhongTech = defineCollection({
 // 4. Chuyên mục SA TĂNG DECOR (SEO hướng Hình ảnh & Không gian sống)
 const saTangDecor = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: "./src/content/sa-tang-decor" }),
-  schema: commonSchema.extend({
+  schema: (tools) => commonSchema(tools).extend({
     brand: z.string().default('Unknown'),
     demoUrl: z.string().url().optional(),
   }),

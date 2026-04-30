@@ -1,17 +1,32 @@
 ---
 import footerBg from '../assets/footer.webp';
+import footerBg1 from '../assets/footer-1.webp';
+import footerBg2 from '../assets/footer-2.webp';
+import footerBg3 from '../assets/footer-3.webp';
+import footerBg4 from '../assets/footer-4.webp';
+import footerBg5 from '../assets/footer-5.webp';
+
+const footerImages = [
+  footerBg.src,
+  footerBg1.src,
+  footerBg2.src,
+  footerBg3.src,
+  footerBg4.src,
+  footerBg5.src
+];
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer
   class="relative w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b0f1a] overflow-hidden"
-  style={`--footer-bg: url(${footerBg.src});`}
   id="site-footer"
+  data-footer-images={JSON.stringify(footerImages)}
 >
   <div
     id="footer-bg"
-    class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-100"
-    style="background-image: var(--footer-bg); background-position: var(--footer-bg-x, 50%) 50%;"
+    class="absolute inset-0 z-0 bg-no-repeat opacity-100"
+    style="background-image: var(--footer-bg, none); background-size: 100% 100%;"
   ></div>
   <div class="absolute inset-0 z-0 bg-white/80 dark:bg-[#0b0f1a]/75"></div>
   <div class="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/[0.02] dark:bg-orange-500/[0.04] blur-[70px] rounded-full z-0"></div>
@@ -67,54 +82,21 @@ const currentYear = new Date().getFullYear();
   const footer = document.getElementById('site-footer');
   const bg = document.getElementById('footer-bg');
   if (footer instanceof HTMLElement && bg instanceof HTMLElement) {
+    // Randomize footer background image
+    const imagesData = footer.getAttribute('data-footer-images');
+    if (imagesData) {
+      try {
+        const images = JSON.parse(imagesData);
+        if (Array.isArray(images) && images.length > 0) {
+          const randomIndex = Math.floor(Math.random() * images.length);
+          const randomImage = images[randomIndex];
+          bg.style.setProperty('--footer-bg', `url(${randomImage})`);
+        }
+      } catch (e) {
+        console.error('Error parsing footer images:', e);
+      }
+    }
+
     let isDown = false;
-    let startX = 0;
-    let startPercent = 50;
-    let moved = false;
-
-    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-    const getCurrentPercent = () => {
-      const current = getComputedStyle(bg).getPropertyValue('--footer-bg-x').trim();
-      const n = Number.parseFloat(current);
-      return Number.isFinite(n) ? n : 50;
-    };
-
-    const shouldIgnoreTarget = (target) => {
-      if (!(target instanceof Element)) return false;
-      return Boolean(target.closest('a, button, input, textarea, select, label'));
-    };
-
-    footer.style.touchAction = 'pan-y';
-
-    footer.addEventListener('pointerdown', (event) => {
-      if (event.pointerType !== 'touch') return;
-      if (shouldIgnoreTarget(event.target)) return;
-      isDown = true;
-      moved = false;
-      startX = event.clientX;
-      startPercent = getCurrentPercent();
-      footer.setPointerCapture(event.pointerId);
-    });
-
-    footer.addEventListener('pointermove', (event) => {
-      if (!isDown) return;
-      if (event.pointerType !== 'touch') return;
-      const width = footer.clientWidth || 1;
-      const deltaX = event.clientX - startX;
-      if (!moved && Math.abs(deltaX) < 6) return;
-      moved = true;
-      const deltaPercent = (deltaX / width) * 100;
-      const next = clamp(startPercent + deltaPercent, 0, 100);
-      bg.style.setProperty('--footer-bg-x', `${next}%`);
-    });
-
-    const end = (event) => {
-      if (!isDown) return;
-      isDown = false;
-      if (event.pointerId) footer.releasePointerCapture(event.pointerId);
-    };
-
-    footer.addEventListener('pointerup', end);
-    footer.addEventListener('pointercancel', end);
   }
 </script>

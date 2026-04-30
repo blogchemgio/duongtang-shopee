@@ -29,7 +29,7 @@ const excerptText =
 
   <div class="block overflow-hidden relative aspect-[16/9]">
     <img 
-      src={image || "/images/default-thumb.jpg"} 
+      src={image?.src || image || "/images/default-thumb.jpg"} 
       alt={title}
       class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       loading="lazy"

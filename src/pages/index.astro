@@ -8,12 +8,12 @@ import { categoryMeta } from '../constants/categoryMeta';
 
 const POSTS_PER_PAGE = 6;
 
-// 1. Gọi dữ liệu - Đảm bảo tên biến đồng nhất
+// 1. Gọi dữ liệu và lọc bài viết nháp
 const [blogEntries, batGioiEntries, ngoKhongTechEntries, saTangEntries] = await Promise.all([
-  getCollection('blog'),
-  getCollection('bat-gioi-review'),
-  getCollection('ngo-khong-tech'),
-  getCollection('sa-tang-decor'),
+  getCollection('blog', ({ data }) => !data.isDraft),
+  getCollection('bat-gioi-review', ({ data }) => !data.isDraft),
+  getCollection('ngo-khong-tech', ({ data }) => !data.isDraft),
+  getCollection('sa-tang-decor', ({ data }) => !data.isDraft),
 ]);
 
 // 2. Gộp tất cả (Sửa lỗi sai tên biến saTangEntries)

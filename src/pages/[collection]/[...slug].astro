@@ -46,12 +46,16 @@ const relatedPosts = allEntries
     return dateB - dateA;
   })
   .slice(0, 3)
-  .map(({ item }) => ({
-    title: item.data.title,
-    slug: `/${item.collection}/${item.id}`,
-    image: item.data.image,
-    collection: item.collection,
-  }));
+  .map(({ item }) => {
+    const meta = categoryMeta[item.collection as keyof typeof categoryMeta];
+    return {
+      title: item.data.title,
+      slug: `/${item.collection}/${item.id}`,
+      image: item.data.image,
+      collection: item.data.category || meta?.label || item.collection.toUpperCase(),
+    };
+  });
+
 const postTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
 // Format ngày tháng an toàn
@@ -84,15 +88,15 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
         </h1>
 
         {entry.data.image && (
-          <div class="relative group">
-             <img 
-               src={entry.data.image} 
-               alt={entry.data.title} 
-               class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 object-cover max-h-[550px] transition-transform duration-700 group-hover:scale-[1.01]" 
-             />
-             <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
-          </div>
-        )}
+          <div class="relative group">
+             <img 
+               src={typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src} 
+               alt={entry.data.title} 
+               class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 object-cover max-h-[550px] transition-transform duration-700 group-hover:scale-[1.01]" 
+             />
+             <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
+          </div>
+        )}
       </header>
 
       <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert 
@@ -133,10 +137,10 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
         {headings.length > 0 ? (
           <TableOfContents headings={headings} client:load />
         ) : (
-          <div class="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
-             <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Blog Chém Gió</p>
-          </div>
-        )}
+          <div class="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
+             <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Đường Tăng.vn</p>
+          </div>
+        )}
         
         {/* Giữ nguyên box thông tin thêm bên dưới TOC */}
         <div class="mt-8 p-6 rounded-[24px] bg-slate-950 text-white dark:bg-[#ff7a18]/10 dark:text-white border border-white/10">

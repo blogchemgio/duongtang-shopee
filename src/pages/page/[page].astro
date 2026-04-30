@@ -9,10 +9,10 @@ import { categoryMeta } from '../../constants/categoryMeta';
 export async function getStaticPaths({ paginate }) {
   const POSTS_PER_PAGE = 6;
   const [blogEntries, batGioiEntries, ngoKhongTechEntries, saTangEntries] = await Promise.all([
-    getCollection('blog'),
-    getCollection('bat-gioi-review'),
-    getCollection('ngo-khong-tech'),
-    getCollection('sa-tang-decor'),
+    getCollection('blog', ({ data }) => !data.isDraft),
+    getCollection('bat-gioi-review', ({ data }) => !data.isDraft),
+    getCollection('ngo-khong-tech', ({ data }) => !data.isDraft),
+    getCollection('sa-tang-decor', ({ data }) => !data.isDraft),
   ]);
 
   const entries = [...blogEntries, ...batGioiEntries, ...ngoKhongTechEntries, ...saTangEntries].sort((a, b) => {

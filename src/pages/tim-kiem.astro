@@ -6,12 +6,12 @@ import { categoryMeta } from '../constants/categoryMeta';
 
 export const prerender = false;
 
-// Thỉnh dữ liệu từ các collection
+// Thỉnh dữ liệu từ các collection và lọc bài viết nháp
 const [blogEntries, batGioiEntries, ngoKhongTechEntries, satangdecorEntries] = await Promise.all([
-  getCollection('blog'),
-  getCollection('bat-gioi-review'),
-  getCollection('ngo-khong-tech'),
-  getCollection('sa-tang-decor'),
+  getCollection('blog', ({ data }) => !data.isDraft),
+  getCollection('bat-gioi-review', ({ data }) => !data.isDraft),
+  getCollection('ngo-khong-tech', ({ data }) => !data.isDraft),
+  getCollection('sa-tang-decor', ({ data }) => !data.isDraft),
 ]);
 
 const allEntries = [...blogEntries, ...batGioiEntries, ...ngoKhongTechEntries, ...satangdecorEntries];

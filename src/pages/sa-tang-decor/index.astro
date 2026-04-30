@@ -11,7 +11,7 @@ const meta = categoryMeta[currentCategory];
 const POSTS_PER_PAGE = 6;
 
 // HÓA GIẢI: Đổi 'themes' thành 'sa-tang-decor'
-const allPosts = (await getCollection('sa-tang-decor')).sort((a, b) => {
+const allPosts = (await getCollection('sa-tang-decor', ({ data }) => !data.isDraft)).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || 0).valueOf();
   const dateB = new Date(b.data.pubDate || 0).valueOf();
   

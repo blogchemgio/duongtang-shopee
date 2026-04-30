@@ -25,13 +25,18 @@ const { title = 'bài viết liên quan', items } = Astro.props;
         {items.map((item) => (
           <article class="related-posts__card">
             <a href={item.slug} class="related-posts__link" aria-label={item.title}>
-              <img
-                src={item.image || '/images/default-thumb.jpg'}
-                alt={item.title}
-                class="related-posts__thumb"
-                loading="lazy"
-                decoding="async"
-              />
+              <div class="related-posts__thumb-container">
+                <img
+                  src={item.image?.src || item.image || '/images/default-thumb.jpg'}
+                  alt={item.title}
+                  class="related-posts__thumb"
+                  loading="lazy"
+                  decoding="async"
+                />
+                {item.collection && (
+                  <span class="related-posts__badge">{item.collection}</span>
+                )}
+              </div>
               <div class="related-posts__meta">
                 <h3 class="related-posts__card-title">{item.title}</h3>
               </div>
@@ -97,6 +102,31 @@ const { title = 'bài viết liên quan', items } = Astro.props;
     height: 128px;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .related-posts__link:hover .related-posts__thumb {
+    transform: scale(1.05);
+  }
+
+  .related-posts__thumb-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .related-posts__badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #ff7a18;
+    color: white;
+    font-size: 8px;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .related-posts__meta {

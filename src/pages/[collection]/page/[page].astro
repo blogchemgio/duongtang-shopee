@@ -11,7 +11,7 @@ export async function getStaticPaths({ paginate }) {
   const POSTS_PER_PAGE = 6;
 
   for (const category of categories) {
-    const entries = await getCollection(category as any);
+    const entries = await getCollection(category as any, ({ data }) => !data.isDraft);
     // Sắp xếp bài mới nhất lên đầu - Đảm bảo đồng bộ và ổn định
     entries.sort((a, b) => {
       const dateA = new Date(a.data.pubDate || 0).valueOf();
