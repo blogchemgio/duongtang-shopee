@@ -59,35 +59,39 @@ const relatedPosts = allEntries
 const postTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
 // Format ngày tháng an toàn
-const displayDate = entry.data.pubDate 
-  ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN') 
-  : 'Tài nguyên';
+const displayDate = entry.data.pubDate
+  ? new Date(entry.data.pubDate).toLocaleDateString('vi-VN')
+  : 'Tài nguyên';
 
 const meta = categoryMeta[category as keyof typeof categoryMeta];
 const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
 ---
 
-<Mainlayout title={entry.data.title}>
-  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
+<Mainlayout 
+  title={entry.data.title} 
+  description={entry.data.description}
+  ogImage={typeof entry.data.image === 'string' ? entry.data.image : entry.data.image?.src}
+>
+  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
 
   <div class="w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
-    
-    <article class="max-w-[1000px] ml-0 pt-2 pb-12 text-left">
-      <header class="mb-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="px-3 py-1 bg-[#ff7a18]/10 text-[#ff7a18] text-[10px] font-black uppercase rounded-full border border-[#ff7a18]/20 shadow-sm">
-              {badgeLabel}
-          </span>
-          <span class="text-slate-500 text-[11px] font-bold tracking-tight italic">
-            {displayDate}
-          </span>
-        </div>
+    
+    <article class="max-w-[1000px] ml-0 pt-2 pb-12 text-left">
+      <header class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="px-3 py-1 bg-[#ff7a18]/10 text-[#ff7a18] text-[10px] font-black uppercase rounded-full border border-[#ff7a18]/20 shadow-sm">
+              {badgeLabel}
+          </span>
+          <span class="text-slate-500 text-[11px] font-bold tracking-tight italic">
+            {displayDate}
+          </span>
+        </div>
 
-        <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-8 tracking-tighter">
-          {entry.data.title}
-        </h1>
+        <h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-8 tracking-tighter">
+          {entry.data.title}
+        </h1>
 
-        {entry.data.image && (
+        {entry.data.image && (
           <div class="relative group">
              <img 
                src={typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src} 
@@ -97,13 +101,13 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
              <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
           </div>
         )}
-      </header>
+      </header>
 
-      <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert 
-                  prose-headings:font-black prose-headings:tracking-tighter
-                  prose-img:rounded-3xl prose-img:shadow-lg">
-        <Content />
-      </div>
+      <div class="prose prose-orange lg:prose-xl max-w-none mt-10 dark:prose-invert
+                  prose-headings:font-black prose-headings:tracking-tighter
+                  prose-img:rounded-3xl prose-img:shadow-lg">
+        <Content />
+      </div>
 
       <section class="article-share" aria-label="Chia sẻ bài viết">
         <p class="article-share__title">Chia sẻ bài viết</p>

@@ -16,7 +16,7 @@ const commonSchema = ({ image }: { image: any }) => z.object({
     .default("Hành trình thỉnh kinh tại duongtang.vn - Chia sẻ kiến thức công nghệ và review sản phẩm chất lượng."),
   pubDate: z.coerce.date().default(() => new Date()),
   updatedDate: z.coerce.date().optional(), // Quan trọng để Google biết nội dung được làm mới
-  image: image().optional(), // Sử dụng image() helper của Astro
+  image: z.union([image(), z.string()]).optional(), // Hỗ trợ cả ảnh local và remote URL
   tags: z.array(z.string()).default([]),
   author: z.string().default('Đường Tăng'), // Giúp Google xác định thực thể (Entity) tác giả
   isDraft: z.boolean().default(false), // Để lọc bỏ bài nháp khi build

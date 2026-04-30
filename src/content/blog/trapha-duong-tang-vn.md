@@ -58,11 +58,59 @@ Sự thật là, **80% yêu quái đã gục ngã vì 'hơi thở của nách'**
   </a>
 </div>
 
+## VẠN DẶM THỈNH KINH: KHI "MÙI CƠ THỂ" LÀM RÀO CẢN ĐẠO QUẢ
+Người ta cứ hay hỏi, tại sao mỗi lần yêu quái bắt được ta, việc đầu tiên chúng làm không phải là bắc nồi nước sôi, mà là khiêng ta đi tắm?
+
+Ban đầu ta cứ tưởng chúng hiếu khách, sạch sẽ. Nhưng sự thật nó cay đắng hơn nhiều!
+
+
+Thú thật với các thí chủ, ta... ta hôi lắm!
+
+Ta biết chứ, nhưng lòng tự trọng của một vị cao tăng không cho phép ta thừa nhận.
+
+Thế nhưng mấy con yêu quái cái mồm nó không có chút tốt đẹp nào cả. Chúng nó cứ bưng mũi mà la lên: 
+
+![Cái thời ta chưa có bột lăn nách trapha suốt ngày chúng lôi ta đi tắm](../../assets/tam-rua-sach-se-trapha-khu-mui-hoi-co-the.webp)
+
+> *"Ôi giồi ôi, thịt Đường Tăng thì trường sinh bất lão thật đấy, nhưng cái mùi "cóc chết" này thì nuốt sao trôi!"*
+
+## SỰ THẬT VỀ TỈ LỆ TIÊU DIỆT YÊU QUÁI: CÂY GẬY HAY CÁI NÁCH?
+
+Nhiều người cứ tưởng Ngộ Không là người gánh team. Nhưng thực tế phũ phàng lắm: Trên đường đi thỉnh kinh, thực ra chỉ có **20%** yêu quái bị tiêu diệt là do cái thằng đại đồ đệ của ta vung gậy sắt.
+
+ Đó thường là những con yêu quái "phèn phèn", cấp thấp, trình độ non kém nên mới để Ngộ Không áp sát.
+
+Còn những con yêu quái thuộc dạng "le-vờ cao", pháp lực thâm hậu hơn, thì đến **80%** là do ta vung cánh tay lên một phát là yêu quái chết ngạt luôn! 
+
+Ác hiểm ở chỗ đó. Ta chỉ cần giả vờ vươn vai định niệm chú thôi, là mùi hương "vạn năm tích tụ" từ vùng nách ta tỏa ra khiến đối phương trúng độc, sùi bọt mép mà quy tiên ngay tại chỗ. 
+
+Ta đau khổ lắm, vì ta vốn là người từ bi, không muốn sát sinh bằng "vũ khí sinh học" thế này chút nào!
+
+## SỰ BẤT LỰC CỦA 72 PHÉP KHỬ MÙI VÀ "CHÂN KINH" TRAPHA
+
+Ta đau khổ quá, có lần gọi ba đứa đồ đệ lại bảo: *"Thôi, giải tán đi. Ta hôi nách thế này, đi đến Tây Thiên chắc Phật Tổ cũng đuổi về mất thôi."* 
+
+Ngộ Không dùng 72 phép biến hóa, xịt lên người ta 7749 loại nước hoa thượng hạng nhưng đều thất bại.
+
+ta nói thật Mùi nước hoa trộn mùi "viêm cánh" nó tạo ra một thứ hỗn hợp còn kinh khủng hơn cả bãi rác ở sông tô lịch ở Đông Lào
+
+tội lỗi!.. tội lỗi!....
+
+Cuối cùng, Ngộ Không phải lên tận trời cầu cứu Quan Thế Âm Bồ Tát.
+
+Bồ Tát mỉm cười, lấy ra một lọ bột trắng tinh khiết bảo: cái này bán đầy ở shopee dưới hạ giới nước Đông Lào bán online đầy
+<div style="text-align: center; margin: 20px 0;">
+  <a href="https://shorten.asia/F7yGRPsp" target="_blank" rel="nofollow" 
+     style="background-color: #28a745; color: white !important; padding: 16px 32px; font-size: 18px; font-weight: bold; text-transform: uppercase; border-radius: 50px; text-decoration: none !important; display: inline-block; box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3); border: 2px solid #1e7e34; cursor: pointer;">
+    ✨ MUA NGAY TRAPHA CHÍNH HÃNG ✨
+  </a>
+</div>
+
 ## LÝ DO TẠI SAO CƠ THỂ CỦA CHÚNG TA LẠI CÓ MÙI?
 
 Thực ra thì cơ thể của chúng sinh đều cao quý, ai cũng có mùi cơ thể dù ít hay nhiều. Do hoạt động thể thao, ăn uống đồ cay nóng, vệ sinh chưa đúng cách, hay áp lực cuộc sống sì-trét... vân vân.
 
-Chứ hoàn toàn không do nghiệp của chúng ta đâu. Đoạn này tiểu tăng phải thực hiện chiến dịch "đổ lỗi cho hoàn cảnh", để chúng sinh bớt mặc cảm về cái nách của mình!
+Chứ hoàn toàn không do nghiệp của chúng ta đâu. Đoạn này tiểu tăng phải thực hiện chiến dịch "đổ lỗi cho hoàn cảnh, đổ lỗi cho một thực thể siêu nhiên nào đó", để chúng sinh bớt mặc cảm về cái nách của mình!
 
 ## TẠI SAO TRAPHA LẠI CÓ SỨC MẠNH "DIỆT HÔI" THẦN KỲ ĐẾN THẾ?
 
@@ -84,7 +132,7 @@ Ta dùng rồi mới thấy, cái thứ bột này nó thực tế hơn trăm ng
 
 ## KHI "THỊT ĐƯỜNG TĂNG" TRỞ NÊN THƠM NỨC LÒNG NGƯỜI
 
-Từ ngày có Trapha, ta tự tin hẳn. Thịt thơm như múi mít, không còn ngại ngùng mỗi khi yêu quái bắt đi tắm nữa. Thậm chí, bây giờ ta cứ nói toạc móng heo ra: *"Ừ, ta từng hôi đấy, thì sao nào? Giờ ta có Trapha rồi nè! Tự tin luôn tỏa sáng."*
+Từ ngày có Trapha, ta tự tin hẳn. không còn mùi cóc chết nữa, Thịt thơm như múi mít, không còn ngại ngùng mỗi khi yêu quái bắt đi tắm nữa. Thậm chí, bây giờ ta cứ nói toạc móng heo ra: *"Ừ, ta từng hôi đấy, thì sao nào? Giờ ta có Trapha rồi nè! Tự tin luôn tỏa sáng."*
 
 Bọn yêu quái thấy ta không còn vung tay làm chúng chết ngạt nữa thì lại càng muốn bắt ta vì thơm quá. Haizz! Vậy là đằng nào cũng bị bắt làm thịt sao?
 
