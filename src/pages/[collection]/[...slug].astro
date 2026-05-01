@@ -110,19 +110,13 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
         <Content />
       </div>
 
-      <section class="article-share" aria-label="Chia sẻ bài viết">
-        <p class="article-share__title">Chia sẻ bài viết</p>
-        <div class="article-share__buttons">
-          <button type="button" class="article-share__btn" data-share="facebook">Facebook</button>
-          <button type="button" class="article-share__btn" data-share="x">X</button>
-          <button type="button" class="article-share__btn" data-share="zalo">Zalo</button>
-          <button type="button" class="article-share__btn" data-share="copy">Copy link</button>
-        </div>
+      <Comments postSlug={postSlug} />
 
+      <section class="article-share" aria-label="Chia sẻ bài viết">
         {postTags.length > 0 && (
-          <div class="article-tags">
-            <p class="article-tags__title">Tag bài viết</p>
-            <div class="article-tags__list">
+          <div class="article-tags mb-6">
+            <p class="article-tags__title text-lg font-black mb-3 tracking-tight">Tag bài viết</p>
+            <div class="article-tags__list flex flex-wrap gap-2">
               {postTags.map((tag) => (
                 <a class="article-tags__item" href={`/tim-kiem?q=${encodeURIComponent(tag)}`}>
                   #{tag}
@@ -131,10 +125,20 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
             </div>
           </div>
         )}
+
+        <div class="article-share__header flex items-center justify-between mb-4 pt-6 border-t border-slate-200 dark:border-white/10">
+          <p class="article-share__title text-lg font-black tracking-tight m-0">Chia sẻ bài viết</p>
+        </div>
+        
+        <div class="article-share__buttons">
+          <button type="button" class="article-share__btn" data-share="facebook">Facebook</button>
+          <button type="button" class="article-share__btn" data-share="x">X</button>
+          <button type="button" class="article-share__btn" data-share="zalo">Zalo</button>
+          <button type="button" class="article-share__btn" data-share="copy">Copy link</button>
+        </div>
       </section>
 
       <RelatedPostsCarousel title="Có Thể Thí Chủ Sẽ Thích" items={relatedPosts} />
-      <Comments postSlug={postSlug} />
     </article>
 
     <aside class="hidden lg:block relative">
