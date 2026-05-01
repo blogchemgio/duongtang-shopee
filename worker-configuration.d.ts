@@ -8,6 +8,7 @@ declare module 'cloudflare:workers' {
         };
       };
     };
+    AI?: any;
     COMMENT_ADMIN_TOKEN?: string;
   };
 }

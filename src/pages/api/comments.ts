@@ -20,15 +20,24 @@ const json = (body: unknown, status = 200) =>
 const getRuntimeEnv = async () => {
   try {
     const runtime = await import('cloudflare:workers');
-    return runtime.env as { DB?: D1Database } | undefined;
+    return runtime.env as { DB?: D1Database; AI?: any } | undefined;
   } catch {
     return undefined;
   }
 };
 
+const getEnv = async () => {
+  return await getRuntimeEnv();
+};
+
 const getDb = async () => {
-  const runtimeEnv = await getRuntimeEnv();
-  return runtimeEnv?.DB;
+  const env = await getEnv();
+  return env?.DB;
+};
+
+const getAi = async () => {
+  const env = await getEnv();
+  return env?.AI;
 };
 
 type CommentColumns = {
@@ -92,7 +101,10 @@ export const GET: APIRoute = async ({ url }) => {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const db = await getDb();
+    const env = await getEnv();
+    const db = env?.DB;
+    const ai = env?.AI;
+
     if (!db) return json({ error: 'Chưa cấu hình D1 binding DB' }, 500);
     const columns = await getCommentColumns(db);
 
@@ -121,6 +133,36 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (content.length > 1000) {
       return json({ error: 'Dữ liệu vượt quá giới hạn' }, 400);
+    }
+
+    // --- CLOUDFLARE WORKERS AI: KIỂM DUYỆT NỘI DUNG ---
+    let commentStatus = 'pending';
+    if (ai) {
+      try {
+        const response = await ai.run('@cf/meta/llama-3-8b-instruct', {
+          messages: [
+            {
+              role: 'system',
+              content: 'Bạn là một trợ lý kiểm duyệt bình luận cho blog "Đường Tăng.vn". Hãy kiểm tra xem bình luận sau có chứa nội dung độc hại, xúc phạm, quảng cáo rác (spam) hoặc vi phạm thuần phong mỹ tục không. Chỉ trả về duy nhất một từ: "SAFE" nếu nội dung ổn, hoặc "TOXIC" nếu nội dung không ổn.'
+            },
+            {
+              role: 'user',
+              content: content
+            }
+          ]
+        });
+        
+        const aiResult = response.response?.toUpperCase() || '';
+        if (aiResult.includes('TOXIC')) {
+          return json({ error: 'Bình luận chứa nội dung không phù hợp và bị hệ thống AI từ chối.' }, 400);
+        }
+        if (aiResult.includes('SAFE')) {
+          commentStatus = 'approved'; // Tự động duyệt nếu AI xác nhận an toàn
+        }
+      } catch (aiError) {
+        console.error('Lỗi AI Moderation:', aiError);
+        // Nếu AI lỗi, vẫn cho phép gửi nhưng để trạng thái pending
+      }
     }
 
     const gmailRegex = /^[A-Za-z0-9._%+-]+@gmail\.com$/i;
@@ -161,7 +203,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (columns.hasStatus) {
       insertColumns.push('status');
-      insertValues.push(`'pending'`);
+      insertValues.push('?');
+      bindValues.push(commentStatus);
     }
     if (columns.hasCreatedAt) {
       insertColumns.push('created_at');
@@ -173,7 +216,7 @@ export const POST: APIRoute = async ({ request }) => {
       .bind(...bindValues)
       .run();
 
-    return json({ ok: true }, 201);
+    return json({ ok: true, status: commentStatus }, 201);
   } catch (error) {
     return json({ error: `Lỗi gửi bình luận: ${String(error)}` }, 500);
   }

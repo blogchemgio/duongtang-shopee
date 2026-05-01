@@ -273,12 +273,17 @@ const { postSlug } = Astro.props;
       list.innerHTML = comments
         .map(
           (comment) => `
-          <article class="comments__item">
+          <article class="comments__item group animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div class="comments__meta">
-              <strong class="comments__author">${escapeHtml(comment.authorName)}</strong>
-              <span class="comments__date">${formatDate(comment.createdAt)}</span>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 font-black text-xs border border-orange-500/20">
+                  ${escapeHtml(comment.authorName.charAt(0).toUpperCase())}
+                </div>
+                <strong class="comments__author text-sm md:text-base">${escapeHtml(comment.authorName)}</strong>
+              </div>
+              <span class="comments__date text-[10px] md:text-xs opacity-60 italic font-medium">${formatDate(comment.createdAt)}</span>
             </div>
-            <p class="comments__content">${escapeHtml(comment.content)}</p>
+            <p class="comments__content text-sm md:text-base leading-relaxed mt-2 pl-10 border-l-2 border-slate-100 dark:border-white/5 ml-4 italic">${escapeHtml(comment.content)}</p>
           </article>
         `
         )
@@ -343,9 +348,18 @@ const { postSlug } = Astro.props;
         return;
       }
 
+      const payload = await response.json();
       form.reset();
       syncAnonymousState();
-      statusText.textContent = 'Đã gửi bình luận, quản trị viên sẽ duyệt trước khi hiển thị.';
+      
+      if (payload.status === 'approved') {
+        statusText.textContent = 'Bình luận đã được gửi và hiển thị thành công!';
+        statusText.style.color = '#16a34a';
+      } else {
+        statusText.textContent = 'Đã gửi bình luận, quản trị viên sẽ duyệt trước khi hiển thị.';
+        statusText.style.color = '#64748b';
+      }
+      
       await loadComments();
     });
 

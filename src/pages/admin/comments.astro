@@ -1,220 +1,175 @@
 ---
 import Mainlayout from '../../layouts/Mainlayout.astro';
+
+// Bảo mật cơ bản: Yêu cầu đăng nhập hoặc kiểm tra token qua Client-side
 ---
 
-<Mainlayout title="Admin bình luận">
-  <section class="admin-comments" data-admin-comments>
-    <h1>Kiểm duyệt bình luận</h1>
+<Mainlayout title="Quản lý bình luận | Đường Tăng.vn">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter uppercase mb-2">
+          Kiểm duyệt <span class="text-orange-500">Bình luận</span>
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 font-medium">Hệ thống quản lý "lời vàng ý ngọc" của chúng sinh.</p>
+      </div>
+      
+      <div class="flex flex-wrap gap-3">
+        <input
+          type="password"
+          id="admin-token"
+          class="px-4 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 outline-none focus:ring-2 focus:ring-orange-500 transition-all min-w-[200px]"
+          placeholder="Nhập Token quản trị..."
+        />
+        <select id="status-filter" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-orange-500">
+          <option value="pending">⏳ Chờ duyệt</option>
+          <option value="approved">✅ Đã duyệt</option>
+          <option value="rejected">❌ Đã từ chối</option>
+        </select>
+        <button id="load-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-black px-6 py-2 rounded-xl transition-all shadow-lg shadow-orange-500/20 active:scale-95">
+          Tải dữ liệu
+        </button>
+      </div>
+    </header>
 
-    <div class="admin-toolbar">
-      <input
-        type="password"
-        class="admin-token"
-        data-admin-token
-        placeholder="Nhập COMMENT_ADMIN_TOKEN"
-      />
-      <select class="admin-filter" data-admin-status>
-        <option value="pending">Chờ duyệt</option>
-        <option value="approved">Đã duyệt</option>
-        <option value="rejected">Đã từ chối</option>
-      </select>
-      <button class="admin-load" data-admin-load>Tải danh sách</button>
+    <div id="status-message" class="mb-6 p-4 rounded-xl hidden"></div>
+
+    <div id="comments-grid" class="grid grid-cols-1 gap-6">
+      <div class="text-center py-20 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[32px]">
+        <p class="text-slate-400 font-bold uppercase tracking-widest text-sm">Nhập token và nhấn "Tải dữ liệu" để bắt đầu</p>
+      </div>
     </div>
-
-    <p class="admin-message" data-admin-message></p>
-    <div class="admin-list" data-admin-list></div>
-  </section>
+  </div>
 </Mainlayout>
 
-<style>
-  .admin-comments {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem 0 2rem;
-  }
-
-  .admin-comments h1 {
-    font-size: 1.6rem;
-    font-weight: 900;
-    margin-bottom: 1rem;
-  }
-
-  .admin-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-  }
-
-  .admin-token,
-  .admin-filter {
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    padding: 0.55rem 0.7rem;
-    min-width: 220px;
-  }
-
-  .admin-load {
-    border: none;
-    border-radius: 10px;
-    background: #ff7a18;
-    color: #fff;
-    font-weight: 800;
-    padding: 0.55rem 0.85rem;
-    cursor: pointer;
-  }
-
-  .admin-message {
-    color: #64748b;
-    margin: 0 0 0.9rem;
-  }
-
-  .admin-list {
-    display: grid;
-    gap: 0.8rem;
-  }
-
-  .admin-item {
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 0.9rem;
-    background: #fff;
-  }
-
-  .admin-meta {
-    display: grid;
-    gap: 0.25rem;
-    margin-bottom: 0.6rem;
-    font-size: 0.88rem;
-    color: #475569;
-  }
-
-  .admin-content {
-    white-space: pre-wrap;
-    margin: 0 0 0.7rem;
-  }
-
-  .admin-actions {
-    display: flex;
-    gap: 0.55rem;
-  }
-
-  .admin-btn {
-    border: none;
-    border-radius: 9px;
-    font-weight: 800;
-    padding: 0.45rem 0.7rem;
-    cursor: pointer;
-  }
-
-  .admin-btn--approve {
-    background: #16a34a;
-    color: #fff;
-  }
-
-  .admin-btn--reject {
-    background: #ef4444;
-    color: #fff;
-  }
-</style>
-
 <script>
-  const root = document.querySelector('[data-admin-comments]');
-  if (root) {
-    const tokenInput = root.querySelector('[data-admin-token]');
-    const statusSelect = root.querySelector('[data-admin-status]');
-    const loadBtn = root.querySelector('[data-admin-load]');
-    const message = root.querySelector('[data-admin-message]');
-    const list = root.querySelector('[data-admin-list]');
+  const tokenInput = document.getElementById('admin-token') as HTMLInputElement;
+  const statusSelect = document.getElementById('status-filter') as HTMLSelectElement;
+  const loadBtn = document.getElementById('load-btn');
+  const messageBox = document.getElementById('status-message');
+  const grid = document.getElementById('comments-grid');
 
-    const esc = (value) =>
-      String(value)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
+  const showMessage = (text: string, type: 'error' | 'success' | 'info') => {
+    if (!messageBox) return;
+    messageBox.textContent = text;
+    messageBox.className = `mb-6 p-4 rounded-xl font-bold text-sm ${
+      type === 'error' ? 'bg-red-50 text-red-600 border border-red-100' : 
+      type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 
+      'bg-blue-50 text-blue-600 border border-blue-100'
+    }`;
+    messageBox.classList.remove('hidden');
+  };
 
-    const getToken = () => String(tokenInput?.value || '').trim();
-    const getStatus = () => String(statusSelect?.value || 'pending');
+  const escapeHtml = (unsafe: string) => {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  };
 
-    const headers = () => ({
-      'content-type': 'application/json',
-      'x-admin-token': getToken(),
-    });
+  const updateCommentStatus = async (id: number, action: 'approve' | 'reject') => {
+    const token = tokenInput.value.trim();
+    if (!token) return showMessage('Vui lòng nhập token', 'error');
 
-    const loadComments = async () => {
-      if (!list || !message) return;
-      if (!getToken()) {
-        message.textContent = 'Nhập token trước khi tải danh sách.';
-        return;
-      }
-
-      message.textContent = 'Đang tải...';
-      const response = await fetch(`/api/admin/comments?status=${encodeURIComponent(getStatus())}`, {
-        headers: { 'x-admin-token': getToken() },
-      });
-
-      if (!response.ok) {
-        message.textContent = 'Không tải được danh sách. Kiểm tra token.';
-        list.innerHTML = '';
-        return;
-      }
-
-      const payload = await response.json();
-      const comments = payload.comments || [];
-      message.textContent = `Có ${comments.length} bình luận.`;
-
-      if (!comments.length) {
-        list.innerHTML = '<p>Không có bình luận.</p>';
-        return;
-      }
-
-      list.innerHTML = comments
-        .map(
-          (comment) => `
-            <article class="admin-item" data-comment-id="${comment.id}">
-              <div class="admin-meta">
-                <strong>${esc(comment.authorName)}</strong>
-                <span>Bài viết: ${esc(comment.postSlug)}</span>
-                <span>Thời gian: ${esc(comment.createdAt)}</span>
-                <span>Trạng thái: ${esc(comment.status)}</span>
-              </div>
-              <p class="admin-content">${esc(comment.content)}</p>
-              <div class="admin-actions">
-                <button class="admin-btn admin-btn--approve" data-action="approve">Duyệt</button>
-                <button class="admin-btn admin-btn--reject" data-action="reject">Từ chối</button>
-              </div>
-            </article>
-          `
-        )
-        .join('');
-    };
-
-    list?.addEventListener('click', async (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLButtonElement)) return;
-      const action = target.getAttribute('data-action');
-      if (!action || !['approve', 'reject'].includes(action)) return;
-
-      const item = target.closest('[data-comment-id]');
-      const id = Number(item?.getAttribute('data-comment-id'));
-      if (!Number.isInteger(id)) return;
-
-      const response = await fetch('/api/admin/comments', {
+    try {
+      const res = await fetch('/api/admin/comments', {
         method: 'POST',
-        headers: headers(),
-        body: JSON.stringify({ id, action }),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': token
+        },
+        body: JSON.stringify({ id, action })
       });
 
-      if (!response.ok) {
-        if (message) message.textContent = 'Cập nhật thất bại. Kiểm tra token.';
+      if (res.ok) {
+        showMessage('Cập nhật thành công!', 'success');
+        loadComments();
+      } else {
+        showMessage('Cập nhật thất bại. Kiểm tra lại token.', 'error');
+      }
+    } catch (err) {
+      showMessage('Lỗi hệ thống khi cập nhật.', 'error');
+    }
+  };
+
+  const loadComments = async () => {
+    const token = tokenInput.value.trim();
+    const status = statusSelect.value;
+    
+    if (!token) return showMessage('Vui lòng nhập token quản trị', 'error');
+    if (!grid) return;
+
+    grid.innerHTML = '<div class="text-center py-20"><div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-orange-500 border-t-transparent"></div></div>';
+    
+    try {
+      const res = await fetch(`/api/admin/comments?status=${status}`, {
+        headers: { 'x-admin-token': token }
+      });
+
+      if (!res.ok) {
+        grid.innerHTML = '';
+        return showMessage('Không thể tải dữ liệu. Token có thể sai hoặc hết hạn.', 'error');
+      }
+
+      const { comments } = await res.json();
+      messageBox?.classList.add('hidden');
+
+      if (!comments || comments.length === 0) {
+        grid.innerHTML = `
+          <div class="text-center py-20 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[32px]">
+            <p class="text-slate-400 font-bold uppercase tracking-widest text-sm">Không có bình luận nào ở trạng thái này</p>
+          </div>
+        `;
         return;
       }
 
-      await loadComments();
-    });
+      grid.innerHTML = comments.map((c: any) => `
+        <article class="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[24px] p-6 shadow-sm hover:shadow-xl transition-all duration-300">
+          <div class="flex flex-col md:flex-row justify-between gap-4 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-black text-slate-900 dark:text-white">${escapeHtml(c.authorName)}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 font-bold uppercase">${c.status}</span>
+              </div>
+              <div class="text-xs text-slate-400 font-medium">
+                <span>Bài viết: </span>
+                <a href="/blog/${c.postSlug}" target="_blank" class="text-orange-500 hover:underline">${c.postSlug}</a>
+                <span class="mx-2">•</span>
+                <span>${new Date(c.createdAt).toLocaleString('vi-VN')}</span>
+              </div>
+            </div>
+            
+            <div class="flex gap-2 h-fit">
+              ${c.status !== 'approved' ? `
+                <button onclick="window.updateStatus(${c.id}, 'approve')" class="bg-green-500 hover:bg-green-600 text-white text-xs font-black px-4 py-2 rounded-lg transition-all active:scale-95">DUYỆT</button>
+              ` : ''}
+              ${c.status !== 'rejected' ? `
+                <button onclick="window.updateStatus(${c.id}, 'reject')" class="bg-red-500 hover:bg-red-600 text-white text-xs font-black px-4 py-2 rounded-lg transition-all active:scale-95">TỪ CHỐI</button>
+              ` : ''}
+            </div>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-black/20 rounded-2xl p-4 text-slate-700 dark:text-slate-300 leading-relaxed italic">
+            "${escapeHtml(c.content)}"
+          </div>
+        </article>
+      `).join('');
 
-    loadBtn?.addEventListener('click', loadComments);
-  }
+    } catch (err) {
+      grid.innerHTML = '';
+      showMessage('Lỗi kết nối máy chủ.', 'error');
+    }
+  };
+
+  // Export to window for onclick handlers
+  (window as any).updateStatus = updateCommentStatus;
+
+  loadBtn?.addEventListener('click', loadComments);
+  
+  // Hỗ trợ nhấn Enter để tải
+  tokenInput?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loadComments();
+  });
 </script>
