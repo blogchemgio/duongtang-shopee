@@ -72,6 +72,32 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
   description={entry.data.description}
   ogImage={typeof entry.data.image === 'string' ? entry.data.image : entry.data.image?.src}
 >
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": entry.data.title,
+    "description": entry.data.description,
+    "image": typeof entry.data.image === 'string' ? entry.data.image : entry.data.image?.src,
+    "datePublished": entry.data.pubDate?.toISOString(),
+    "dateModified": entry.data.updatedDate?.toISOString() || entry.data.pubDate?.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": entry.data.author || "Đường Tăng",
+      "url": "https://duongtang.vn"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Đường Tăng.vn",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://duongtang.vn/default-og.webp"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://duongtang.vn/${category}/${entry.id}`
+    }
+  })} />
   {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
 
   <div class="w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">

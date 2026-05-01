@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Khai báo các tài liệu dành riêng cho AI
+# Giúp AI nhanh chóng tìm thấy file ngữ cảnh mà bạn đã tạo
+Link: https://duongtang.vn/llms.txt; rel="help"
+
+# Sitemaps
+Sitemap: https://duongtang.vn/sitemap.xml
+
+# AI Crawlers - Cho phép các AI hàng đầu truy cập toàn bộ nội dung
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
