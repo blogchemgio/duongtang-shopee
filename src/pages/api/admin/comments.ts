@@ -114,7 +114,7 @@ export const POST: APIRoute = async ({ request }) => {
   const db = await getDb();
   if (!db) return json({ error: 'Chưa cấu hình D1 binding DB' }, 500);
 
-  let payload: { id?: number; action?: 'approve' | 'reject' } = {};
+  let payload: { id?: number; action?: 'approve' | 'reject' | 'delete' } = {};
   try {
     payload = await request.json();
   } catch {
@@ -123,6 +123,11 @@ export const POST: APIRoute = async ({ request }) => {
 
   const id = Number(payload.id);
   if (!Number.isInteger(id) || id <= 0) return json({ error: 'ID không hợp lệ' }, 400);
+
+  if (payload.action === 'delete') {
+    await db.prepare(`DELETE FROM comments WHERE id = ?`).bind(id).run();
+    return json({ ok: true, message: 'Đã xóa bình luận' });
+  }
 
   const nextStatus = payload.action === 'approve' ? 'approved' : payload.action === 'reject' ? 'rejected' : null;
   if (!nextStatus) return json({ error: 'Hành động không hợp lệ' }, 400);

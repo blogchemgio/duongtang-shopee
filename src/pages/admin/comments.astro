@@ -69,9 +69,15 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
       .replace(/'/g, "&#039;");
   };
 
-  const updateCommentStatus = async (id: number, action: 'approve' | 'reject') => {
+  const updateCommentStatus = async (id: number, action: 'approve' | 'reject' | 'delete') => {
     const token = tokenInput.value.trim();
     if (!token) return showMessage('Vui lòng nhập token', 'error');
+
+    if (action === 'delete') {
+      if (!confirm('Thí chủ có chắc chắn muốn XÓA VĨNH VIỄN bình luận này không? Thao tác này không thể hoàn tác.')) {
+        return;
+      }
+    }
 
     try {
       const res = await fetch('/api/admin/comments', {
@@ -84,13 +90,13 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
       });
 
       if (res.ok) {
-        showMessage('Cập nhật thành công!', 'success');
+        showMessage(action === 'delete' ? 'Đã xóa bình luận thành công!' : 'Cập nhật thành công!', 'success');
         loadComments();
       } else {
-        showMessage('Cập nhật thất bại. Kiểm tra lại token.', 'error');
+        showMessage('Thao tác thất bại. Kiểm tra lại token.', 'error');
       }
     } catch (err) {
-      showMessage('Lỗi hệ thống khi cập nhật.', 'error');
+      showMessage('Lỗi hệ thống khi xử lý.', 'error');
     }
   };
 
@@ -148,6 +154,7 @@ import Mainlayout from '../../layouts/Mainlayout.astro';
               ${c.status !== 'rejected' ? `
                 <button onclick="window.updateStatus(${c.id}, 'reject')" class="bg-red-500 hover:bg-red-600 text-white text-xs font-black px-4 py-2 rounded-lg transition-all active:scale-95">TỪ CHỐI</button>
               ` : ''}
+              <button onclick="window.updateStatus(${c.id}, 'delete')" class="bg-slate-800 hover:bg-black text-white text-xs font-black px-4 py-2 rounded-lg transition-all active:scale-95">XÓA</button>
             </div>
           </div>
           
