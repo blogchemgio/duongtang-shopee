@@ -1,0 +1,113 @@
+---
+import shopeeImg from '../assets/shopee.webp';
+---
+
+<div id="shopee-float-container" class="shopee-container">
+  <button id="close-shopee" class="shopee-close" aria-label="Đóng quảng cáo">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  <a 
+    href="https://go.isclix.com/deep_link/v6/4994359497844839215/4751584435713464237?sub4=oneatweb&url_enc=aHR0cHM6Ly9zaG9wZWUudm4v" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="shopee-float"
+    aria-label="Săn deal Shopee"
+  >
+    <img src={shopeeImg.src} alt="Shopee Deal" width="64" height="64" />
+  </a>
+</div>
+
+<style>
+  .shopee-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .shopee-close {
+    background: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 99px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: -10px;
+    margin-right: -5px;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    opacity: 0.8;
+    transition: all 0.2s ease;
+  }
+
+  .shopee-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background: #d9363e;
+  }
+
+  .shopee-float {
+    width: 64px;
+    height: 64px;
+    display: block;
+    cursor: pointer;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+  }
+
+  .shopee-float img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: shopee-shake-gentle 4s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  @keyframes shopee-shake-gentle {
+    0%, 100% { transform: rotate(0); }
+    5%, 15%, 25% { transform: rotate(-3deg); }
+    10%, 20%, 30% { transform: rotate(3deg); }
+    35%, 100% { transform: rotate(0); }
+  }
+
+  .shopee-container:hover .shopee-float img {
+    animation-play-state: paused;
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    .shopee-container {
+      bottom: 1.5rem;
+      left: 1.5rem;
+    }
+    .shopee-float {
+      width: 50px;
+      height: 50px;
+    }
+  }
+</style>
+
+<script>
+  const container = document.getElementById('shopee-float-container');
+  const closeBtn = document.getElementById('close-shopee');
+
+  closeBtn?.addEventListener('click', () => {
+    if (container) {
+      container.style.opacity = '0';
+      container.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        container.remove();
+      }, 300);
+    }
+  });
+</script>
