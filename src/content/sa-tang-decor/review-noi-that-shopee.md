@@ -45,11 +45,7 @@ Thế nên, khi lạc bước đến nước Đông Lào và tìm thấy những
 
 Hóa ra, hạnh phúc của đời người đôi khi chỉ cách mặt đất có vài gang tay.
 
-<div style="text-align: center;">
-  <a href="https://shorten.asia/caYSvJU9" target="_blank" rel="nofollow">
-    <img src="../../assets/review-giuong-ngu.webp" alt="Review giường và nội thất phòng ngủShopee" />
-  </a>
-</div>
+[![Review giường và nội thất phòng ngủ Shopee](../../assets/review-giuong-ngu.webp)](https://shorten.asia/caYSvJU9)
 
 <div style="text-align: center; margin: 20px 0;">
   <a href="https://shorten.asia/caYSvJU9" target="_blank" rel="nofollow" 
@@ -76,29 +72,26 @@ Chúng ta đều là những kẻ lữ hành khao khát một bến đỗ bình 
 
 [Đừng để phòng ngủ chỉ là nơi để nằm – Hãy biến nó thành thánh địa hồi sức với bộ sưu tập giường và chăn ga gối đệm êm ái tại Shopee ngay!]
 
+<!-- Nút bấm 1: Giường & Chăn ga -->
 <div style="text-align: center; margin: 20px 0;">
   <a href="https://shorten.asia/caYSvJU9" target="_blank" rel="nofollow" 
      style="background-color: #28a745; color: white !important; padding: 16px 32px; font-size: 18px; font-weight: bold; text-transform: uppercase; border-radius: 50px; text-decoration: none !important; display: inline-block; box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3); border: 2px solid #1e7e34; cursor: pointer;">
     ✨ THỈNH NGAY THÁNH ĐỊA HỒI SỨC! ✨
   </a>
-  <p style="font-size: 14px; color: #666; margin-top: 10px; font-style: italic;"></p>
+  <p style="font-size: 14px; color: #666; margin-top: 10px; font-style: italic;">(Đừng để phòng ngủ chỉ là nơi để nằm, hãy biến nó thành nơi hồi phục năng lượng)</p>
 </div>
 
-<div style="text-align: center;">
-  <a href="https://shorten.asia/Z3rXctga" target="_blank" rel="nofollow">
-    <img src="../../assets/noi-that-phong-ngu.webp" alt="Review giường và nội thất phòng ngủShopee" />
-  </a>
-</div>
-[[Yêu thương bản thân từ giấc ngủ: Click thỉnh ngay những món decor phòng ngủ cực chill với giá "hạ giới" tại đây!]](https://shorten.asia/Z3rXctga)
+<!-- Phần Hình Ảnh: Đã sửa để hiển thị và mở tab mới -->
+[![Review giường và nội thất phòng ngủ Shopee](../../assets/noi-that-phong-ngu.webp)](https://shorten.asia/Z3rXctga)
 
+<!-- Nút bấm 2: Decor -->
 <div style="text-align: center; margin: 20px 0;">
-  <a href="https://shorten.asia/caYSvJU9" target="_blank" rel="nofollow" 
+  <a href="https://shorten.asia/Z3rXctga" target="_blank" rel="nofollow" 
      style="background-color: #ff5722; color: white !important; padding: 16px 32px; font-size: 18px; font-weight: bold; text-transform: uppercase; border-radius: 50px; text-decoration: none !important; display: inline-block; box-shadow: 0 10px 20px rgba(255, 87, 34, 0.3); border: 2px solid #e64a19; cursor: pointer;">
     🌿 DECOR CHILL HẠ GIỚI - MUA NGAY! 🌿
   </a>
   <p style="font-size: 14px; color: #666; margin-top: 10px; font-style: italic;">(Sắm bảo vật nội thất cho tâm hồn an lạc mỗi khi về nhà)</p>
 </div>
-
 **Chất liệu gỗ thật, giá trị thật**
 Chiếc giường gỗ tràm mà ta đang review đây, nó mộc mạc y như cái tính cách của ta vậy.
 
