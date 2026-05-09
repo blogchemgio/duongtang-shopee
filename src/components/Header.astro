@@ -25,11 +25,11 @@ const mobileLinks = [
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-[#efe7d2] dark:bg-[#121212] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-black/5 dark:border-white/5">
-  <div class="w-full max-w-none px-2 md:px-10 lg:px-16 flex justify-between items-center">
+  <div class="w-full max-w-none px-4 md:px-10 lg:px-16 flex justify-between items-center">
     <div class="flex items-center gap-3">
       <!-- NÚT MENU MOBILE -->
-      <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#1a1a1a] dark:text-[#EB6658] transition-all dt-home-glow" aria-label="Open Menu">
-        <div id="home-icon-svg" class="w-7 h-7 flex items-center justify-center">
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#1a1a1a] dark:text-[#EB6658] transition-all dt-home-glow cursor-pointer" aria-label="Open Menu">
+        <div class="w-7 h-7 flex items-center justify-center">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -37,7 +37,7 @@ const mobileLinks = [
         </div>
       </button>
 
-      <a href="/" class="logo-link ml-1 text-xl md:text-2xl font-black tracking-tighter text-[#1a1a1a] dark:text-white whitespace-nowrap transition-all uppercase font-['Inter']">
+      <a href="/" class="logo-link ml-1 text-xl md:text-2xl font-black tracking-tighter text-[#1a1a1a] dark:text-white whitespace-nowrap transition-all uppercase">
         <span class="logo-text">Đường Tăng</span><span class="logo-vn text-[#EB6658]">.vn</span>
       </a>
     </div>
@@ -51,9 +51,7 @@ const mobileLinks = [
     </nav>
 
     <div class="header-actions">
-      <div class="header-search">
-        <MobileSearch inputId="header-search-input" placeholder="Tìm kiếm..." />
-      </div>
+      <MobileSearch inputId="header-search-input" placeholder="Tìm kiếm..." />
     </div>
   </div> 
 </header>
@@ -68,11 +66,11 @@ const mobileLinks = [
   data-bg1={menuMobileBg1.src}
   data-bg2={menuMobileBg2.src}
 >
-  <div class="h-20 border-b border-black/5 dark:border-white/10 flex items-center justify-between px-6">
-    <a href="/" class="top-home-link text-[#1a1a1a] dark:text-white font-bold uppercase text-sm flex items-center gap-2">
-      <span class="menu-icon text-[#EB6658]">⌂</span>Home
+  <div class="h-20 border-b border-black/5 dark:border-white/10 flex items-center justify-between px-6 relative z-10">
+    <a href="/" class="text-[#1a1a1a] dark:text-white font-bold uppercase text-sm flex items-center gap-2">
+      <span class="text-[#EB6658]">⌂</span>Home
     </a>
-    <button id="close-sidebar" class="p-2 text-[#1a1a1a] dark:text-white hover:rotate-90 hover:text-[#EB6658] transition-all duration-300">
+    <button id="close-sidebar" class="p-2 text-[#1a1a1a] dark:text-white hover:rotate-90 hover:text-[#EB6658] transition-all duration-300 cursor-pointer">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -84,8 +82,8 @@ const mobileLinks = [
     <ul class="flex flex-col gap-6">
       {mobileLinks.map((link) => (
         <li>
-          <a href={link.href} class="sidebar-link !text-[#1a1a1a] dark:!text-[#e8e0d1]">
-            <span class="menu-icon text-[#EB6658]">{link.icon}</span>{link.label}
+          <a href={link.href} class="sidebar-link !text-[#1a1a1a] dark:!text-[#e8e0d1] flex items-center gap-4 text-base font-extrabold uppercase transition-all hover:translate-x-2 hover:text-[#EB6658]">
+            <span class="text-[#EB6658] w-5 text-center">{link.icon}</span>{link.label}
           </a>
         </li>
       ))}
@@ -93,57 +91,100 @@ const mobileLinks = [
   </div>
 </aside>
 
+<!-- OVERLAY -->
 <div id="menu-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[135] hidden opacity-0 transition-opacity duration-300"></div>
 
 <style is:global>
-  #main-header { will-change: transform; font-family: 'Inter', sans-serif; }
-  
-  /* Lớp phủ cho Mobile Sidebar khi dùng ảnh nền */
-  #mobile-sidebar::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(239, 231, 210, 0.85); /* Màu kem phủ lên ảnh */
-    z-index: 0;
+  /* Font Inter Tight đồng bộ hệ thống */
+  #main-header, #mobile-sidebar { 
+    font-family: 'Inter Tight', sans-serif; 
   }
-  :global(.is-dark) #mobile-sidebar::before {
-    background-color: rgba(26, 26, 26, 0.9);
-  }
-
-  .header-actions { display: flex; align-items: center; gap: 0.6rem; }
   
   #mobile-sidebar { 
     background-image: var(--menu-mobile-bg, none); 
     background-size: cover; 
-    background-position: center; 
+    background-position: center;
+    /* Tăng độ sáng và độ tương phản nhẹ để ảnh rõ nét hơn */
+    filter: brightness(1.05) contrast(1.02);
   }
 
-  .logo-vn { text-shadow: 0 0 12px rgba(235, 102, 88, 0.2); }
-
-  /* HIỆU ỨNG HÀO QUANG ĐỎ CAM */
-  .dt-home-glow {
-    filter: drop-shadow(0 0 8px rgba(235, 102, 88, 0.2));
+  /* LỚP PHỦ MÀU: Chỉnh lại để nhìn xuyên qua ảnh tốt hơn */
+  #mobile-sidebar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Giảm opacity từ 0.9 xuống 0.6 để ảnh hiện rõ hơn */
+    background-color: rgba(239, 231, 210, 0.6); 
+    z-index: 0;
   }
 
+  :global(.is-dark) #mobile-sidebar::before {
+    /* Trong dark mode, giảm xuống 0.7 để ảnh không bị chìm quá sâu */
+    background-color: rgba(26, 26, 26, 0.7);
+  }
+
+  /* Đảm bảo chữ vẫn đọc tốt trên nền ảnh rõ */
   .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    transition: all 0.3s ease !important;
     position: relative;
     z-index: 10;
+    /* Thêm một chút đổ bóng nhẹ cho chữ để tách biệt khỏi nền ảnh */
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
   }
-  .sidebar-link:hover {
-    color: #EB6658 !important;
-    transform: translateX(8px) !important;
+
+  :global(.is-dark) .sidebar-link {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   }
+
+  .header-actions { display: flex; align-items: center; }
+  .logo-vn { text-shadow: 0 0 12px rgba(235, 102, 88, 0.2); }
+  .dt-home-glow { filter: drop-shadow(0 0 8px rgba(235, 102, 88, 0.2)); }
 </style>
 
-<!-- Script giữ nguyên logic cũ của bạn -->
 <script>
-  // ... (Phần script giữ nguyên như file cũ của bạn)
-  // Chỉ thay đổi màu sắc hex trong các biến nếu cần thiết
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const closeSidebarBtn = document.getElementById('close-sidebar');
+  const mobileSidebar = document.getElementById('mobile-sidebar');
+  const menuOverlay = document.getElementById('menu-overlay');
+
+  // Khai báo biến để theo dõi trạng thái ảnh hiện tại
+  let isImage1 = true;
+
+  function openMenu() {
+    // LOGIC ĐỔI ẢNH KHI CLICK
+    if (mobileSidebar instanceof HTMLElement) {
+      const bg1 = mobileSidebar.getAttribute('data-bg1');
+      const bg2 = mobileSidebar.getAttribute('data-bg2');
+      
+      // Đổi ảnh luân phiên: nếu đang là ảnh 1 thì đổi sang ảnh 2 và ngược lại
+      const nextBg = isImage1 ? bg2 : bg1;
+      
+      if (nextBg) {
+        mobileSidebar.style.setProperty('--menu-mobile-bg', `url(${nextBg})`);
+        isImage1 = !isImage1; // Đảo trạng thái cho lần click sau
+      }
+    }
+
+    // Hiển thị Sidebar
+    mobileSidebar?.classList.remove('-translate-x-full');
+    menuOverlay?.classList.remove('hidden');
+    setTimeout(() => menuOverlay?.classList.add('opacity-100'), 10);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    mobileSidebar?.classList.add('-translate-x-full');
+    menuOverlay?.classList.remove('opacity-100');
+    setTimeout(() => menuOverlay?.classList.add('hidden'), 300);
+    document.body.style.overflow = '';
+  }
+
+  // Khởi tạo ảnh mặc định lần đầu tiên
+  if (mobileSidebar instanceof HTMLElement) {
+    const bg1 = mobileSidebar.getAttribute('data-bg1');
+    if (bg1) mobileSidebar.style.setProperty('--menu-mobile-bg', `url(${bg1})`);
+  }
+
+  mobileMenuBtn?.addEventListener('click', openMenu);
+  closeSidebarBtn?.addEventListener('click', closeMenu);
+  menuOverlay?.addEventListener('click', closeMenu);
 </script>
