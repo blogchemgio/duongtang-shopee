@@ -18,15 +18,19 @@ const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((i
 ---
 
 <section 
-  class="hero group relative mb-6 overflow-hidden rounded-[24px] border transition-all duration-500
-         bg-slate-50 border-slate-200 p-4 sm:p-6 md:p-8 lg:p-4
-         dark:bg-slate-950 dark:border-slate-800"
+  class="hero group relative mb-6 overflow-hidden rounded-[12px] border transition-all duration-500
+         bg-[#efe7d2] border-black/5 p-4 sm:p-6 md:p-8 lg:p-4
+         dark:bg-[#121212] dark:border-white/5"
 >
-  <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-orange-500/5 blur-[70px] z-0"></div>
+  <!-- Hiệu ứng vầng sáng cam nhẹ phía sau cho hợp với màu #EB6658 -->
+  <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#EB6658]/10 blur-[70px] z-0"></div>
 
   <div class="relative z-10 max-w-5xl lg:max-w-2xl mx-auto">
-    <div class="overflow-hidden rounded-[20px] ring-1 ring-slate-200/80 dark:ring-white/10 bg-white/60 dark:bg-white/5">
-      <div id="hero-image-slot" class="w-full bg-slate-200/40 dark:bg-white/5"></div>
+    <!-- Phần khung chứa ảnh -->
+    <div class="overflow-hidden rounded-[12px] ring-1 ring-black/5 dark:ring-white/10 bg-black/[0.02] dark:bg-white/5 shadow-inner">
+      <div id="hero-image-slot" class="w-full bg-transparent">
+        <!-- Ảnh sẽ được Script chèn vào đây -->
+      </div>
     </div>
   </div>
 </section>
@@ -48,6 +52,7 @@ const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((i
 
       const pick = list[idx];
       if (pick && typeof pick.src === 'string') {
+        // Preload ảnh để hiển thị nhanh nhất có thể
         const preload = document.createElement('link');
         preload.rel = 'preload';
         preload.as = 'image';
@@ -56,16 +61,18 @@ const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((i
         document.head.appendChild(preload);
 
         const wrap = document.createElement('div');
-        wrap.className = 'relative w-full overflow-hidden';
+        wrap.className = 'relative w-full overflow-hidden flex items-center justify-center';
 
+        // Lớp nền mờ (Blur background)
         const bg = document.createElement('div');
-        bg.className = 'absolute inset-0 opacity-50 scale-[1.08]';
+        bg.className = 'absolute inset-0 opacity-30 scale-[1.15]';
         bg.style.backgroundImage = `url(${pick.src})`;
         bg.style.backgroundSize = 'cover';
         bg.style.backgroundPosition = 'center';
-        bg.style.filter = 'blur(18px)';
+        bg.style.filter = 'blur(30px)';
         bg.setAttribute('aria-hidden', 'true');
 
+        // Ảnh chính
         const img = document.createElement('img');
         img.src = pick.src;
         img.alt = typeof pick.alt === 'string' ? pick.alt : '';
@@ -74,7 +81,8 @@ const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((i
         img.decoding = 'async';
         img.loading = 'eager';
         img.fetchPriority = 'high';
-        img.className = 'relative z-10 w-full h-auto';
+        // Thêm filter nhẹ cho Dark Mode
+        img.className = 'relative z-10 w-full h-auto dark:brightness-90 transition-all duration-500';
 
         wrap.appendChild(bg);
         wrap.appendChild(img);
@@ -83,3 +91,15 @@ const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((i
     }
   }
 </script>
+
+<style>
+  .hero {
+    /* Font chữ đồng bộ với Layout chính */
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Hiệu ứng hover nhẹ cho khối Hero */
+  .hero:hover {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+</style>

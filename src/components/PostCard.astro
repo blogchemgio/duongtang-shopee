@@ -1,6 +1,5 @@
 ---
 // Nhận dữ liệu từ index.astro
-// Thêm 'collection' vào để biết bài này thuộc mục nào
 const { title, description, pubDate, readTime, slug, tags, image, collection } = Astro.props;
 
 // Định dạng ngày tháng
@@ -10,20 +9,18 @@ const formattedDate = new Date(pubDate).toLocaleDateString('vi-VN', {
   day: 'numeric',
 });
 
-// Logic hiển thị Badge chuyên mục cho chuyên nghiệp
 const categoryLabel = collection ? collection.toUpperCase() : 'POST';
 
 const descRaw = (description ?? '').toString().trim();
-/** Giới hạn ký tự mô tả + "..." (khoảng hơn 3 dòng cũ ~10 ký tự) */
 const EXCERPT_MAX = 118;
 const excerptText =
   descRaw.length > EXCERPT_MAX ? `${descRaw.slice(0, EXCERPT_MAX).trimEnd()}...` : descRaw;
 ---
 
 <article 
-  class="group post-card relative flex flex-col overflow-hidden rounded-[24px] border transition-all duration-500
-         bg-white border-slate-100 shadow-sm
-         dark:bg-[var(--color-dark-surface)] dark:border-white/5 dark:shadow-none"
+  class="group post-card relative flex flex-col overflow-hidden rounded-[12px] border transition-all duration-500
+         bg-[#efe7d2] border-black/5 shadow-sm
+         dark:bg-[#1e1e1e] dark:border-white/5 dark:shadow-none"
 >
   <a href={slug} class="absolute inset-0 z-20" aria-label={title}></a>
 
@@ -31,58 +28,50 @@ const excerptText =
     <img 
       src={image?.src || image || "/images/default-thumb.jpg"} 
       alt={title}
-      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter dark:brightness-90"
       loading="lazy"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
     
     <div class="absolute top-4 left-4 z-30 flex gap-2">
-       <span class="px-3 py-1 rounded-full bg-[var(--color-brand-orange)] text-white text-[9px] font-black uppercase tracking-widest shadow-lg">
+       <span class="px-3 py-1 rounded-full bg-[#EB6658] text-white text-[9px] font-black uppercase tracking-widest shadow-lg">
           {categoryLabel}
        </span>
-       {tags && tags.length > 0 && (
-          <span class="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-slate-900 text-[9px] font-black uppercase tracking-widest shadow-sm dark:bg-slate-900/90 dark:text-white dark:border dark:border-white/10">
-            {tags[0]}
-          </span>
-       )}
     </div>
   </div>
 
   <div class="flex flex-col flex-grow p-5 md:p-6 text-left relative z-10"> 
     <div class="flex flex-col gap-y-2 flex-grow"> 
-      <div class="flex items-center gap-x-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 m-0">
+      <div class="flex items-center gap-x-3 text-[10px] font-bold uppercase tracking-widest text-[#8b8471] dark:text-slate-500 m-0">
         <span class="flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
           {formattedDate}
         </span>
-        <span class="w-1 h-1 rounded-full bg-[var(--color-brand-orange)]"></span>
-        <span>{readTime || '5'} Phút</span>
+        <span class="w-1 h-1 rounded-full bg-[#EB6658]"></span>
+        <span>{readTime || '5'} PHÚT</span>
       </div>
 
-      <h3 class="text-lg md:text-xl font-black leading-[1.3] m-0 
-                   text-slate-900 dark:text-white transition-colors duration-300 line-clamp-2">
+      <h3 class="text-lg md:text-xl font-extrabold leading-[1.2] m-0 
+                 text-[#1a1a1a] dark:text-[#e8e0d1] transition-colors duration-300 line-clamp-2 font-['Inter'] letter-spacing-[-0.02em]">
           {title}
       </h3>
       
-      <p class="text-[13px] leading-relaxed m-0 font-medium text-slate-600 dark:text-slate-400 line-clamp-4">
+      <p class="text-[14px] leading-relaxed m-0 font-medium text-[#5a5445] dark:text-slate-400 line-clamp-3">
         {excerptText}
       </p>
     </div> 
 
-    <div class="mt-5 pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between"> 
-      <span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-tighter text-[var(--color-brand-orange)]">
-        Đọc chi tiết
+    <div class="mt-5 pt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between"> 
+      <span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-tighter text-[#EB6658]">
+        ĐỌC CHI TIẾT
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
       </span>
       
       <div class="w-7 h-7 rounded-full flex items-center justify-center 
-                  bg-[var(--color-brand-orange)]/[0.08] dark:bg-[var(--color-brand-orange)]/[0.12] 
-                  border border-[var(--color-brand-orange)]/20 shadow-sm">
-         <span class="text-[var(--color-brand-orange)] text-xs">⚡</span>
+                  bg-[#EB6658]/[0.08] dark:bg-[#EB6658]/[0.12] 
+                  border border-[#EB6658]/20 shadow-sm">
+         <span class="text-[#EB6658] text-xs">⚡</span>
       </div>
     </div>
   </div>
@@ -91,16 +80,22 @@ const excerptText =
 <style>
   .post-card {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
   }
 
   .post-card:hover {
-    transform: translateY(-8px) scale(1.01) !important;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-4px) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  :global(.is-dark) .post-card {
+    background-color: #1e1e1e !important;
   }
 
   :global(.is-dark) .post-card:hover {
-    background-color: rgba(255, 255, 255, 0.03) !important;
+    background-color: #252525 !important;
     border-color: rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 0 30px rgba(255, 122, 24, 0.1) !important;
+    box-shadow: 0 0 30px rgba(235, 102, 88, 0.05) !important;
   }
 </style>

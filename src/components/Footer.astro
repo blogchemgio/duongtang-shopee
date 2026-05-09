@@ -7,99 +7,101 @@ import footerBg4 from '../assets/footer-4.webp';
 import footerBg5 from '../assets/footer-5.webp';
 
 const footerImages = [
-  footerBg.src,
-  footerBg1.src,
-  footerBg2.src,
-  footerBg3.src,
-  footerBg4.src,
-  footerBg5.src
+  footerBg.src,
+  footerBg1.src,
+  footerBg2.src,
+  footerBg3.src,
+  footerBg4.src,
+  footerBg5.src
 ];
 
 const currentYear = new Date().getFullYear();
 ---
 
 <footer
-  class="relative w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b0f1a] overflow-hidden"
-  id="site-footer"
-  data-footer-images={JSON.stringify(footerImages)}
+  class="relative w-full border-t border-black/5 dark:border-white/5 bg-[#efe7d2] dark:bg-[#121212] overflow-hidden"
+  id="site-footer"
+  data-footer-images={JSON.stringify(footerImages)}
 >
-  <div
-    id="footer-bg"
-    class="absolute inset-0 z-0 bg-no-repeat opacity-100"
-    style="background-image: var(--footer-bg, none); background-size: 100% 100%;"
-  ></div>
-  <div class="absolute inset-0 z-0 bg-white/80 dark:bg-[#0b0f1a]/75"></div>
-  <div class="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/[0.02] dark:bg-orange-500/[0.04] blur-[70px] rounded-full z-0"></div>
+  <!-- Ảnh nền ngẫu nhiên -->
+  <div
+    id="footer-bg"
+    class="absolute inset-0 z-0 bg-no-repeat opacity-100"
+    style="background-image: var(--footer-bg, none); background-size: cover; background-position: center;"
+  ></div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-10 md:pb-14 border-b border-slate-200 dark:border-white/10">
-      
-      <div class="md:col-span-5 space-y-3">
-        <div class="text-lg md:text-xl font-black tracking-tighter uppercase transition-transform hover:scale-[1.01] duration-300">
-          <span class="text-[#ff7a18]">Đường tăng.vn</span>
-        </div>
-        <p class="text-[11px] md:text-[12px] leading-relaxed text-slate-600 dark:text-slate-300 max-w-xs font-normal">
-          Hành trình vạn dặm từ Đông Thổ đến Đông Lào, thỉnh 'chân kinh' Shopee. Review thực tâm, mua sắm tùy duyên. Chúc thí chủ thân tâm an lạc, chọn được đồ tốt trên shopee
-        </p>
-      </div>
+  <!-- LỚP PHỦ MÀU KEM #efe7d2 (Overlay) -->
+  <div class="absolute inset-0 z-0 bg-[#efe7d2]/55 dark:bg-[#121212]/90 backdrop-blur-[1px]"></div>
 
-      <div class="md:col-span-3">
-        <h4 class="font-bold mb-3 text-slate-900 dark:text-white uppercase text-[9px] tracking-[0.2em]">Khám phá</h4>
-        <ul class="space-y-2 text-[11px] md:text-[12px] font-medium list-none p-0 m-0">
-          <li>
-            <a href="/" class="text-slate-600 dark:text-slate-300 hover:text-[#ff7a18] transition-colors block">Tất cả bài viết</a>
-          </li>
-          <li>
-            <a href="/privacy" class="text-slate-600 dark:text-slate-300 hover:text-[#ff7a18] transition-colors block">Chính sách bảo mật</a>
-          </li>
-          <li>
-            <a href="/admin/comments" class="text-slate-400 dark:text-slate-600 hover:text-[#ff7a18] transition-colors block text-[10px] mt-4 opacity-50">Quản trị viên</a>
-          </li>
-        </ul>
-      </div>
+  <!-- Hiệu ứng vầng sáng đỏ cam nhẹ -->
+  <div class="absolute top-0 left-1/4 w-64 h-64 bg-[#EB6658]/[0.03] dark:bg-[#EB6658]/[0.05] blur-[70px] rounded-full z-0"></div>
 
-      <div class="md:col-span-4 lg:text-right">
-        <h4 class="font-bold mb-3 text-slate-900 dark:text-white uppercase text-[9px] tracking-[0.2em]">Liên hệ</h4>
-        <p class="text-[11px] mb-1 text-slate-600 dark:text-slate-300">Hỗ trợ & Quảng cáo:</p>
-      </div>
-    </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-10 md:pb-14 border-b border-black/5 dark:border-white/10">
+      
+      <div class="md:col-span-5 space-y-3">
+        <div class="text-lg md:text-xl font-black tracking-tighter uppercase transition-transform hover:scale-[1.01] duration-300 font-['Inter']">
+          <span class="text-[#1a1a1a] dark:text-white">Đường tăng</span><span class="text-[#EB6658]">.vn</span>
+        </div>
+        <p class="text-[11px] md:text-[12px] leading-relaxed text-[#5a5445] dark:text-slate-400 max-w-xs font-medium">
+          Hành trình vạn dặm từ Đông Thổ đến Đông Lào, thỉnh 'chân kinh' Shopee. Review thực tâm, mua sắm tùy duyên. Chúc thí chủ thân tâm an lạc.
+        </p>
+      </div>
 
-    <div class="py-10 flex justify-center">
-      <div class="w-full">
-        <p class="text-[6px] md:text-[7px] uppercase tracking-[0.26em] font-normal text-center leading-loose
-                  /* Màu sắc đồng bộ hoàn toàn với phần mô tả bên trên */
-                  text-slate-600 dark:text-slate-300">
-          © {currentYear} Powered by Đường Tăng.vn
-        </p>
-      </div>
-    </div>
-  </div>
+      <div class="md:col-span-3">
+        <h4 class="font-bold mb-3 text-[#1a1a1a] dark:text-white uppercase text-[9px] tracking-[0.2em]">Khám phá</h4>
+        <ul class="space-y-2 text-[11px] md:text-[12px] font-bold list-none p-0 m-0">
+          <li>
+            <a href="/" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase">Tất cả bài viết</a>
+          </li>
+          <li>
+            <a href="/privacy" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase">Chính sách bảo mật</a>
+          </li>
+          <li>
+            <a href="/admin/comments" class="text-[#8b8471] dark:text-slate-600 hover:text-[#EB6658] transition-colors block text-[10px] mt-4 opacity-50 uppercase">Quản trị viên</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4 lg:text-right">
+        <h4 class="font-bold mb-3 text-[#1a1a1a] dark:text-white uppercase text-[9px] tracking-[0.2em]">Liên hệ</h4>
+        <p class="text-[11px] mb-1 text-[#5a5445] dark:text-slate-400 font-medium">Hỗ trợ & Quảng cáo:</p>
+        <p class="text-[12px] font-black text-[#EB6658]">DUONGTANG.VN</p>
+      </div>
+    </div>
+
+    <div class="py-10 flex justify-center">
+      <div class="w-full">
+        <p class="text-[7px] md:text-[8px] uppercase tracking-[0.3em] font-bold text-center leading-loose text-[#8b8471] dark:text-slate-500">
+          © {currentYear} Powered by <span class="text-[#EB6658]">Đường Tăng.vn</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <style>
-  ul { list-style: none !important; }
-  li::before { content: none !important; }
+  #site-footer { font-family: 'Inter', sans-serif; }
+  ul { list-style: none !important; }
+  li::before { content: none !important; }
 </style>
 
 <script>
-  const footer = document.getElementById('site-footer');
-  const bg = document.getElementById('footer-bg');
-  if (footer instanceof HTMLElement && bg instanceof HTMLElement) {
-    // Randomize footer background image
-    const imagesData = footer.getAttribute('data-footer-images');
-    if (imagesData) {
-      try {
-        const images = JSON.parse(imagesData);
-        if (Array.isArray(images) && images.length > 0) {
-          const randomIndex = Math.floor(Math.random() * images.length);
-          const randomImage = images[randomIndex];
-          bg.style.setProperty('--footer-bg', `url(${randomImage})`);
-        }
-      } catch (e) {
-        console.error('Error parsing footer images:', e);
-      }
-    }
-
-    let isDown = false;
-  }
+  const footer = document.getElementById('site-footer');
+  const bg = document.getElementById('footer-bg');
+  if (footer instanceof HTMLElement && bg instanceof HTMLElement) {
+    const imagesData = footer.getAttribute('data-footer-images');
+    if (imagesData) {
+      try {
+        const images = JSON.parse(imagesData);
+        if (Array.isArray(images) && images.length > 0) {
+          const randomIndex = Math.floor(Math.random() * images.length);
+          const randomImage = images[randomIndex];
+          bg.style.setProperty('--footer-bg', `url(${randomImage})`);
+        }
+      } catch (e) {
+        console.error('Error parsing footer images:', e);
+      }
+    }
+  }
 </script>

@@ -4,7 +4,6 @@ import Footer from '../components/Footer.astro';
 import DarkModeToggle from '../components/DarkModeToggle.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ShopeeFloat from '../components/ShopeeFloat.astro';
-// Lưu ý: Nếu bạn dùng inline CSS, có thể bỏ import file css bên ngoài nếu file đó quá nhỏ
 import '../styles/global.css'; 
 
 interface Props {
@@ -19,7 +18,7 @@ const {
   title = "Đường Tăng.vn",
   description = "Đường Tăng.vn chia sẻ kinh nghiệm thực chiến về săn deal Shopee, review công nghệ và hành trình thỉnh kinh tại Đông Lào.",
   canonical,
-  ogImage = "/default-og.webp",
+  ogImage = "http://duongtang.vn/default-og.webp",
   type = 'website',
 } = Astro.props;
 
@@ -47,6 +46,11 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
     <meta name="keywords" content="Đường Tăng, Shopee Deal, Review Công Nghệ, Bát Giới Review, Ngộ Không Tech, Sa Tăng Decor, Săn deal Shopee" />
     <link rel="canonical" href={canonicalUrl} />
     <meta name="robots" content="index,follow,max-image-preview:large" />
+
+    <!-- Google Fonts: Inter (Bold) & Newsreader (Italic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
@@ -76,19 +80,9 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
         }
       })();
     </script>
-    <script type="application/ld+json" is:inline>
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Đường Tăng.vn",
-        "url": "https://duongtang.vn",
-        "description": "Blog chia sẻ kinh nghiệm thực chiến về săn deal Shopee, review công nghệ và hành trình thỉnh kinh tại Đông Lào.",
-        "inLanguage": "vi-VN",
-      })}
-    </script>
   </head>
 
-  <body class="bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-300 min-h-screen flex flex-col font-sans antialiased transition-colors duration-300 relative overflow-x-hidden">
+  <body class="bg-[#efe7d2] text-[#1a1a1a] dark:bg-[#121212] dark:text-[#e8e0d1] min-h-screen flex flex-col font-['Inter'] antialiased transition-colors duration-300 relative overflow-x-hidden">
     <Header />
     <div class="flex-grow w-full"> 
       <main class="w-full mt-2 mb-12">
@@ -108,11 +102,26 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
-    background-color: #020617;
+    background-color: #121212; /* Dark mode background */
   }
 
   html:not(.is-dark) {
-    background-color: #f8fafc;
+    background-color: #efe7d2; /* Light mode background */
+  }
+
+  /* Typography nghệ thuật phong cách Open Design */
+  .accent-serif {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .headline-main {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.1 !important;
   }
 
   header ul, header li, nav ul, nav li {
@@ -125,50 +134,40 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
     width: 100% !important;
     max-width: none !important;
     word-wrap: break-word;
-    font-size: 14px !important; 
+    font-size: 16px !important; 
     line-height: 1.6 !important;
-    color: #475569;
+    color: #1a1a1a;
     margin: 0 !important;
     text-align: left;
   }
 
-  .is-dark .content-wrapper { color: #94a3b8 !important; }
+  .is-dark .content-wrapper { color: #e8e0d1 !important; }
   .content-wrapper > * { width: 100% !important; }
 
   h1 {
-    font-size: 1.5rem !important; 
+    font-family: 'Inter', sans-serif !important;
+    font-size: 2.5rem !important; 
     font-weight: 800 !important;
-    margin-bottom: 1rem !important;
-    line-height: 1.2 !important;
-    letter-spacing: -0.02em !important;
-    color: #1e293b !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.04em !important;
+    color: #1a1a1a !important;
   }
-  .is-dark h1 { color: #f8fafc !important; }
+  .is-dark h1 { color: #e8e0d1 !important; }
 
   h2 {
-    font-size: 1.125rem !important; 
+    font-size: 1.25rem !important; 
     font-weight: 700 !important;
-    margin-top: 1.5rem !important;
-    margin-bottom: 0.75rem !important;
-    border-bottom: 1px solid #f1f5f9;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     padding-bottom: 0.3rem;
-    color: #334155 !important;
+    color: #1a1a1a !important;
   }
-  .is-dark h2 { color: #f1f5f9 !important; border-bottom-color: #1e293b !important; }
-
-  h3 { font-size: 0.9375rem !important; font-weight: 700 !important; }
-  p { margin-bottom: 1rem !important; }
-
-  .content-wrapper img { 
-    border-radius: 8px; 
-    width: 100% !important;
-    height: auto;
-    margin: 1.5rem 0;
-  }
+  .is-dark h2 { color: #e8e0d1 !important; border-bottom-color: rgba(255,255,255,0.1) !important; }
 
   @media (max-width: 768px) {
-    .content-wrapper { font-size: 13px !important; padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
-    h1 { font-size: 1.35rem !important; }
-    h2 { font-size: 1.05rem !important; }
+    .content-wrapper { font-size: 15px !important; }
+    h1 { font-size: 1.8rem !important; }
   }
 </style>
