@@ -11,76 +11,79 @@ const categories = [
   { name: "Thể Thao & Du Lịch", affLink: "https://shorten.asia/9YXxb1Fc" },
   { name: "Xe Máy & Xe Đạp", affLink: "https://shorten.asia/7EkAXQNN" },
   { name: "Balo, Túi & Ví", affLink: "https://shorten.asia/GYgQ5VbF" },
-  { name: "Đồ Chơi", affLink: "https://shorten.asia/Kk226puw" }
+  { name: "Đồ Chơi", affLink: "https://shorten.asia/Kk226puw" },
+  { name: "Thời Trang Nữ", affLink: "https://shorten.asia/PyWzCwRe" },
+  { name: "Mẹ & Bé", affLink: "https://shorten.asia/52CTWnh1" },
+  { name: "Nhà Cửa & Đời Sống", affLink: "https://shorten.asia/qB9Gb3dN" },
+  { name: "Sắc Đẹp", affLink: "https://shorten.asia/yx1uuvrn" },
+  { name: "Sức Khỏe", affLink: "https://shorten.asia/xEDxKRJ1" },
+  { name: "Giày Dép Nữ", affLink: "https://shorten.asia/G1yXwHze" },
+  { name: "Túi Ví Nữ", affLink: "https://shorten.asia/ERbsJ3Qs" },
+  { name: "Phụ Kiện & Trang Sức", affLink: "https://shorten.asia/Dbt647df" },
+  { name: "Bách Hóa Online", affLink: "https://shorten.asia/UQEaqDt3" },
+  { name: "Nhà Sách Online", affLink: "https://shorten.asia/NXgrWJW4" },
+  { name: "Thời Trang Trẻ Em", affLink: "https://shorten.asia/txcnexCa" },
+  { name: "Chăm Sóc Thú Cưng", affLink: "https://shorten.asia/Hwx2zkv4" },
+  { name: "Dịch Vụ Thiết Bị", affLink: "https://shorten.asia/QfyKbkYe" },
+  { name: "Giặt Giũ & Nhà Cửa", affLink: "https://shorten.asia/mKUydBhq" },
+  { name: "Voucher & Dịch Vụ", affLink: "https://shorten.asia/4qrhuBkn" }
 ];
 
-// Chia đôi mảng danh mục
-const row1 = categories.slice(0, 6);
-const row2 = categories.slice(6);
+// Chia mảng làm 3 phần bằng nhau
+const perRow = Math.ceil(categories.length / 3);
+const row1 = categories.slice(0, perRow);
+const row2 = categories.slice(perRow, perRow * 2);
+const row3 = categories.slice(perRow * 2);
+
+const rows = [row1, row2, row3];
 ---
 
 <section 
-  class="hero relative mb-8 overflow-hidden rounded-[20px] border
+  class="hero relative mb-8 overflow-hidden rounded-[24px] border
          bg-[#efe7d2] border-black/5 p-4 sm:p-6
          dark:bg-[#121212] dark:border-white/5 shadow-sm"
 >
-  <!-- Vầng sáng decor -->
-  <div class="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#EB6658]/10 blur-[40px] pointer-events-none"></div>
+  <!-- Vầng sáng hiệu ứng -->
+  <div class="absolute -right-12 -bottom-12 h-40 w-40 rounded-full bg-[#EB6658]/10 blur-[50px] pointer-events-none"></div>
 
-  <div class="relative z-10 w-full flex flex-col gap-4">
-    <div class="flex items-center justify-between px-1">
-      <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
-        Danh mục mua sắm
+  <div class="relative z-10 w-full flex flex-col gap-3.5">
+    <div class="flex items-center justify-between px-1 mb-1">
+      <h3 class="text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
+        Khám phá danh mục
       </h3>
-      <span class="text-[9px] font-bold text-[#EB6658]/70 uppercase animate-pulse">Lướt ngang từng hàng →</span>
-    </div>
-
-    <!-- Hàng 1: Vuốt độc lập -->
-    <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-1">
-      <div class="flex flex-nowrap gap-2 w-max px-1">
-        {row1.map((cat) => (
-          <a 
-            href={cat.affLink} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/40 backdrop-blur-md transition-all 
-                   snap-start whitespace-nowrap active:scale-95 hover:bg-white/60
-                   dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-          >
-            <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
-              {cat.name}
-            </span>
-          </a>
-        ))}
-        <div class="w-8 flex-none"></div>
+      <div class="flex items-center gap-1.5">
+         <span class="w-1.5 h-1.5 rounded-full bg-[#EB6658] animate-pulse"></span>
+         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Lướt để xem thêm</span>
       </div>
     </div>
 
-    <!-- Hàng 2: Vuốt độc lập -->
-    <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-1">
-      <div class="flex flex-nowrap gap-2 w-max px-1">
-        {row2.map((cat) => (
-          <a 
-            href={cat.affLink} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/40 backdrop-blur-md transition-all 
-                   snap-start whitespace-nowrap active:scale-95 hover:bg-white/60
-                   dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-          >
-            <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
-              {cat.name}
-            </span>
-          </a>
-        ))}
-        <div class="w-8 flex-none"></div>
+    {rows.map((row) => (
+      <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-0.5">
+        <div class="flex flex-nowrap gap-2.5 w-max px-1">
+          {row.map((cat) => (
+            <a 
+              href={cat.affLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/50 backdrop-blur-md transition-all 
+                     snap-start whitespace-nowrap active:scale-95 hover:bg-white/70 hover:shadow-sm
+                     dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+            >
+              <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
+                {cat.name}
+              </span>
+            </a>
+          ))}
+          <!-- Khoảng trống ảo cuối mỗi hàng để vuốt mượt hơn -->
+          <div class="w-10 flex-none"></div>
+        </div>
       </div>
-    </div>
+    ))}
   </div>
 </section>
 
 <style>
-  /* Ẩn thanh cuộn triệt để */
+  /* Ẩn thanh cuộn */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
