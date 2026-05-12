@@ -2,7 +2,7 @@
 title: "Review bột khử mùi Trapha: Bí kíp giúp Đường Tăng tự tin thỉnh kinh"
 description: "Đường Tăng tiết lộ bí kíp dùng bột Trapha để cơ thể luôn khô thoáng suốt 81 kiếp nạn, giúp tự tin thỉnh kinh mà không lo ố vàng cà sa."
 pubDate: 2026-04-30
-image: "../../assets/trapha-thumbnail.webp"
+image: "../../assets/trapha-thumbnail-bot-khu-mui.webp"
 tags: ["Review", "Trapha", "Chăm-sóc-cơ-thể", "Mẹo-vặt", "Lăn-khử-mùi", "Trị-hôi-nách", "Nước-hoa"]
 ---
 
@@ -13,7 +13,7 @@ tags: ["Review", "Trapha", "Chăm-sóc-cơ-thể", "Mẹo-vặt", "Lăn-khử-m�
   "itemReviewed": {
     "@type": "Product",
     "name": "Bột khử mùi Trapha",
-    "image": "https://duongtang.vn/assets/trapha-thumbnail.webp",
+    "image": "https://duongtang.vn/assets/trapha-thumbnail-bot-khu-mui.webp",
     "description": "Bột khử mùi thảo dược giúp cơ thể khô thoáng, sạch mùi hôi nách và hôi chân.",
     "brand": {
       "@type": "Brand",
