@@ -1,105 +1,92 @@
 ---
-import img1 from '../assets/1.webp';
-import img2 from '../assets/2.webp';
-import img3 from '../assets/3.webp';
-import img4 from '../assets/4.webp';
-import img5 from '../assets/5.webp';
-import img6 from '../assets/6.webp';
-import img7 from '../assets/7.webp';
-import img8 from '../assets/8.webp';
-import img9 from '../assets/9.webp';
+const categories = [
+  { name: "Thời Trang Nam", affLink: "https://shorten.asia/X4mqK3As" },
+  { name: "Phụ Kiện Điện Thoại", affLink: "https://shorten.asia/tfrPBrqR" },
+  { name: "Thiết Bị Điện Tử", affLink: "https://shorten.asia/JcAAWTmd" },
+  { name: "Máy Tính & Laptop", affLink: "https://shorten.asia/F7ss9yPt" },
+  { name: "Máy Ảnh & Quay Phim", affLink: "https://shorten.asia/bZUQHjY8" },
+  { name: "Đồng Hồ", affLink: "https://shorten.asia/udrmQNzJ" },
+  { name: "Giày Dép Nam", affLink: "https://shorten.asia/5fgvuSBN" },
+  { name: "Thiết Bị Gia Dụng", affLink: "https://shorten.asia/XCaPG72W" },
+  { name: "Thể Thao & Du Lịch", affLink: "https://shorten.asia/9YXxb1Fc" },
+  { name: "Xe Máy & Xe Đạp", affLink: "https://shorten.asia/7EkAXQNN" },
+  { name: "Balo, Túi & Ví", affLink: "https://shorten.asia/GYgQ5VbF" },
+  { name: "Đồ Chơi", affLink: "https://shorten.asia/Kk226puw" }
+];
 
-const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9].map((img, index) => ({
-  src: img.src,
-  width: img.width,
-  height: img.height,
-  alt: `Ảnh hero ${index + 1}`,
-}));
+// Chia đôi mảng danh mục
+const row1 = categories.slice(0, 6);
+const row2 = categories.slice(6);
 ---
 
 <section 
-  class="hero group relative mb-6 overflow-hidden rounded-[12px] border transition-all duration-500
-         bg-[#efe7d2] border-black/5 p-4 sm:p-6 md:p-8 lg:p-4
-         dark:bg-[#121212] dark:border-white/5"
+  class="hero relative mb-8 overflow-hidden rounded-[20px] border
+         bg-[#efe7d2] border-black/5 p-4 sm:p-6
+         dark:bg-[#121212] dark:border-white/5 shadow-sm"
 >
-  <!-- Hiệu ứng vầng sáng cam nhẹ phía sau cho hợp với màu #EB6658 -->
-  <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#EB6658]/10 blur-[70px] z-0"></div>
+  <!-- Vầng sáng decor -->
+  <div class="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#EB6658]/10 blur-[40px] pointer-events-none"></div>
 
-  <div class="relative z-10 max-w-5xl lg:max-w-2xl mx-auto">
-    <!-- Phần khung chứa ảnh -->
-    <div class="overflow-hidden rounded-[12px] ring-1 ring-black/5 dark:ring-white/10 bg-black/[0.02] dark:bg-white/5 shadow-inner">
-      <div id="hero-image-slot" class="w-full bg-transparent">
-        <!-- Ảnh sẽ được Script chèn vào đây -->
+  <div class="relative z-10 w-full flex flex-col gap-4">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
+        Danh mục mua sắm
+      </h3>
+      <span class="text-[9px] font-bold text-[#EB6658]/70 uppercase animate-pulse">Lướt ngang từng hàng →</span>
+    </div>
+
+    <!-- Hàng 1: Vuốt độc lập -->
+    <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-1">
+      <div class="flex flex-nowrap gap-2 w-max px-1">
+        {row1.map((cat) => (
+          <a 
+            href={cat.affLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/40 backdrop-blur-md transition-all 
+                   snap-start whitespace-nowrap active:scale-95 hover:bg-white/60
+                   dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+          >
+            <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
+              {cat.name}
+            </span>
+          </a>
+        ))}
+        <div class="w-8 flex-none"></div>
+      </div>
+    </div>
+
+    <!-- Hàng 2: Vuốt độc lập -->
+    <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-1">
+      <div class="flex flex-nowrap gap-2 w-max px-1">
+        {row2.map((cat) => (
+          <a 
+            href={cat.affLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/40 backdrop-blur-md transition-all 
+                   snap-start whitespace-nowrap active:scale-95 hover:bg-white/60
+                   dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+          >
+            <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
+              {cat.name}
+            </span>
+          </a>
+        ))}
+        <div class="w-8 flex-none"></div>
       </div>
     </div>
   </div>
 </section>
 
-<script type="application/json" id="hero-images" set:html={JSON.stringify(heroImages)}></script>
-
-<script>
-  const slot = document.getElementById('hero-image-slot');
-  const jsonEl = document.getElementById('hero-images');
-  if (slot instanceof HTMLElement && jsonEl instanceof HTMLScriptElement) {
-    const list = JSON.parse(jsonEl.textContent || '[]');
-    if (Array.isArray(list) && list.length > 0) {
-      const key = 'dt-hero-seq-index';
-      const current = Number.parseInt(localStorage.getItem(key) || '0', 10);
-      const safe = Number.isFinite(current) ? current : 0;
-      const idx = ((safe % list.length) + list.length) % list.length;
-      const next = (idx + 1) % list.length;
-      localStorage.setItem(key, String(next));
-
-      const pick = list[idx];
-      if (pick && typeof pick.src === 'string') {
-        // Preload ảnh để hiển thị nhanh nhất có thể
-        const preload = document.createElement('link');
-        preload.rel = 'preload';
-        preload.as = 'image';
-        preload.href = pick.src;
-        preload.fetchPriority = 'high';
-        document.head.appendChild(preload);
-
-        const wrap = document.createElement('div');
-        wrap.className = 'relative w-full overflow-hidden flex items-center justify-center';
-
-        // Lớp nền mờ (Blur background)
-        const bg = document.createElement('div');
-        bg.className = 'absolute inset-0 opacity-30 scale-[1.15]';
-        bg.style.backgroundImage = `url(${pick.src})`;
-        bg.style.backgroundSize = 'cover';
-        bg.style.backgroundPosition = 'center';
-        bg.style.filter = 'blur(30px)';
-        bg.setAttribute('aria-hidden', 'true');
-
-        // Ảnh chính
-        const img = document.createElement('img');
-        img.src = pick.src;
-        img.alt = typeof pick.alt === 'string' ? pick.alt : '';
-        if (typeof pick.width === 'number') img.width = pick.width;
-        if (typeof pick.height === 'number') img.height = pick.height;
-        img.decoding = 'async';
-        img.loading = 'eager';
-        img.fetchPriority = 'high';
-        // Thêm filter nhẹ cho Dark Mode
-        img.className = 'relative z-10 w-full h-auto dark:brightness-90 transition-all duration-500';
-
-        wrap.appendChild(bg);
-        wrap.appendChild(img);
-        slot.replaceChildren(wrap);
-      }
-    }
-  }
-</script>
-
 <style>
-  .hero {
-    /* Font chữ đồng bộ với Layout chính */
-    font-family: 'Inter', sans-serif;
+  /* Ẩn thanh cuộn triệt để */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
-  
-  /* Hiệu ứng hover nhẹ cho khối Hero */
-  .hero:hover {
-    border-color: rgba(0, 0, 0, 0.1);
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
 </style>
