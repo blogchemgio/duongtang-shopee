@@ -8,7 +8,7 @@ import { categoryMeta } from '../../constants/categoryMeta';
 const currentCategory = 'ngo-khong-tech';
 const meta = categoryMeta[currentCategory];
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 8;
 const allPosts = (await getCollection('ngo-khong-tech', ({ data }) => !data.isDraft)).sort((a, b) => {
   const dateA = new Date(a.data.pubDate || 0).valueOf();
   const dateB = new Date(b.data.pubDate || 0).valueOf();
@@ -22,10 +22,12 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 
 <Mainlayout title={`${meta.heading} | Công Nghệ & Giải Pháp | Đường Tăng.vn`}>
   <section class="category-page">
-    <h1>{meta.heading}</h1>
-    <p class="category-intro">
-      {meta.intro}
-    </p>
+    <div class="category-hero">
+      <h1>{meta.heading}</h1>
+      <p class="category-intro">
+        {meta.intro}
+      </p>
+    </div>
 
     <div class="category-grid">
       {posts.map((post) => (
@@ -37,9 +39,18 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 </Mainlayout>
 
 <style>
-  .category-page { padding: 1rem 0 2rem; }
-  .category-intro { color: #64748b; margin-bottom: 1.25rem; font-weight: 500; }
-  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem; }
-  @media (min-width: 768px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .category-page { padding: 1.5rem 0 3rem; }
+  .category-hero { margin-bottom: 2.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1.5rem; }
+  :global(.is-dark) .category-hero { border-bottom-color: rgba(255,255,255,0.05); }
+  
+  .category-intro { color: #64748b; margin-bottom: 0; font-weight: 500; max-width: 800px; line-height: 1.6; }
+  .category-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; }
+  
+  @media (min-width: 640px) { .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { 
+    .category-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } 
+    .category-hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; }
+    .category-hero h1 { margin-bottom: 0 !important; }
+    .category-intro { text-align: right; max-width: 500px; }
+  }
 </style>

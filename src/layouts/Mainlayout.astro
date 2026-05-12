@@ -68,11 +68,16 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
       (function() {
         const STORAGE_KEY = 'darkMode';
         const CLASS_NAME = 'is-dark';
+        
         const getInitialTheme = () => {
           const saved = localStorage.getItem(STORAGE_KEY);
           if (saved !== null) return saved === 'enabled';
-          return true; 
+          
+          // Logic theo thời gian: Sau 19h (7 PM) hoặc trước 6h sáng là Dark Mode
+          const hour = new Date().getHours();
+          return hour >= 19 || hour < 6;
         };
+
         if (getInitialTheme()) {
           document.documentElement.classList.add(CLASS_NAME);
         } else {
@@ -86,7 +91,7 @@ const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
     <Header />
     <div class="flex-grow w-full"> 
       <main class="w-full mt-2 mb-12">
-        <article class="content-wrapper w-full max-w-none px-2 md:px-10 lg:px-16 ml-0 mr-0">
+        <article class="content-wrapper w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16">
           <slot /> 
         </article>
       </main>

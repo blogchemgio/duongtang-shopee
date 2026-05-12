@@ -1,0 +1,105 @@
+---
+const categoryGroups = [
+  {
+    title: "Công Nghệ & Tiện Ích",
+    icon: "⚡",
+    items: [
+      { name: "Phụ Kiện", affLink: "https://shorten.asia/tfrPBrqR" },
+      { name: "Điện Tử", affLink: "https://shorten.asia/JcAAWTmd" },
+      { name: "Máy Tính", affLink: "https://shorten.asia/F7ss9yPt" },
+      { name: "Máy Ảnh", affLink: "https://shorten.asia/bZUQHjY8" },
+      { name: "Đồng Hồ", affLink: "https://shorten.asia/udrmQNzJ" },
+      { name: "Dịch Vụ", affLink: "https://shorten.asia/QfyKbkYe" },
+    ]
+  },
+  {
+    title: "Thời Trang & Style",
+    icon: "👕",
+    items: [
+      { name: "Nam", affLink: "https://shorten.asia/X4mqK3As" },
+      { name: "Nữ", affLink: "https://shorten.asia/PyWzCwRe" },
+      { name: "Giày Nam", affLink: "https://shorten.asia/5fgvuSBN" },
+      { name: "Giày Nữ", affLink: "https://shorten.asia/G1yXwHze" },
+      { name: "Balo/Túi", affLink: "https://shorten.asia/GYgQ5VbF" },
+      { name: "Túi Nữ", affLink: "https://shorten.asia/ERbsJ3Qs" },
+      { name: "Trang Sức", affLink: "https://shorten.asia/Dbt647df" },
+      { name: "Trẻ Em", affLink: "https://shorten.asia/txcnexCa" },
+    ]
+  },
+  {
+    title: "Tổ Ấm & Sức Khỏe",
+    icon: "🏠",
+    items: [
+      { name: "Nhà Cửa", affLink: "https://shorten.asia/qB9Gb3dN" },
+      { name: "Gia Dụng", affLink: "https://shorten.asia/XCaPG72W" },
+      { name: "Sắc Đẹp", affLink: "https://shorten.asia/yx1uuvrn" },
+      { name: "Sức Khỏe", affLink: "https://shorten.asia/xEDxKRJ1" },
+      { name: "Mẹ & Bé", affLink: "https://shorten.asia/52CTWnh1" },
+      { name: "Giặt Giũ", affLink: "https://shorten.asia/mKUydBhq" },
+      { name: "Thú Cưng", affLink: "https://shorten.asia/Hwx2zkv4" },
+    ]
+  },
+  {
+    title: "Giải Trí & Khác",
+    icon: "🎡",
+    items: [
+      { name: "Du Lịch", affLink: "https://shorten.asia/9YXxb1Fc" },
+      { name: "Xe Cộ", affLink: "https://shorten.asia/7EkAXQNN" },
+      { name: "Đồ Chơi", affLink: "https://shorten.asia/Kk226puw" },
+      { name: "Bách Hóa", affLink: "https://shorten.asia/UQEaqDt3" },
+      { name: "Nhà Sách", affLink: "https://shorten.asia/NXgrWJW4" },
+      { name: "Voucher", affLink: "https://shorten.asia/4qrhuBkn" }
+    ]
+  }
+];
+---
+
+<aside class="shopee-map-sidebar">
+  <div class="p-4 md:p-6 rounded-[24px] md:rounded-[32px] bg-[#efe7d2] dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-sm">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EB6658]/10 text-[#EB6658] text-[9px] font-black uppercase tracking-widest mb-4 md:mb-6">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#EB6658] opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#EB6658]"></span>
+      </span>
+      Bản Đồ Thỉnh Deal
+    </div>
+
+    <div class="flex flex-col gap-5 md:gap-8">
+      {categoryGroups.map((group) => (
+        <div class="flex flex-col gap-2.5 md:gap-4">
+          <div class="flex items-center gap-2 md:gap-2.5">
+            <span class="text-base md:text-lg">{group.icon}</span>
+            <h3 class="text-[10px] md:text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-wider">
+              {group.title}
+            </h3>
+          </div>
+          <div class="flex flex-wrap gap-1 md:gap-1.5">
+            {group.items.map((item) => (
+              <a 
+                href={item.affLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 text-[9px] md:text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-all hover:bg-[#EB6658] hover:text-white hover:border-[#EB6658] active:scale-95 whitespace-nowrap"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-6 md:mt-8 p-4 md:p-5 rounded-[20px] md:rounded-[24px] bg-[#efe7d2] dark:bg-black/20 border border-black/5 dark:border-white/5">
+      <p class="text-[9px] md:text-[10px] font-black text-[#ff7a18] uppercase tracking-widest mb-2 md:mb-3">⚡ Bí kíp Đường Tăng</p>
+      <p class="text-[10px] md:text-[11px] font-medium text-slate-600 dark:text-slate-400 leading-relaxed italic">
+        Thỉnh đồ Shopee, thí chủ hãy chọn danh mục quan tâm để nhận ngay duyên lành giảm giá. Thiện tai!
+      </p>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .shopee-map-sidebar {
+    font-family: 'Inter', sans-serif;
+  }
+</style>

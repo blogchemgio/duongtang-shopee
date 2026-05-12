@@ -26,8 +26,39 @@ const { entry, category } = Astro.props;
 const { Content, headings } = await render(entry);
 const postSlug = `${category}/${entry.id}`;
 
-const categories = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'] as const;
-const allEntries = (await Promise.all(categories.map((name) => getCollection(name)))).flat();
+const baseCategories = [ 
+   { name: "Thời Trang Nam", link: "https://shorten.asia/X4mqK3As" }, 
+   { name: "Phụ Kiện Điện Thoại", link: "https://shorten.asia/tfrPBrqR" }, 
+   { name: "Thiết Bị Điện Tử", link: "https://shorten.asia/JcAAWTmd" }, 
+   { name: "Máy Tính & Laptop", link: "https://shorten.asia/F7ss9yPt" }, 
+   { name: "Máy Ảnh & Quay Phim", link: "https://shorten.asia/bZUQHjY8" }, 
+   { name: "Đồng Hồ", link: "https://shorten.asia/udrmQNzJ" }, 
+   { name: "Giày Dép Nam", link: "https://shorten.asia/5fgvuSBN" }, 
+   { name: "Thiết Bị Gia Dụng", link: "https://shorten.asia/XCaPG72W" }, 
+   { name: "Thể Thao & Du Lịch", link: "https://shorten.asia/9YXxb1Fc" }, 
+   { name: "Xe Máy & Xe Đạp", link: "https://shorten.asia/7EkAXQNN" }, 
+   { name: "Balo, Túi & Ví", link: "https://shorten.asia/GYgQ5VbF" }, 
+   { name: "Đồ Chơi", link: "https://shorten.asia/Kk226puw" }, 
+   { name: "Thời Trang Nữ", link: "https://shorten.asia/PyWzCwRe" }, 
+   { name: "Mẹ & Bé", link: "https://shorten.asia/52CTWnh1" }, 
+   { name: "Nhà Cửa & Đời Sống", link: "https://shorten.asia/qB9Gb3dN" }, 
+   { name: "Sắc Đẹp", link: "https://shorten.asia/yx1uuvrn" }, 
+   { name: "Sức Khỏe", link: "https://shorten.asia/xEDxKRJ1" }, 
+   { name: "Giày Dép Nữ", link: "https://shorten.asia/G1yXwHze" }, 
+   { name: "Túi Ví Nữ", link: "https://shorten.asia/ERbsJ3Qs" }, 
+   { name: "Phụ Kiện & Trang Sức", link: "https://shorten.asia/Dbt647df" }, 
+   { name: "Bách Hóa Online", link: "https://shorten.asia/UQEaqDt3" }, 
+   { name: "Nhà Sách Online", link: "https://shorten.asia/NXgrWJW4" }, 
+   { name: "Thời Trang Trẻ Em", link: "https://shorten.asia/txcnexCa" }, 
+   { name: "Chăm Sóc Thú Cưng", link: "https://shorten.asia/Hwx2zkv4" }, 
+   { name: "Dịch Vụ Thiết Bị", link: "https://shorten.asia/QfyKbkYe" }, 
+   { name: "Giặt Giũ & Nhà Cửa", link: "https://shorten.asia/mKUydBhq" }, 
+   { name: "Voucher & Dịch Vụ", link: "https://shorten.asia/4qrhuBkn" } 
+]; 
+const categoriesData = baseCategories.sort(() => Math.random() - 0.5); 
+
+const categoriesList = ['blog', 'bat-gioi-review', 'ngo-khong-tech', 'sa-tang-decor'] as const;
+const allEntries = (await Promise.all(categoriesList.map((name) => getCollection(name)))).flat();
 const currentTags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
 const relatedPosts = allEntries
@@ -133,6 +164,11 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
                   prose-headings:font-black prose-headings:tracking-tighter
                   prose-p:leading-relaxed prose-p:text-slate-700 dark:prose-p:text-slate-300
                   prose-img:rounded-3xl prose-img:shadow-lg">
+        {headings.length > 0 && (
+          <div class="mb-10 lg:block">
+            <TableOfContents headings={headings} client:load />
+          </div>
+        )}
         <Content />
       </div>
 
@@ -165,27 +201,41 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
       </section>
 
       <RelatedPostsCarousel title="Có Thể Thí Chủ Sẽ Thích" items={relatedPosts} />
-    </article>
+    </article>
 
-    <aside class="hidden lg:block relative">
-      <div class="sticky top-28">
-        {headings.length > 0 ? (
-          <TableOfContents headings={headings} client:load />
-        ) : (
-          <div class="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-dashed border-slate-200 dark:border-white/10 text-center">
-             <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Đường Tăng.vn</p>
+    <aside class="hidden lg:block relative">
+      <div class="sticky top-28">
+        <div class="shopee-categories-sidebar">
+          <div class="flex items-center gap-2 mb-4 px-1"> 
+            <span class="relative flex h-2 w-2"> 
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span> 
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span> 
+            </span> 
+            <span class="text-[10px] font-black text-slate-900 dark:text-[#ff7a18] uppercase tracking-widest">Deal mới mỗi ngày</span> 
           </div>
-        )}
-        
-        {/* Giữ nguyên box thông tin thêm bên dưới TOC */}
-        <div class="mt-8 p-6 rounded-[24px] bg-slate-950 text-white dark:bg-[#ff7a18]/10 dark:text-white border border-white/10">
-          <p class="text-[10px] font-black uppercase tracking-widest text-[#ff7a18] mb-2">⚡ Info</p>
-          <p class="text-xs font-medium opacity-80 leading-relaxed">
-            Hy vọng những chia sẻ này giúp thí chủ tìm được món đồ như ý để thân tâm thêm an lạc. Nếu thấy hữu ích, xin hãy chia sẻ để gieo chút duyên lành đến mọi người. Thiện tai, thiện tai! Nam mô A Di Đà Phật.
-          </p>
-        </div>
-      </div>
-    </aside>
+
+          <div class="flex flex-wrap gap-2"> 
+            {categoriesData.map((cat) => ( 
+              <a 
+                href={cat.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="px-3 py-1.5 bg-[#efe7d2] dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-full text-[11px] font-bold text-slate-600 dark:text-slate-300 hover:bg-[#EB6658] hover:text-white dark:hover:bg-[#EB6658] dark:hover:text-white transition-all active:scale-95 whitespace-nowrap shadow-sm" 
+              > 
+                {cat.name} 
+              </a> 
+            ))} 
+          </div>
+        </div>
+
+        <div class="mt-8 p-6 rounded-[24px] bg-slate-950 text-white dark:bg-[#ff7a18]/10 dark:text-white border border-white/10">
+          <p class="text-[10px] font-black uppercase tracking-widest text-[#ff7a18] mb-2">⚡ Info</p>
+          <p class="text-xs font-medium opacity-80 leading-relaxed">
+            Hy vọng những chia sẻ này giúp thí chủ tìm được món đồ như ý để thân tâm thêm an lạc. Nếu thấy hữu ích, xin hãy chia sẻ để gieo chút duyên lành đến mọi người. Thiện tai, thiện tai! Nam mô A Di Đà Phật.
+          </p>
+        </div>
+      </div>
+    </aside>
 
   </div>
 </Mainlayout>

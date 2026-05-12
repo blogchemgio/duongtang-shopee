@@ -25,7 +25,7 @@ const mobileLinks = [
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 bg-[#efe7d2] dark:bg-[#121212] py-4 z-[100] transition-transform duration-500 ease-in-out border-b border-black/5 dark:border-white/5">
-  <div class="w-full max-w-none px-4 md:px-10 lg:px-16 flex justify-between items-center">
+  <div class="w-full max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 flex justify-between items-center">
     <div class="flex items-center gap-3">
       <!-- NÚT MENU MOBILE -->
       <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#1a1a1a] dark:text-[#EB6658] transition-all dt-home-glow cursor-pointer" aria-label="Open Menu">
@@ -43,9 +43,13 @@ const mobileLinks = [
     </div>
 
     <nav class="hidden lg:block">
-      <ul class="flex gap-8 text-[11px] font-bold uppercase tracking-[0.15em] text-[#1a1a1a] dark:text-[#e8e0d1]">
+      <ul class="flex gap-4 text-[11px] font-bold uppercase tracking-[0.15em] text-[#1a1a1a] dark:text-[#e8e0d1]">
         {desktopLinks.map((link) => (
-          <li><a href={link.href} class="nav-item hover:text-[#EB6658] transition-colors">{link.label}</a></li>
+          <li>
+            <a href={link.href} class="nav-item inline-block px-4 py-2 rounded-full transition-all duration-300 hover:text-[#EB6658] hover:bg-white/50 dark:hover:bg-white/5 hover:-translate-y-1 hover:shadow-sm active:scale-95">
+              {link.label}
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
