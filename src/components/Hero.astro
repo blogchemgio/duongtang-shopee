@@ -1,5 +1,5 @@
 ---
-const categories = [
+const baseCategories = [
   { name: "Thời Trang Nam", affLink: "https://shorten.asia/X4mqK3As" },
   { name: "Phụ Kiện Điện Thoại", affLink: "https://shorten.asia/tfrPBrqR" },
   { name: "Thiết Bị Điện Tử", affLink: "https://shorten.asia/JcAAWTmd" },
@@ -29,53 +29,54 @@ const categories = [
   { name: "Voucher & Dịch Vụ", affLink: "https://shorten.asia/4qrhuBkn" }
 ];
 
-// Chia mảng làm 3 phần bằng nhau
-const perRow = Math.ceil(categories.length / 3);
-const row1 = categories.slice(0, perRow);
-const row2 = categories.slice(perRow, perRow * 2);
-const row3 = categories.slice(perRow * 2);
+// Logic ngẫu nhiên: Xáo trộn danh sách mỗi lần duyệt trang
+const shuffled = [...baseCategories].sort(() => Math.random() - 0.5);
 
-const rows = [row1, row2, row3];
+// Chia mảng đã xáo trộn làm 3 phần
+const perRow = Math.ceil(shuffled.length / 3);
+const rows = [
+  shuffled.slice(0, perRow),
+  shuffled.slice(perRow, perRow * 2),
+  shuffled.slice(perRow * 2)
+];
 ---
 
 <section 
   class="hero relative mb-8 overflow-hidden rounded-[24px] border
-         bg-[#efe7d2] border-black/5 p-4 sm:p-6
+         bg-[#efe7d2] border-black/5 p-4 sm:p-5
          dark:bg-[#121212] dark:border-white/5 shadow-sm"
 >
-  <!-- Vầng sáng hiệu ứng -->
   <div class="absolute -right-12 -bottom-12 h-40 w-40 rounded-full bg-[#EB6658]/10 blur-[50px] pointer-events-none"></div>
 
-  <div class="relative z-10 w-full flex flex-col gap-3.5">
-    <div class="flex items-center justify-between px-1 mb-1">
+  <div class="relative z-10 w-full flex flex-col gap-2.5">
+    <div class="flex items-center justify-between px-1 mb-0.5">
       <h3 class="text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
-        Khám phá danh mục
+        Gợi ý thỉnh link mua sắm
       </h3>
       <div class="flex items-center gap-1.5">
          <span class="w-1.5 h-1.5 rounded-full bg-[#EB6658] animate-pulse"></span>
-         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Lướt để xem thêm</span>
+         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Lướt ngang</span>
       </div>
     </div>
 
     {rows.map((row) => (
       <div class="no-scrollbar overflow-x-auto touch-pan-x snap-x pb-0.5">
-        <div class="flex flex-nowrap gap-2.5 w-max px-1">
+        <div class="flex flex-nowrap gap-1.5 w-max px-1">
           {row.map((cat) => (
             <a 
               href={cat.affLink} 
               target="_blank" 
               rel="noopener noreferrer"
-              class="flex-none inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-white/40 bg-white/50 backdrop-blur-md transition-all 
-                     snap-start whitespace-nowrap active:scale-95 hover:bg-white/70 hover:shadow-sm
-                     dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+              class="flex-none inline-flex items-center justify-center px-4 py-2 rounded-full border border-white/40 bg-white/50 backdrop-blur-md transition-all 
+                     snap-start whitespace-nowrap active:scale-95 hover:bg-[#EB6658] hover:text-white group
+                     dark:border-white/10 dark:bg-white/5 dark:hover:bg-[#EB6658]"
             >
-              <span class="text-[12px] font-bold text-gray-700 dark:text-gray-200 tracking-wide leading-none">
+              <span class="text-[11px] font-bold text-gray-700 dark:text-gray-200 tracking-tight leading-none group-hover:text-white transition-colors">
                 {cat.name}
               </span>
             </a>
           ))}
-          <!-- Khoảng trống ảo cuối mỗi hàng để vuốt mượt hơn -->
-          <div class="w-10 flex-none"></div>
+          <div class="w-8 flex-none"></div>
         </div>
       </div>
     ))}
@@ -83,7 +84,6 @@ const rows = [row1, row2, row3];
 </section>
 
 <style>
-  /* Ẩn thanh cuộn */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

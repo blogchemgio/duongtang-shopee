@@ -1,113 +1,133 @@
 ---
 import shopeeImg from '../assets/shopee.webp';
+
+const baseCategories = [
+  { name: "Thời Trang Nam", link: "https://shorten.asia/X4mqK3As" },
+  { name: "Phụ Kiện Điện Thoại", link: "https://shorten.asia/tfrPBrqR" },
+  { name: "Thiết Bị Điện Tử", link: "https://shorten.asia/JcAAWTmd" },
+  { name: "Máy Tính & Laptop", link: "https://shorten.asia/F7ss9yPt" },
+  { name: "Máy Ảnh & Quay Phim", link: "https://shorten.asia/bZUQHjY8" },
+  { name: "Đồng Hồ", link: "https://shorten.asia/udrmQNzJ" },
+  { name: "Giày Dép Nam", link: "https://shorten.asia/5fgvuSBN" },
+  { name: "Thiết Bị Gia Dụng", link: "https://shorten.asia/XCaPG72W" },
+  { name: "Thể Thao & Du Lịch", link: "https://shorten.asia/9YXxb1Fc" },
+  { name: "Xe Máy & Xe Đạp", link: "https://shorten.asia/7EkAXQNN" },
+  { name: "Balo, Túi & Ví", link: "https://shorten.asia/GYgQ5VbF" },
+  { name: "Đồ Chơi", link: "https://shorten.asia/Kk226puw" },
+  { name: "Thời Trang Nữ", link: "https://shorten.asia/PyWzCwRe" },
+  { name: "Mẹ & Bé", link: "https://shorten.asia/52CTWnh1" },
+  { name: "Nhà Cửa & Đời Sống", link: "https://shorten.asia/qB9Gb3dN" },
+  { name: "Sắc Đẹp", link: "https://shorten.asia/yx1uuvrn" },
+  { name: "Sức Khỏe", link: "https://shorten.asia/xEDxKRJ1" },
+  { name: "Giày Dép Nữ", link: "https://shorten.asia/G1yXwHze" },
+  { name: "Túi Ví Nữ", link: "https://shorten.asia/ERbsJ3Qs" },
+  { name: "Phụ Kiện & Trang Sức", link: "https://shorten.asia/Dbt647df" },
+  { name: "Bách Hóa Online", link: "https://shorten.asia/UQEaqDt3" },
+  { name: "Nhà Sách Online", link: "https://shorten.asia/NXgrWJW4" },
+  { name: "Thời Trang Trẻ Em", link: "https://shorten.asia/txcnexCa" },
+  { name: "Chăm Sóc Thú Cưng", link: "https://shorten.asia/Hwx2zkv4" },
+  { name: "Dịch Vụ Thiết Bị", link: "https://shorten.asia/QfyKbkYe" },
+  { name: "Giặt Giũ & Nhà Cửa", link: "https://shorten.asia/mKUydBhq" },
+  { name: "Voucher & Dịch Vụ", link: "https://shorten.asia/4qrhuBkn" }
+];
+
+// Hàm xáo trộn mảng (Fisher-Yates Shuffle)
+const categories = baseCategories.sort(() => Math.random() - 0.5);
 ---
 
-<div id="shopee-float-container" class="shopee-container">
-  <button id="close-shopee" class="shopee-close" aria-label="Đóng quảng cáo">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"></line>
-      <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
+<div id="shopee-wrapper" class="fixed bottom-6 left-6 z-[100]">
+  <!-- Bảng Menu Danh Mục -->
+  <div id="shopee-menu" class="hidden absolute bottom-20 left-0 w-[300px] md:w-[360px] rounded-[24px] bg-white/95 dark:bg-[#1a1a1a]/98 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-2xl p-4 origin-bottom-left transition-all duration-300 opacity-0 scale-90 translate-y-4">
+    
+    <div class="flex items-center justify-between mb-3 px-1">
+      <div class="flex items-center gap-2">
+        <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+        </span>
+        <span class="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">Deal mới mỗi ngày</span>
+      </div>
+      <button id="close-menu" class="p-1 text-gray-400 hover:text-[#EB6658] transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <!-- Vùng chứa các viên thuốc (Flex wrap) -->
+    <div class="flex flex-wrap gap-1.5 overflow-hidden pb-1">
+      {categories.map((cat) => (
+        <a 
+          href={cat.link} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="px-3 py-1.5 bg-gray-100/80 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-full text-[11px] font-bold text-gray-600 dark:text-gray-300 hover:bg-[#EB6658] hover:text-white dark:hover:bg-[#EB6658] dark:hover:text-white transition-all active:scale-95 whitespace-nowrap"
+        >
+          {cat.name}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Nút Float Shopee chính -->
+  <button id="shopee-main-trigger" class="relative group focus:outline-none transition-transform active:scale-90" aria-label="Mở danh mục Shopee">
+    <div class="absolute inset-0 bg-[#EB6658]/20 rounded-full blur-xl group-hover:blur-2xl transition-all"></div>
+    <img src={shopeeImg.src} alt="Shopee Deal" class="shopee-logo w-[56px] h-[56px] md:w-[64px] md:h-[64px] relative z-10" />
+    <span class="absolute -top-1 -right-1 flex h-5 w-5 z-20">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-[10px] text-white items-center justify-center font-bold border-2 border-[#efe7d2] dark:border-[#121212]">!</span>
+    </span>
   </button>
-  <a 
-    href="https://go.isclix.com/deep_link/v6/4994359497844839215/4751584435713464237?sub4=oneatweb&url_enc=aHR0cHM6Ly9zaG9wZWUudm4v" 
-    target="_blank" 
-    rel="noopener noreferrer"
-    class="shopee-float"
-    aria-label="Săn deal Shopee"
-  >
-    <img src={shopeeImg.src} alt="Shopee Deal" width="64" height="64" />
-  </a>
 </div>
 
 <style>
-  .shopee-container {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    z-index: 90;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .shopee-close {
-    background: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 99px;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: -10px;
-    margin-right: -5px;
-    z-index: 100;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    opacity: 0.8;
-    transition: all 0.2s ease;
-  }
-
-  .shopee-close:hover {
-    opacity: 1;
-    transform: scale(1.1);
-    background: #d9363e;
-  }
-
-  .shopee-float {
-    width: 64px;
-    height: 64px;
-    display: block;
-    cursor: pointer;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-  }
-
-  .shopee-float img {
-    width: 100%;
-    height: 100%;
+  .shopee-logo {
     object-fit: contain;
-    animation: shopee-shake-gentle 4s ease-in-out infinite;
+    animation: shopee-shake-gentle 5s ease-in-out infinite;
     transform-origin: center bottom;
   }
 
   @keyframes shopee-shake-gentle {
     0%, 100% { transform: rotate(0); }
-    5%, 15%, 25% { transform: rotate(-3deg); }
-    10%, 20%, 30% { transform: rotate(3deg); }
-    35%, 100% { transform: rotate(0); }
+    4%, 12%, 20% { transform: rotate(-5deg); }
+    8%, 16%, 24% { transform: rotate(5deg); }
+    30%, 100% { transform: rotate(0); }
   }
 
-  .shopee-container:hover .shopee-float img {
-    animation-play-state: paused;
-    transform: scale(1.05);
-  }
-
-  @media (max-width: 768px) {
-    .shopee-container {
-      bottom: 1.5rem;
-      left: 1.5rem;
-    }
-    .shopee-float {
-      width: 50px;
-      height: 50px;
-    }
+  #shopee-menu.active {
+    display: block;
+    opacity: 1;
+    scale: 1;
+    transform: translateY(0);
   }
 </style>
 
 <script>
-  const container = document.getElementById('shopee-float-container');
-  const closeBtn = document.getElementById('close-shopee');
+  const trigger = document.getElementById('shopee-main-trigger');
+  const menu = document.getElementById('shopee-menu');
+  const closeBtn = document.getElementById('close-menu');
 
-  closeBtn?.addEventListener('click', () => {
-    if (container) {
-      container.style.opacity = '0';
-      container.style.transform = 'scale(0.8)';
-      setTimeout(() => {
-        container.remove();
-      }, 300);
+  trigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (menu?.classList.contains('active')) {
+      closeMenu();
+    } else {
+      menu?.classList.remove('hidden');
+      setTimeout(() => menu?.classList.add('active'), 10);
+    }
+  });
+
+  const closeMenu = () => {
+    menu?.classList.remove('active');
+    setTimeout(() => menu?.classList.add('hidden'), 300);
+  };
+
+  closeBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (menu && !menu.contains(e.target as Node) && !trigger?.contains(e.target as Node)) {
+      closeMenu();
     }
   });
 </script>
