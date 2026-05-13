@@ -36,52 +36,52 @@ const currentYear = new Date().getFullYear();
   <!-- Hiệu ứng vầng sáng đỏ cam nhẹ -->
   <div class="absolute top-0 left-1/4 w-64 h-64 bg-[#EB6658]/[0.03] dark:bg-[#EB6658]/[0.05] blur-[70px] rounded-full z-0"></div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14">
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-10 md:pt-14 font-sans">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 pb-10 md:pb-14 border-b border-black/5 dark:border-white/10">
       
-      <div class="md:col-span-5 space-y-3">
-        <div class="text-lg md:text-xl font-black tracking-tighter uppercase transition-transform hover:scale-[1.01] duration-300 font-['Inter']">
+      <div class="md:col-span-5 space-y-4">
+        <div class="text-xl md:text-2xl font-black tracking-tighter uppercase transition-transform hover:scale-[1.01] duration-300">
           <span class="text-[#1a1a1a] dark:text-white">Đường tăng</span><span class="text-[#EB6658]">.vn</span>
         </div>
-        <p class="text-[11px] md:text-[12px] leading-relaxed text-[#5a5445] dark:text-slate-400 max-w-xs font-medium">
+        <p class="text-xs md:text-sm leading-relaxed text-[#5a5445] dark:text-slate-400 max-w-xs font-medium">
           Hành trình vạn dặm từ Đông Thổ đến Đông Lào, thỉnh 'chân kinh' Shopee. Review thực tâm, mua sắm tùy duyên. Chúc thí chủ thân tâm an lạc.
         </p>
       </div>
 
       <div class="md:col-span-3">
-        <h4 class="font-bold mb-3 text-[#1a1a1a] dark:text-white uppercase text-[9px] tracking-[0.2em]">Khám phá</h4>
-        <ul class="space-y-2 text-[11px] md:text-[12px] font-bold list-none p-0 m-0">
+        <h4 class="font-black mb-4 text-[#1a1a1a] dark:text-white uppercase text-xs tracking-widest">Khám phá</h4>
+        <ul class="space-y-3 text-xs md:text-sm font-bold list-none p-0 m-0">
           <li>
-            <a href="/" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase">Tất cả bài viết</a>
+            <a href="/" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase tracking-tight">Tất cả bài viết</a>
           </li>
           <li>
-            <a href="/privacy" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase">Chính sách bảo mật</a>
+            <a href="/privacy" class="text-[#5a5445] dark:text-slate-400 hover:text-[#EB6658] transition-colors block uppercase tracking-tight">Chính sách bảo mật</a>
           </li>
           <li>
-            <a href="/admin/comments" class="text-[#8b8471] dark:text-slate-600 hover:text-[#EB6658] transition-colors block text-[10px] mt-4 opacity-50 uppercase">Quản trị viên</a>
+            <a href="/admin/comments" class="text-[#8b8471] dark:text-slate-600 hover:text-[#EB6658] transition-colors block text-[10px] mt-4 opacity-50 uppercase tracking-widest">Quản trị viên</a>
           </li>
         </ul>
       </div>
 
       <div class="md:col-span-4 lg:text-right">
-        <h4 class="font-bold mb-3 text-[#1a1a1a] dark:text-white uppercase text-[9px] tracking-[0.2em]">Liên hệ</h4>
-        <p class="text-[11px] mb-1 text-[#5a5445] dark:text-slate-400 font-medium">Hỗ trợ & Quảng cáo:</p>
-        <p class="text-[12px] font-black text-[#EB6658]">DUONGTANG.VN</p>
+        <h4 class="font-black mb-4 text-[#1a1a1a] dark:text-white uppercase text-xs tracking-widest">Liên hệ</h4>
+        <div class="space-y-2">
+          <p class="text-xs md:text-sm text-[#5a5445] dark:text-slate-400 font-medium">Hỗ trợ & Quảng cáo:</p>
+          <p class="text-sm md:text-base font-black text-[#EB6658] tracking-wider">DUONGTANG.VN</p>
+        </div>
       </div>
     </div>
 
-    <div class="py-10 flex justify-center">
-      <div class="w-full">
-        <p class="text-[7px] md:text-[8px] uppercase tracking-[0.3em] font-bold text-center leading-loose text-[#8b8471] dark:text-slate-500">
-          © {currentYear} Powered by <span class="text-[#EB6658]">Đường Tăng.vn</span>
-        </div>
-      </div>
+    <div class="py-10">
+      <p class="text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-black text-center leading-loose text-[#8b8471] dark:text-slate-500">
+        © {currentYear} Powered by <span class="text-[#EB6658]">Đường Tăng.vn</span>
+      </p>
     </div>
   </div>
 </footer>
 
 <style>
-  #site-footer { font-family: 'Inter', sans-serif; }
+  #site-footer { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
   ul { list-style: none !important; }
   li::before { content: none !important; }
 </style>
