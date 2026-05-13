@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Mainlayout from '../../layouts/Mainlayout.astro';
 import TableOfContents from '../../components/TableOfContents';
 import TocMobileFab from '../../components/TocMobileFab';
@@ -129,7 +130,7 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
       "@id": `https://duongtang.vn/${category}/${entry.id}`
     }
   })} />
-  {headings.length > 0 && <TocMobileFab headings={headings} client:load />}
+  {headings.length > 0 && <TocMobileFab headings={headings} client:idle />}
 
   <div class="w-full px-2 md:px-10 lg:px-16 py-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
     
@@ -150,9 +151,13 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
 
         {entry.data.image && (
           <div class="relative group">
-             <img 
-               src={typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src} 
+             <Image 
+               src={entry.data.image} 
                alt={entry.data.title} 
+               width={1000}
+               height={550}
+               format="webp"
+               loading="eager"
                class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 object-cover max-h-[550px] transition-transform duration-700 group-hover:scale-[1.01]" 
              />
              <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>
@@ -166,7 +171,7 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
                   prose-img:rounded-3xl prose-img:shadow-lg">
         {headings.length > 0 && (
           <div class="mb-10 lg:block">
-            <TableOfContents headings={headings} client:load />
+            <TableOfContents headings={headings} client:idle />
           </div>
         )}
         <Content />

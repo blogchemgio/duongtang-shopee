@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import shopeeImg from '../assets/shopee.webp';
 
 const baseCategories = [
@@ -70,7 +71,14 @@ const categories = baseCategories.sort(() => Math.random() - 0.5);
   <!-- Nút Float Shopee chính -->
   <button id="shopee-main-trigger" class="relative group focus:outline-none transition-transform active:scale-90" aria-label="Mở danh mục Shopee">
     <div class="absolute inset-0 bg-[#EB6658]/20 rounded-full blur-xl group-hover:blur-2xl transition-all"></div>
-    <img src={shopeeImg.src} alt="Shopee Deal" class="shopee-logo w-[56px] h-[56px] md:w-[64px] md:h-[64px] relative z-10" />
+    <Image 
+      src={shopeeImg} 
+      alt="Shopee Deal" 
+      width={64}
+      height={64}
+      format="webp"
+      class="shopee-logo w-[56px] h-[56px] md:w-[64px] md:h-[64px] relative z-10" 
+    />
     <span class="absolute -top-1 -right-1 flex h-5 w-5 z-20">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
       <span class="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-[10px] text-white items-center justify-center font-bold border-2 border-[#efe7d2] dark:border-[#121212]">!</span>

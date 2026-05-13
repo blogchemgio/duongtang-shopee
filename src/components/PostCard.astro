@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 // Nhận dữ liệu từ index.astro
 const { title, description, pubDate, readTime, slug, tags, image, collection } = Astro.props;
 
@@ -25,12 +27,25 @@ const excerptText =
   <a href={slug} class="absolute inset-0 z-20" aria-label={title}></a>
 
   <div class="block overflow-hidden relative aspect-[16/9]">
-    <img 
-      src={image?.src || image || "/images/default-thumb.jpg"} 
-      alt={title}
-      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter dark:brightness-90"
-      loading="lazy"
-    />
+    {image ? (
+      <Image 
+        src={image} 
+        alt={title}
+        width={400}
+        height={225}
+        format="webp"
+        quality={80}
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter dark:brightness-90"
+        loading="lazy"
+      />
+    ) : (
+      <img 
+        src="/images/default-thumb.jpg" 
+        alt={title}
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter dark:brightness-90"
+        loading="lazy"
+      />
+    )}
     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
     
     <div class="absolute top-4 left-4 z-30 flex gap-2">

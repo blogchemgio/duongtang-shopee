@@ -17,6 +17,11 @@ export default defineConfig({
 
   integrations: [react()],
 
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+
   // Phần code bổ sung cho Table of Contents
   markdown: {
     rehypePlugins: [

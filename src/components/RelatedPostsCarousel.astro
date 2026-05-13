@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+
 type RelatedPostItem = {
   title: string;
   slug: string;
-  image?: string;
+  image?: any;
   collection?: string;
 };
 
@@ -26,13 +28,26 @@ const { title = 'bài viết liên quan', items } = Astro.props;
           <article class="related-posts__card">
             <a href={item.slug} class="related-posts__link" aria-label={item.title}>
               <div class="related-posts__thumb-container">
-                <img
-                  src={item.image?.src || item.image || '/images/default-thumb.jpg'}
-                  alt={item.title}
-                  class="related-posts__thumb"
-                  loading="lazy"
-                  decoding="async"
-                />
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={300}
+                    height={169}
+                    format="webp"
+                    class="related-posts__thumb"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <img
+                    src="/images/default-thumb.jpg"
+                    alt={item.title}
+                    class="related-posts__thumb"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 {item.collection && (
                   <span class="related-posts__badge">{item.collection}</span>
                 )}
