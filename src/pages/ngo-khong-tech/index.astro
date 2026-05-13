@@ -30,8 +30,14 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
     </div>
 
     <div class="category-grid">
-      {posts.map((post) => (
-        <PostCard {...post.data} slug={`/${currentCategory}/${post.id}`} collection={meta.label} />
+      {posts.map((post, index) => (
+        <PostCard 
+          {...post.data} 
+          slug={`/${currentCategory}/${post.id}`} 
+          collection={meta.label} 
+          loading={index === 0 ? "eager" : "lazy"}
+          fetchpriority={index === 0 ? "high" : "auto"}
+        />
       ))}
     </div>
     <Pagination currentPage={1} totalPages={totalPages} basePath={`/${currentCategory}`} />

@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 
 // Nhận dữ liệu từ index.astro
-const { title, description, pubDate, readTime, slug, tags, image, collection } = Astro.props;
+const { title, description, pubDate, readTime, slug, tags, image, collection, loading = "lazy", fetchpriority = "auto" } = Astro.props;
 
 // Định dạng ngày tháng
 const formattedDate = new Date(pubDate).toLocaleDateString('vi-VN', {
@@ -36,7 +36,8 @@ const excerptText =
         format="avif"
         quality={80}
         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter dark:brightness-90"
-        loading="lazy"
+        loading={loading}
+        fetchpriority={fetchpriority}
       />
     ) : (
       <img 

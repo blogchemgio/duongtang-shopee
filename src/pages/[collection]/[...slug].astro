@@ -158,6 +158,7 @@ const badgeLabel = entry.data.category || meta?.label || category.toUpperCase();
                height={550}
                format="avif"
                loading="eager"
+               fetchpriority="high"
                class="w-full h-auto rounded-[32px] shadow-2xl border border-white/10 object-cover max-h-[550px] transition-transform duration-700 group-hover:scale-[1.01]" 
              />
              <div class="absolute inset-0 rounded-[32px] shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] pointer-events-none"></div>

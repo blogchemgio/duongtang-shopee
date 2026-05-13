@@ -55,12 +55,14 @@ const description = "Hành trình thỉnh 'bảo vật' Shopee tại Đông Lào
         </div>
 
         <div class="home-grid">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <div class="post-wrapper">
                <PostCard 
                  {...post.data} 
                  slug={`/${post.collection}/${post.id}`} 
                  collection={categoryMeta[post.collection as keyof typeof categoryMeta]?.label || post.collection.toUpperCase()} 
+                 loading={index === 0 ? "eager" : "lazy"}
+                 fetchpriority={index === 0 ? "high" : "auto"}
                />
             </div>
           ))}

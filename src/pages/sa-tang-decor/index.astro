@@ -41,7 +41,8 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
           {...post.data} 
           slug={`/${currentCategory}/${post.id}`} 
           collection={meta.label} 
-          loading={index < 3 ? "eager" : "lazy"} 
+          loading={index === 0 ? "eager" : "lazy"} 
+          fetchpriority={index === 0 ? "high" : "auto"}
         />
       ))}
     </div>

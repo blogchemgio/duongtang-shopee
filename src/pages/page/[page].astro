@@ -49,12 +49,14 @@ const title = `Trang ${page.currentPage} | Đường Tăng.vn`;
         </div>
 
         <div class="home-grid">
-          {page.data.map((post) => (
+          {page.data.map((post, index) => (
             <div class="post-wrapper">
               <PostCard
                 {...post.data}
                 slug={`/${post.collection}/${post.id}`}
                 collection={categoryMeta[post.collection as keyof typeof categoryMeta]?.label || post.collection.toUpperCase()}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
               />
             </div>
           ))}
