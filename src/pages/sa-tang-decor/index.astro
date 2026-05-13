@@ -47,15 +47,13 @@ const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
     </div>
 
     {totalPages > 1 && (
-      <div class="category-hero">
-      <h1>{meta.heading}</h1>
-      <p class="category-intro">
-        {meta.intro}
-      </p>
-    </div>
+      <div class="mt-12">
+        <Pagination currentPage={1} totalPages={totalPages} basePath={`/${currentCategory}`} />
+      </div>
+    )}
+  </section>
+</Mainlayout>
 
-    <div class="category-grid">
-...
 <style>
   .category-page { padding: 1.5rem 0 3rem; }
   .category-hero { margin-bottom: 2.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1.5rem; }
