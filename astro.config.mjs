@@ -22,6 +22,10 @@ export default defineConfig({
     defaultStrategy: 'hover',
   },
 
+  image: {
+    format: ['avif', 'webp'],
+  },
+
   // Phần code bổ sung cho Table of Contents
   markdown: {
     rehypePlugins: [
