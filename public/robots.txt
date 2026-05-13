@@ -1,16 +1,21 @@
+# robots.txt cho Đường Tăng.vn
 User-agent: *
 Allow: /
+
+# Chặn các thư mục hệ thống và tìm kiếm
 Disallow: /admin/
 Disallow: /api/
+Disallow: /tim-kiem*
+Disallow: /search*
 
 # Khai báo các tài liệu dành riêng cho AI
-# Giúp AI nhanh chóng tìm thấy file ngữ cảnh mà bạn đã tạo
 Link: https://duongtang.vn/llms.txt; rel="help"
 
 # Sitemaps
-Sitemap: https://duongtang.vn/sitemap.xml
+Sitemap: https://duongtang.vn/sitemap-index.xml
+Sitemap: https://duongtang.vn/sitemap-0.xml
 
-# AI Crawlers - Cho phép các AI hàng đầu truy cập toàn bộ nội dung
+# AI Crawlers - Cho phép các AI hàng đầu truy cập nội dung để hiển thị trên kết quả tìm kiếm AI
 User-agent: Google-Extended
 Allow: /
 
@@ -28,3 +33,19 @@ Allow: /
 
 User-agent: PerplexityBot
 Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Chặn các crawler rác/xấu (Bad Bots) để tiết kiệm tài nguyên server
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
